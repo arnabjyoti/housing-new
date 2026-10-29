@@ -1,0 +1,77 @@
+.bg-style {
+    /* background-color: #fdf9dd; */
+    background-image: url(../../assets/image/background/bg.jpg);
+    
+    height: 100vh; 
+    
+    color: #040404;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.form-bg {
+    background: rgba(255, 255, 255, 0.96) !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.18), 0 10px 10px -5px rgba(15, 23, 42, 0.06) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    color: #0f172a !important;
+}
+
+.form-bg h1 {
+    color: #0f172a !important;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.form-bg label {
+    color: #334155 !important;
+    font-weight: 600;
+}
+
+.form-bg a {
+    color: #2563eb;
+    font-weight: 600;
+}
+.form-bg a:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+.card-body-scrollable {
+    min-height: 240px;
+    max-height: 250px; /* Adjust the max height as needed */
+    overflow-y: scroll; /* Enable vertical scrolling */
+}
+.custom-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #0f172a;
+}
+.custom-card .card-header {
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 0.95rem;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    padding: 0.85rem 1.25rem;
+}
+.parent-container {
+    height: 100vh; /* 100% of viewport height */
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+.welcome-txt{
+    min-height: 240px;
+    max-height: 250px;
+}
+.radio-space {
+  margin-right: 20px;   /* space between radio buttons */
+}

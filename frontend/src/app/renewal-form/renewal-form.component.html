@@ -1,0 +1,563 @@
+<!-- Loading starts -->
+<div id="loading-wrapper" *ngIf="isLodaing">
+  <ngx-spinner bdColor="rgba(0,0,0,0.9)" type="ball-clip-rotate"></ngx-spinner>
+</div>
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Apply for Renewal of Quarter</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Apply for Renewal of Quarter</li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+
+          <div class="card">
+
+            <div class="card-body">
+              <div class="ribbon-wrapper ribbon-xl" *ngIf="regInput.status == 'Rejected'">
+                <div class="ribbon bg-danger text-lg">
+                  Rejected
+                </div>
+              </div>
+              <div class="ribbon-wrapper ribbon-xl" *ngIf="regInput.status == 'Approved'">
+                <div class="ribbon bg-success text-lg">
+                  Approved
+                </div>
+              </div>
+              <div class="col-sm-12 text-center">
+                <h3><b>Application Form for Renewal of Govt. Accommodation</b></h3>
+                (Only for Regular Employees)
+                <hr>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-row">
+                  <div class="form-group col-md-12 text-center head-color h6 p-1">
+                    Details of the Allottee
+                  </div>
+                  <div class="form-group col-md-12 text-center" *ngIf="inputFinalShow == false">
+                    <h2 class="text-center text-success border">Reference Number: {{regInput.reference_no}}</h2>
+                  </div>
+                  <div class="form-group col-md-12 border" *ngIf="regInput.status == 'Approved'">
+                    <p class="m-0">Status: <span class="text-success"> <b>{{regInput.status}}</b></span></p>
+                    <p class="m-0">Start Date: <span class="text-warning"> <b>{{regInput.startDate}}</b></span></p>
+                    <p class="m-0">Renewal Date: <span class="text-danger"> <b>{{regInput.renewalDate}}</b></span></p>
+                    <p class="m-0">Remark: <b>{{regInput.remark}}</b></p>
+                  </div>
+                  <div class="form-group col-md-12 border" *ngIf="regInput.status == 'Rejected'">
+                    <p class="m-0">Status: <span class="text-danger"> <b>{{regInput.status}}</b></span></p>
+                    <p class="m-0">Remark: <b>{{regInput.remark}}</b></p>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">First Name:</label>
+                    <input type="text" class="form-control" id="inputEmail4" placeholder="First Name" disabled
+                      value="{{userDetails.f_name}}">
+                  </div>
+                  <!-- <div class="form-group col-md-4">
+                                <label for="inputEmail4">Middle Name:</label>
+                                <input type="text" class="form-control" id="inputEmail4" placeholder="Middle Name">
+                            </div> -->
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Last Name:</label>
+                    <input type="text" class="form-control" id="inputEmail4" placeholder="Last Name" disabled
+                      value="{{userDetails.l_name}}">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Designation:</label>
+                    <input type="text" class="form-control" id="inputEmail4" disabled
+                      value="{{userDetails.designation}}" placeholder="Designation">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Department:</label>
+                    <select id="inputState" disabled class="form-control">
+                      <option selected>{{data}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Is Service Transferable?:</label>
+                    <select id="inputState" disabled class="form-control">
+                      <option selected>{{userDetails.transferable}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4"> Date of Appointment:</label>
+                    <input type="date" class="form-control" id="inputEmail4" disabled value="{{userDetails.doa}}">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4"> Date of Retirement</label>
+                    <input type="date" class="form-control" id="inputEmail4" disabled value="{{userDetails.dor}}">
+                  </div>
+                </div>
+                <!-- <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label for="inputEmail4"> Enclose ID Card:</label>
+                              <input type="text" class="form-control" id="inputEmail4" placeholder="Enclose ID Card">
+                            </div>
+                        </div> -->
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4"> Phone Number (Whatsapp):</label>
+                    <input type="text" class="form-control" id="inputEmail4" placeholder="Contact Number" disabled
+                      value="{{userDetails.phone_no}}">
+                  </div>
+                </div>
+                <hr>
+                <div class="form-row">
+                  <div class="form-group col-md-12 text-center head-color h6 p-1">
+                    Details of Quarter
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Location Name:</label>
+                    <select class="form-control" (change)="setLocation()" [(ngModel)]="regInput.loc_id"
+                      *ngIf="inputShow == true">
+                      <option value="">Select Location</option>
+                      <option *ngFor="let loc of locationData;" value="{{loc.id}}">
+                        {{loc.loc_name}}
+                      </option>
+                    </select>
+                    <select class="form-control" *ngIf="inputShow == false">
+                      <option value="">{{regInput.sctr_name}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Sector Name:</label>
+                    <select class="form-control" [(ngModel)]="regInput.sec_id" *ngIf="inputShow == true">
+                      <option value="">Select Sector</option>
+                      <option *ngFor="let sctr of sectorData;" value="{{sctr.id}}">
+                        {{sctr.sctr_name}}
+                      </option>
+                    </select>
+                    <select class="form-control" *ngIf="inputShow == false">
+                      <option value="">{{regInput.loc_name}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Quarter Type:</label>
+                    <select class="form-control" [(ngModel)]="regInput.type" *ngIf="inputShow == true">
+                      <option value="">Select Type</option>
+                      <option value="BACHELOR BARRACK">BACHELOR BARRACK</option>
+                      <option value="TYPE I">TYPE I</option>
+                      <option value="TYPE II">TYPE II</option>
+                      <option value="TYPE III">TYPE III</option>
+                      <option value="TYPE IV">TYPE IV</option>
+                      <option value="TYPE V">TYPE V</option>
+                      <option value="TYPE VI">TYPE VI</option>
+                      <option value="BUNGALOW">BUNGALOW</option>
+                      <option value="TRANSIT CAMP">TRANSIT CAMP</option>
+                      <option value="DOUBLE STORY">DOUBLE STORY</option>
+                      <option value="TOWER-1 TYPE-IV">TOWER-1 TYPE-IV</option>
+                      <option value="TOWER-2 TYPE-IV">TOWER-2 TYPE-IV</option>
+                      <option value="TOWER-3 TYPE-V">TOWER-3 TYPE-V</option>
+                      <option value="TOWER-4 TYPE-V">TOWER-4 TYPE-V</option>
+                      <option value="T-I (DS)">T-I (DS)</option>
+                      <option value="T-II (DS)">T-II (DS)</option>
+                      <option value="T-III (DS)">T-III (DS)</option>
+                      <option value="T-IV (DS)">T-IV (DS)</option>
+                      <option value="T-V (DS)">T-V (DS)</option>
+                      <option value="QUARTER TYPES NOT IDENTIFY">QUARTER TYPES NOT IDENTIFY</option>
+                    </select>
+                    <select class="form-control" *ngIf="inputShow == false">
+                      <option value="">{{regInput.qrtr_type}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Quarter No.:</label>
+                    <input type="text" class="form-control" id="inputEmail4" placeholder="Quarter No."
+                      [(ngModel)]="regInput.qrtr_no">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Coordinates of quarter:</label>
+                    <input type="number" class="form-control" id="inputEmail4" placeholder="Latitude of quarter"
+                      [(ngModel)]="regInput.qrtr_letitude">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <input type="number" class="form-control" id="inputEmail4" placeholder="Longitude of quarter"
+                      [(ngModel)]="regInput.qrtr_longitude">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label for="inputEmail4">Google map location link:</label>
+                    <input type="text" class="form-control" id="inputEmail4" placeholder="Google map location link"
+                      [(ngModel)]="regInput.map_loc">
+                  </div>
+                </div>
+                <hr>
+                <div class="form-row">
+                  <div class="form-group col-md-12 text-center head-color h6 p-1">
+                    Condition of Quarter
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Door & Window:</label>
+                    <select class="form-control" [(ngModel)]="regInput.d_w">
+                      <option value="">Select Option</option>
+                      <option value="Good">Good</option>
+                      <option value="Bad">Bad</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Electrical Wiring:</label>
+                    <select class="form-control" [(ngModel)]="regInput.e_w">
+                      <option value="">Select Option</option>
+                      <option value="Good">Good</option>
+                      <option value="Bad">Bad</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Roof & Ceiling:</label>
+                    <select class="form-control" [(ngModel)]="regInput.r_c">
+                      <option value="">Select Option</option>
+                      <option value="Good">Good</option>
+                      <option value="Bad">Bad</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Structure of quarter:</label>
+                    <select class="form-control" [(ngModel)]="regInput.s_q">
+                      <option value="">Select Option</option>
+                      <option value="Good">Good</option>
+                      <option value="Bad">Bad</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Septic tank functioning:</label>
+                    <select class="form-control" [(ngModel)]="regInput.s_t">
+                      <option value="">Select Option</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Have you extended the quarter:</label>
+                    <select class="form-control" (change)="clearFieldExtnd()" [(ngModel)]="regInput.qtr_extnd">
+                      <option value="">Select Option</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row" *ngIf="regInput.qtr_extnd == 'Yes'">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Type of structure:</label>
+                    <select class="form-control" [(ngModel)]="regInput.type_of_strc">
+                      <option value="">Select Option</option>
+                      <option value="Temporary">Temporary</option>
+                      <option value="SPT">SPT</option>
+                      <option value="RCC">RCC</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row" *ngIf="regInput.qtr_extnd == 'Yes'">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Area of extended structure:</label>
+                    <input type="number" class="form-control" id="inputEmail4" placeholder="Sq.m"
+                      [(ngModel)]="regInput.area_extnd_strc">
+                  </div>
+                </div>
+                <div class="form-row" *ngIf="regInput.qtr_extnd == 'Yes'">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Did you take for permission for extension:</label>
+                    <select class="form-control" [(ngModel)]="regInput.extnd_prmsn">
+                      <option value="">Select Option</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                </div>
+                <hr>
+                <div class="form-row">
+                  <div class="form-group col-md-12 text-center head-color h6 p-1">
+                    Details of compound area of the quarter
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Is any structure constructed nearby the quarter:</label>
+                    <select class="form-control" (change)="clearField()" [(ngModel)]="regInput.strc_nearby">
+                      <option value="">Select Option</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                </div>
+                <div *ngIf="regInput.strc_nearby == 'Yes'">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputEmail4">If yes, By whom:</label>
+                      <select class="form-control" [(ngModel)]="regInput.strc_by_whm">
+                        <option value="">Select Option</option>
+                        <option value="Self">Self</option>
+                        <option value="Others">Others</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputEmail4">Distance of structure from Govt. quarter:</label>
+                      <input type="number" class="form-control" id="inputEmail4" placeholder="Meters"
+                        [(ngModel)]="regInput.strc_distance">
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputEmail4">Type of structure:</label>
+                      <select class="form-control" [(ngModel)]="regInput.strc_type">
+                        <option value="">Select Option</option>
+                        <option value="Temporary">Temporary</option>
+                        <option value="SPT">SPT</option>
+                        <option value="RCC">RCC</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputEmail4">Is land allotment obtained for the structure constructed:</label>
+                      <select class="form-control" [(ngModel)]="regInput.strc_allot">
+                        <option value="">Select Option</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Applied">Applied</option>
+                        <option value="Don't know">Don't know</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Area of structure constructed:</label>
+                    <input type="text" class="form-control" id="inputEmail4" placeholder="Sq.m"
+                      [(ngModel)]="regInput.strc_area">
+                  </div>
+                </div> -->
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputEmail4">Number of storeys of structure:</label>
+                      <input type="text" class="form-control" id="inputEmail4" placeholder="Storeys"
+                        [(ngModel)]="regInput.strc_storeys">
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="form-row">
+                  <div class="col-md-6">
+                    <label for="inputEmail4">Enclose the photographs of structure</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile04">
+                        <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                <br>
+                <div class="form-row" *ngIf="formSubmit == true">
+                  <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-success" (click)="saveForm()">Submit</button>
+                  </div>
+                </div>
+                <div *ngIf="showUpload == true">
+                  <hr>
+                  <div class="form-row">
+                    <div class="form-group col-md-12 text-center head-color h6 p-1">
+                      Document Upload
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-12">
+                      <label for="inputEmail4">Old allotment Order (Max size 300kb, pdf):</label>
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                          <label class="custom-file-label" for="file">{{allot_order}}</label>
+                          <input type="file" accept="application/pdf" class="custom-file-input"
+                            aria-describedby="inputGroupFileAddon01" name="file" id="file"
+                            (change)="onFileSelectOrder($event)">
+                        </div>
+                        <div class="form-group col-2" *ngIf="allot_orderBtn == true">
+                          <button class="btn btn-success" (click)="uploadOrder()"><i class="fas fa-upload"></i></button>
+                        </div>
+                        <div class="form-group col-4" *ngIf="allot_orderMsg == true">
+                          <p class="text-success">Upload Successful!</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="col-md-12">
+                      <label for="inputEmail4">Enclose the photographs of four sides of quarter (Max size 200kb,
+                        jpeg/jpg/png):</label>
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                          <label class="custom-file-label" for="file">{{SideOne}}</label>
+                          <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg"
+                            class="custom-file-input" aria-describedby="inputGroupFileAddon01" name="file" id="file"
+                            (change)="onFileSideOne($event)">
+                        </div>
+                        <div class="form-group col-2" *ngIf="SideOneBtn == true">
+                          <button class="btn btn-success" (click)="uploadSideOne()"><i
+                              class="fas fa-upload"></i></button>
+                        </div>
+                        <div class="form-group col-4" *ngIf="SideOneMsg == true">
+                          <p class="text-success">Upload Successful!</p>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                          <label class="custom-file-label" for="file">{{SideTwo}}</label>
+                          <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg"
+                            class="custom-file-input" aria-describedby="inputGroupFileAddon01" name="file" id="file"
+                            (change)="onFileSideTwo($event)">
+                        </div>
+                        <div class="form-group col-2" *ngIf="SideTwoBtn == true">
+                          <button class="btn btn-success" (click)="uploadSideTwo()"><i
+                              class="fas fa-upload"></i></button>
+                        </div>
+                        <div class="form-group col-4" *ngIf="SideTwoMsg == true">
+                          <p class="text-success">Upload Successful!</p>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                          <label class="custom-file-label" for="file">{{SideThree}}</label>
+                          <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg"
+                            class="custom-file-input" aria-describedby="inputGroupFileAddon01" name="file" id="file"
+                            (change)="onFileSideThree($event)">
+                        </div>
+                        <div class="form-group col-2" *ngIf="SideThreeBtn == true">
+                          <button class="btn btn-success" (click)="uploadSideThree()"><i
+                              class="fas fa-upload"></i></button>
+                        </div>
+                        <div class="form-group col-4" *ngIf="SideThreeMsg == true">
+                          <p class="text-success">Upload Successful!</p>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                          <label class="custom-file-label" for="file">{{SideFour}}</label>
+                          <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg"
+                            class="custom-file-input" aria-describedby="inputGroupFileAddon01" name="file" id="file"
+                            (change)="onFileSideFour($event)">
+                        </div>
+                        <div class="form-group col-2" *ngIf="SideFourBtn == true">
+                          <button class="btn btn-success" (click)="uploadSideFour()"><i
+                              class="fas fa-upload"></i></button>
+                        </div>
+                        <div class="form-group col-4" *ngIf="SideFourMsg == true">
+                          <p class="text-success">Upload Successful!</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row" *ngIf="qtr_extnd_doc == true">
+                    <div class="form-group col-md-12">
+                      <label for="inputEmail4">Upload extension document (Max size 300kb, pdf):</label>
+                      <div class="form-row">
+                        <div class="form-group col-6">
+                          <label class="custom-file-label" for="file">{{qtr_extnd_doc_label}}</label>
+                          <input type="file" accept="application/pdf" class="custom-file-input"
+                            aria-describedby="inputGroupFileAddon01" name="file" id="file"
+                            (change)="onFileSelectQtrExtnd($event)">
+                        </div>
+                        <div class="form-group col-2" *ngIf="qtr_extnd_docBtn == true">
+                          <button class="btn btn-success" (click)="uploadQtrExtnd()"><i
+                              class="fas fa-upload"></i></button>
+                        </div>
+                        <div class="form-group col-4" *ngIf="qtr_extnd_docMsg == true">
+                          <p class="text-success">Upload Successful!</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="declaration == true">
+                    <hr>
+                    <div class="form-row">
+                      <div class="form-group col-md-12 text-center">
+                        Declaration
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col-md-12">
+                        <div class="form-check">
+                          <input type="checkbox" class="form-check-input" id="exampleCheck1" [(ngModel)]="check">
+                          <label class="form-check-label" for="exampleCheck1">
+                            I do hereby declare that all the information furnished above are correct and complete to the
+                            best of my knowledge and belief.
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="form-row" *ngIf="finalBtn == true">
+                      <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-success" (click)="finalSave()">Submit</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      <!-- /.row -->
+      <!-- Main row -->
+      <div class="row">
+
+      </div>
+      <!-- /.row (main row) -->
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>

@@ -1,0 +1,840 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2 align-items-center">
+        <div class="col-sm-6">
+          <h1 class="m-0 text-dark font-weight-bold">
+            <i class="fas fa-file-signature text-primary mr-2"></i>Quarter Application Review
+          </h1>
+          <p class="text-muted small mb-0">Review details, verify documents, and process fresh quarter allotment</p>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a routerLink="/home"><i class="fas fa-home mr-1"></i>Home</a></li>
+            <li class="breadcrumb-item"><a routerLink="/quarter-request">Quarter Requests</a></li>
+            <li class="breadcrumb-item active">Application Review</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content pb-4">
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-11 col-md-12">
+
+          <div class="card card-primary card-outline shadow-sm mb-4">
+
+            <!-- Card Header / Title Banner -->
+            <div class="card-header bg-white border-bottom py-3">
+              <div class="d-flex flex-wrap align-items-center justify-content-between">
+                <div>
+                  <h4 class="mb-1 font-weight-bold text-dark">
+                    Application for Quarter Allotment
+                  </h4>
+                  <div class="d-flex flex-wrap align-items-center mt-1">
+                    <span class="badge badge-light border text-muted px-2 py-1 mr-2 mb-1">
+                      <i class="fas fa-info-circle mr-1"></i>Regular Employees Only
+                    </span>
+                    <span class="badge badge-secondary px-2 py-1 mr-2 mb-1" *ngIf="data.reference_no">
+                      Ref No: <b>{{data.reference_no}}</b>
+                    </span>
+                    <span class="badge badge-info px-2 py-1 mr-2 mb-1" *ngIf="data.apply_date">
+                      Applied: {{data.apply_date | date:'dd-MM-yyyy'}}
+                    </span>
+                    <span class="badge badge-light border px-2 py-1 mb-1" *ngIf="data.apply_place">
+                      Station: {{data.apply_place}}
+                    </span>
+                  </div>
+                </div>
+                <div class="mt-2 mt-sm-0 text-right">
+                  <span class="d-block small text-muted">Application Status</span>
+                  <span class="badge badge-pill px-3 py-2 text-capitalize font-weight-bold"
+                    [ngClass]="{
+                      'badge-warning text-dark': data.status == 'Verified',
+                      'badge-success': data.status == 'Approved' || data.status == 'Allotted',
+                      'badge-danger': data.status == 'Rejected',
+                      'badge-primary': data.status == 'Apply'
+                    }">
+                    <i class="fas" [ngClass]="{
+                      'fa-clock': data.status == 'Apply',
+                      'fa-user-check': data.status == 'Verified',
+                      'fa-check-circle': data.status == 'Approved' || data.status == 'Allotted',
+                      'fa-times-circle': data.status == 'Rejected'
+                    }"></i>
+                    {{data.status || 'Pending'}}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body px-4 py-4">
+
+              <!-- Section 1: Allottee Details -->
+              <div class="section-block mb-4">
+                <div class="section-heading mb-3">
+                  <div class="d-flex align-items-center">
+                    <div class="section-icon-badge bg-primary-soft mr-2">
+                      <i class="fas fa-user-circle text-primary"></i>
+                    </div>
+                    <div>
+                      <h5 class="mb-0 font-weight-bold text-dark">Details of the Allottee</h5>
+                      <small class="text-muted">Personal, designation, and contact details of the applicant</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">First Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="data.f_name">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">Last Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="data.l_name">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">Gender <span class="text-danger">*</span></label>
+                    <select class="form-control" [(ngModel)]="data.gender">
+                      <option value="">Select Gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Others">Others</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">Phone Number (WhatsApp) <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="10-digit Contact Number" [(ngModel)]="data.phone_no">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">
+                      Designation <span class="text-danger">*</span>
+                      <small class="text-muted font-weight-normal">(write full designation)</small>
+                    </label>
+                    <input type="text" class="form-control" [(ngModel)]="data.designation" placeholder="Full Designation">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">Department</label>
+                    <input type="text" class="form-control bg-light" [value]="data.dept_name || 'N/A'" readonly>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 2: Pay Scale & Service Details -->
+              <div class="section-block mb-4">
+                <div class="section-heading mb-3">
+                  <div class="d-flex align-items-center">
+                    <div class="section-icon-badge bg-info-soft mr-2">
+                      <i class="fas fa-money-check-alt text-info"></i>
+                    </div>
+                    <div>
+                      <h5 class="mb-0 font-weight-bold text-dark">Pay Scale & Service Details</h5>
+                      <small class="text-muted">Salary slab, pay level matrix, and official service dates</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">
+                      Basic Pay of the Post <span class="text-danger">*</span>
+                      <small class="text-muted font-weight-normal d-block">(Do not write increased pay scale due to MACP)</small>
+                    </label>
+                    <select [(ngModel)]="data.basic_pay" class="form-control">
+                      <option value="">Select Basic Pay Range</option>
+                      <option value="18000-19900">18000-19900</option>
+                      <option value="21700-29200">21700-29200</option>
+                      <option value="35400-47600">35400-47600</option>
+                      <option value="53100-67700">53100-67700</option>
+                      <option value="78800-144200">78800-144200</option>
+                      <option value="182200-250000 & above">182200-250000 & above</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">
+                      Pay Level in Pay Matrix as per Basic Pay <span class="text-danger">*</span>
+                    </label>
+                    <select *ngIf="data.basic_pay == '18000-19900'" [(ngModel)]="data.pay_matrix" class="form-control">
+                      <option value="">Select Pay Level</option>
+                      <option value="L1">L1</option>
+                      <option value="L2">L2</option>
+                    </select>
+
+                    <select *ngIf="data.basic_pay == '21700-29200'" [(ngModel)]="data.pay_matrix" class="form-control">
+                      <option value="">Select Pay Level</option>
+                      <option value="L3">L3</option>
+                      <option value="L4">L4</option>
+                      <option value="L5">L5</option>
+                    </select>
+
+                    <select *ngIf="data.basic_pay == '35400-47600'" [(ngModel)]="data.pay_matrix" class="form-control">
+                      <option value="">Select Pay Level</option>
+                      <option value="L6">L6</option>
+                      <option value="L7">L7</option>
+                      <option value="L8">L8</option>
+                    </select>
+
+                    <select *ngIf="data.basic_pay == '53100-67700'" [(ngModel)]="data.pay_matrix" class="form-control">
+                      <option value="">Select Pay Level</option>
+                      <option value="L9">L9</option>
+                      <option value="L10">L10</option>
+                      <option value="L11">L11</option>
+                    </select>
+
+                    <select *ngIf="data.basic_pay == '78800-144200'" [(ngModel)]="data.pay_matrix" class="form-control">
+                      <option value="">Select Pay Level</option>
+                      <option value="L12">L12</option>
+                      <option value="L13">L13</option>
+                      <option value="L14">L14</option>
+                    </select>
+
+                    <select *ngIf="data.basic_pay == '182200-250000 & above'" [(ngModel)]="data.pay_matrix" class="form-control">
+                      <option value="L15">L15</option>
+                    </select>
+
+                    <input *ngIf="!['18000-19900', '21700-29200', '35400-47600', '53100-67700', '78800-144200', '182200-250000 & above'].includes(data.basic_pay)"
+                      type="text" class="form-control" [(ngModel)]="data.pay_matrix" placeholder="e.g. L1, L2, L3...">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">Service Status <span class="text-danger">*</span></label>
+                    <select [(ngModel)]="data.service_status" class="form-control">
+                      <option value="Regular">Regular</option>
+                      <option value="Adhoc">Adhoc</option>
+                      <option value="Contract">Contract</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">Is Service Transferable? <span class="text-danger">*</span></label>
+                    <select [(ngModel)]="data.transferable" class="form-control">
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">Date of Appointment <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" [(ngModel)]="data.doa">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">Date of Retirement <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" [(ngModel)]="data.dor">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">Date of Joining Service in Present Posting Place <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" [(ngModel)]="data.dojs">
+                  </div>
+                  <div class="form-group col-md-6" *ngIf="data.dos">
+                    <label class="form-label font-weight-600">Date of Superannuation</label>
+                    <input type="date" class="form-control" [(ngModel)]="data.dos">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 3: Spouse & Accommodation Details -->
+              <div class="section-block mb-4">
+                <div class="section-heading mb-3">
+                  <div class="d-flex align-items-center">
+                    <div class="section-icon-badge bg-secondary-soft mr-2">
+                      <i class="fas fa-home text-secondary"></i>
+                    </div>
+                    <div>
+                      <h5 class="mb-0 font-weight-bold text-dark">Spouse & Accommodation Particulars</h5>
+                      <small class="text-muted">Information on marital status, spouse accommodation, and owned property</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">Spouse Name (As in Legal Documents)</label>
+                    <input type="text" class="form-control" [(ngModel)]="data.spouse_name" placeholder="Leave NA if unmarried / not applicable">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">If Spouse is Govt. Employee, whether accommodation is allotted?</label>
+                    <input type="text" class="form-control" [(ngModel)]="data.spouse_occ" placeholder="e.g. Yes / No / NA">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">Do you own residential house in Capital Complex? <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="data.spouse_acco" placeholder="e.g. No / Yes (with details)">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="form-label font-weight-600">Spouse Accommodation Details <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="data.resid_house" placeholder="e.g. NA / Quarter Details">
+                  </div>
+                </div>
+
+                <!-- Update Details Action Button -->
+                <div class="d-flex justify-content-end mt-2">
+                  <button type="button" (click)="updateQuarterRequest()" class="btn btn-primary px-4 shadow-sm">
+                    <i class="fas fa-save mr-2"></i> Update Employee Details
+                  </button>
+                </div>
+              </div>
+
+              <!-- Section 4: Document Upload & Verification -->
+              <div class="section-block mb-4">
+                <div class="section-heading mb-3">
+                  <div class="d-flex align-items-center">
+                    <div class="section-icon-badge bg-success-soft mr-2">
+                      <i class="fas fa-folder-open text-success"></i>
+                    </div>
+                    <div>
+                      <h5 class="mb-0 font-weight-bold text-dark">Document Verification</h5>
+                      <small class="text-muted">Click 'Preview' to view full document in high resolution</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <!-- 1. Annexure A -->
+                  <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="doc-card p-3 h-100 d-flex flex-column justify-content-between">
+                      <div class="d-flex align-items-start mb-2">
+                        <div class="doc-icon-box bg-primary-soft text-primary mr-3">
+                          <i class="fas fa-file-alt fa-lg"></i>
+                        </div>
+                        <div class="flex-grow-1 overflow-hidden">
+                          <h6 class="font-weight-bold mb-1 text-truncate" title="Annexure 'A' Form">Annexure 'A' Form</h6>
+                          <span class="badge" [ngClass]="data.anx_a ? 'badge-success' : 'badge-secondary'">
+                            <i class="fas" [ngClass]="data.anx_a ? 'fa-check-circle mr-1' : 'fa-minus-circle mr-1'"></i>
+                            {{data.anx_a ? 'Uploaded' : 'Not Uploaded'}}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="doc-actions d-flex align-items-center pt-2 border-top mt-2">
+                        <button type="button" class="btn btn-sm btn-outline-primary flex-grow-1 mr-1"
+                          data-toggle="modal" data-target="#allotment">
+                          <i class="fas fa-eye mr-1"></i> Preview
+                        </button>
+                        <a *ngIf="data.anx_a" [href]="getDocUrl(data.anx_a)" target="_blank"
+                          class="btn btn-sm btn-outline-secondary" title="Open in new tab">
+                          <i class="fas fa-external-link-alt"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 2. Applicant Photo -->
+                  <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="doc-card p-3 h-100 d-flex flex-column justify-content-between">
+                      <div class="d-flex align-items-start mb-2">
+                        <div class="doc-icon-box bg-info-soft text-info mr-3">
+                          <i class="fas fa-user-circle fa-lg"></i>
+                        </div>
+                        <div class="flex-grow-1 overflow-hidden">
+                          <h6 class="font-weight-bold mb-1 text-truncate" title="Applicant Photograph">Applicant Photo</h6>
+                          <span class="badge" [ngClass]="data.photo ? 'badge-success' : 'badge-secondary'">
+                            <i class="fas" [ngClass]="data.photo ? 'fa-check-circle mr-1' : 'fa-minus-circle mr-1'"></i>
+                            {{data.photo ? 'Uploaded' : 'Not Uploaded'}}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="doc-actions d-flex align-items-center pt-2 border-top mt-2">
+                        <button type="button" class="btn btn-sm btn-outline-primary flex-grow-1 mr-1"
+                          data-toggle="modal" data-target="#photo">
+                          <i class="fas fa-eye mr-1"></i> Preview
+                        </button>
+                        <a *ngIf="data.photo" [href]="getDocUrl(data.photo)" target="_blank"
+                          class="btn btn-sm btn-outline-secondary" title="Open in new tab">
+                          <i class="fas fa-external-link-alt"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 3. Specimen Signature -->
+                  <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="doc-card p-3 h-100 d-flex flex-column justify-content-between">
+                      <div class="d-flex align-items-start mb-2">
+                        <div class="doc-icon-box bg-secondary-soft text-dark mr-3">
+                          <i class="fas fa-signature fa-lg"></i>
+                        </div>
+                        <div class="flex-grow-1 overflow-hidden">
+                          <h6 class="font-weight-bold mb-1 text-truncate" title="Specimen Signature">Signature</h6>
+                          <span class="badge" [ngClass]="data.sign ? 'badge-success' : 'badge-secondary'">
+                            <i class="fas" [ngClass]="data.sign ? 'fa-check-circle mr-1' : 'fa-minus-circle mr-1'"></i>
+                            {{data.sign ? 'Uploaded' : 'Not Uploaded'}}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="doc-actions d-flex align-items-center pt-2 border-top mt-2">
+                        <button type="button" class="btn btn-sm btn-outline-primary flex-grow-1 mr-1"
+                          data-toggle="modal" data-target="#signature">
+                          <i class="fas fa-eye mr-1"></i> Preview
+                        </button>
+                        <a *ngIf="data.sign" [href]="getDocUrl(data.sign)" target="_blank"
+                          class="btn btn-sm btn-outline-secondary" title="Open in new tab">
+                          <i class="fas fa-external-link-alt"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 4. Aadhaar Card -->
+                  <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="doc-card p-3 h-100 d-flex flex-column justify-content-between">
+                      <div class="d-flex align-items-start mb-2">
+                        <div class="doc-icon-box bg-success-soft text-success mr-3">
+                          <i class="fas fa-id-card fa-lg"></i>
+                        </div>
+                        <div class="flex-grow-1 overflow-hidden">
+                          <h6 class="font-weight-bold mb-1 text-truncate" title="Aadhaar Card Document">Aadhaar Card</h6>
+                          <span class="badge" [ngClass]="data.adhar ? 'badge-success' : 'badge-secondary'">
+                            <i class="fas" [ngClass]="data.adhar ? 'fa-check-circle mr-1' : 'fa-minus-circle mr-1'"></i>
+                            {{data.adhar ? 'Uploaded' : 'Not Uploaded'}}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="doc-actions d-flex align-items-center pt-2 border-top mt-2">
+                        <button type="button" class="btn btn-sm btn-outline-primary flex-grow-1 mr-1"
+                          data-toggle="modal" data-target="#adhar">
+                          <i class="fas fa-eye mr-1"></i> Preview
+                        </button>
+                        <a *ngIf="data.adhar" [href]="getDocUrl(data.adhar)" target="_blank"
+                          class="btn btn-sm btn-outline-secondary" title="Open in new tab">
+                          <i class="fas fa-external-link-alt"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 5. Identity Card -->
+                  <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="doc-card p-3 h-100 d-flex flex-column justify-content-between">
+                      <div class="d-flex align-items-start mb-2">
+                        <div class="doc-icon-box bg-warning-soft text-warning mr-3">
+                          <i class="fas fa-address-card fa-lg"></i>
+                        </div>
+                        <div class="flex-grow-1 overflow-hidden">
+                          <h6 class="font-weight-bold mb-1 text-truncate" title="Department Identity Card">Identity Card</h6>
+                          <span class="badge" [ngClass]="data.identity ? 'badge-success' : 'badge-secondary'">
+                            <i class="fas" [ngClass]="data.identity ? 'fa-check-circle mr-1' : 'fa-minus-circle mr-1'"></i>
+                            {{data.identity ? 'Uploaded' : 'Not Uploaded'}}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="doc-actions d-flex align-items-center pt-2 border-top mt-2">
+                        <button type="button" class="btn btn-sm btn-outline-primary flex-grow-1 mr-1"
+                          data-toggle="modal" data-target="#identity">
+                          <i class="fas fa-eye mr-1"></i> Preview
+                        </button>
+                        <a *ngIf="data.identity" [href]="getDocUrl(data.identity)" target="_blank"
+                          class="btn btn-sm btn-outline-secondary" title="Open in new tab">
+                          <i class="fas fa-external-link-alt"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 6. Appointment Order -->
+                  <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="doc-card p-3 h-100 d-flex flex-column justify-content-between">
+                      <div class="d-flex align-items-start mb-2">
+                        <div class="doc-icon-box bg-danger-soft text-danger mr-3">
+                          <i class="fas fa-file-contract fa-lg"></i>
+                        </div>
+                        <div class="flex-grow-1 overflow-hidden">
+                          <h6 class="font-weight-bold mb-1 text-truncate" title="Official Appointment Order">Appointment Order</h6>
+                          <span class="badge" [ngClass]="data.appointment ? 'badge-success' : 'badge-secondary'">
+                            <i class="fas" [ngClass]="data.appointment ? 'fa-check-circle mr-1' : 'fa-minus-circle mr-1'"></i>
+                            {{data.appointment ? 'Uploaded' : 'Not Uploaded'}}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="doc-actions d-flex align-items-center pt-2 border-top mt-2">
+                        <button type="button" class="btn btn-sm btn-outline-primary flex-grow-1 mr-1"
+                          data-toggle="modal" data-target="#appointment">
+                          <i class="fas fa-eye mr-1"></i> Preview
+                        </button>
+                        <a *ngIf="data.appointment" [href]="getDocUrl(data.appointment)" target="_blank"
+                          class="btn btn-sm btn-outline-secondary" title="Open in new tab">
+                          <i class="fas fa-external-link-alt"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section 5: Admin Review & Response Action -->
+              <div class="section-block">
+                <div class="section-heading mb-3">
+                  <div class="d-flex align-items-center">
+                    <div class="section-icon-badge bg-primary-soft mr-2">
+                      <i class="fas fa-tasks text-primary"></i>
+                    </div>
+                    <div>
+                      <h5 class="mb-0 font-weight-bold text-dark">Application Status & Official Action</h5>
+                      <small class="text-muted">Process verification, approval, rejection, or quarter allotment</small>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Action Card (when status is Apply or Verified) -->
+                <div class="action-card p-4 rounded mb-4" *ngIf="data.status == 'Apply' || data.status == 'Verified'">
+                  <h6 class="font-weight-bold text-dark mb-3">
+                    <i class="fas fa-edit mr-1 text-primary"></i> Take Action on Application
+                  </h6>
+
+                  <div class="form-row">
+                    <div class="form-group col-md-4">
+                      <label class="form-label font-weight-600">Select Action <span class="text-danger">*</span></label>
+                      <select class="form-control" [(ngModel)]="inputData.status">
+                        <option value="">-- Choose Action --</option>
+                        <option *ngIf="data.status != 'Verified'" value="Verified">Mark as Verified</option>
+                        <option value="Approved">Approve Application</option>
+                        <option value="Rejected">Reject Application</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-md-8" *ngIf="inputData.status == 'Approved' || inputData.status == 'Rejected'">
+                      <label class="form-label font-weight-600">Official Remark / Justification <span class="text-danger">*</span></label>
+                      <textarea class="form-control" rows="2" placeholder="Provide reason or remarks for this action" [(ngModel)]="inputData.remark"></textarea>
+                    </div>
+                  </div>
+
+                  <div class="d-flex align-items-center mt-2">
+                    <button *ngIf="inputData.status == 'Approved'" type="button" class="btn btn-success px-4 mr-2" (click)="accept()">
+                      <i class="fas fa-check-circle mr-1"></i> Approve Application
+                    </button>
+                    <button *ngIf="inputData.status == 'Rejected'" type="button" class="btn btn-danger px-4 mr-2" (click)="reject()">
+                      <i class="fas fa-times-circle mr-1"></i> Reject Application
+                    </button>
+                    <button *ngIf="inputData.status == 'Verified'" type="button" class="btn btn-warning px-4 text-dark mr-2" (click)="Verified()">
+                      <i class="fas fa-user-check mr-1"></i> Verify Application
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Existing Status Details Card -->
+                <div class="status-summary-card p-4 rounded bg-white shadow-sm mb-3">
+                  <h6 class="font-weight-bold text-dark border-bottom pb-2 mb-3">
+                    <i class="fas fa-info-circle mr-1 text-info"></i> Application Record & Timeline
+                  </h6>
+
+                  <div class="row">
+                    <div class="col-md-4 mb-3">
+                      <span class="text-muted d-block small">Status:</span>
+                      <span class="badge badge-pill px-3 py-1 font-weight-bold"
+                        [ngClass]="{
+                          'badge-success': data.status == 'Approved' || data.status == 'Allotted',
+                          'badge-danger': data.status == 'Rejected',
+                          'badge-warning text-dark': data.status == 'Verified',
+                          'badge-primary': data.status == 'Apply'
+                        }">{{data.status || 'Pending'}}</span>
+                    </div>
+
+                    <div class="col-md-4 mb-3" *ngIf="data.verify_date">
+                      <span class="text-muted d-block small">Verified Date:</span>
+                      <span class="font-weight-600">{{data.verify_date | date:'dd-MM-yyyy' || data.verify_date}}</span>
+                    </div>
+
+                    <div class="col-md-4 mb-3" *ngIf="data.startDate">
+                      <span class="text-muted d-block small">Approval / Start Date:</span>
+                      <span class="font-weight-600">{{data.startDate | date:'dd-MM-yyyy' || data.startDate}}</span>
+                    </div>
+
+                    <div class="col-md-4 mb-3" *ngIf="data.renewalDate">
+                      <span class="text-muted d-block small">Renewal Date:</span>
+                      <span class="font-weight-600 text-danger">{{data.renewalDate | date:'dd-MM-yyyy' || data.renewalDate}}</span>
+                    </div>
+
+                    <div class="col-md-4 mb-3" *ngIf="data.allottedDate">
+                      <span class="text-muted d-block small">Allotted Date:</span>
+                      <span class="font-weight-600 text-success">{{data.allottedDate | date:'dd-MM-yyyy' || data.allottedDate}}</span>
+                    </div>
+
+                    <div class="col-12 mt-2" *ngIf="data.remark">
+                      <span class="text-muted d-block small">Official Remarks:</span>
+                      <div class="p-2 bg-light rounded border text-dark">{{data.remark}}</div>
+                    </div>
+                  </div>
+
+                  <!-- Accept Allotment Action if Approved and not Allotted -->
+                  <div class="mt-4 pt-3 border-top" *ngIf="data.status == 'Approved'">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between">
+                      <div>
+                        <h6 class="font-weight-bold text-success mb-1">
+                          <i class="fas fa-check-double mr-1"></i> Application is Approved
+                        </h6>
+                        <p class="text-muted small mb-0">Proceed with final confirmation and accept quarter allotment.</p>
+                      </div>
+                      <button type="button" class="btn btn-primary px-4 mt-2 mt-sm-0" (click)="confirmAllotment()">
+                        <i class="fas fa-key mr-2"></i> Confirm & Accept Allotment
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= MODALS FOR DOCUMENT PREVIEW ================= -->
+
+      <!-- 1. Annexure A Modal -->
+      <div class="modal fade" id="allotment" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-light">
+              <h5 class="modal-title font-weight-bold">
+                <i class="fas fa-file-alt text-primary mr-2"></i> Annexure 'A' Form
+              </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-center p-4">
+              <ng-container *ngIf="data.anx_a; else noAnxA">
+                <div *ngIf="isPdf(data.anx_a)" class="pdf-preview-box p-4 rounded text-center">
+                  <i class="fas fa-file-pdf text-danger fa-4x mb-3"></i>
+                  <h5 class="font-weight-bold">PDF Document Uploaded</h5>
+                  <p class="text-muted small mb-3">This Annexure A document is in PDF format. Click below to view or download it.</p>
+                  <a [href]="getDocUrl(data.anx_a)" target="_blank" class="btn btn-primary">
+                    <i class="fas fa-external-link-alt mr-2"></i> Open PDF in New Tab
+                  </a>
+                </div>
+                <div *ngIf="!isPdf(data.anx_a)" class="image-preview-box">
+                  <img [src]="getDocUrl(data.anx_a)" class="img-fluid rounded border shadow-sm preview-img" alt="Annexure A">
+                </div>
+              </ng-container>
+              <ng-template #noAnxA>
+                <div class="py-4 text-muted">
+                  <i class="fas fa-file-excel fa-3x text-warning mb-2 d-block"></i>
+                  <span class="font-weight-600">No document uploaded by the applicant.</span>
+                </div>
+              </ng-template>
+            </div>
+            <div class="modal-footer bg-light py-2">
+              <a *ngIf="data.anx_a" [href]="getDocUrl(data.anx_a)" target="_blank" class="btn btn-sm btn-outline-primary mr-auto">
+                <i class="fas fa-external-link-alt mr-1"></i> Open in New Tab
+              </a>
+              <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Applicant Photo Modal -->
+      <div class="modal fade" id="photo" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-light">
+              <h5 class="modal-title font-weight-bold">
+                <i class="fas fa-user-circle text-info mr-2"></i> Applicant Photo
+              </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-center p-4">
+              <ng-container *ngIf="data.photo; else noPhoto">
+                <img [src]="getDocUrl(data.photo)" class="img-fluid rounded border shadow-sm preview-img" alt="Applicant photo">
+              </ng-container>
+              <ng-template #noPhoto>
+                <div class="py-4 text-muted">
+                  <i class="fas fa-user-slash fa-3x text-warning mb-2 d-block"></i>
+                  <span class="font-weight-600">No applicant photograph uploaded.</span>
+                </div>
+              </ng-template>
+            </div>
+            <div class="modal-footer bg-light py-2">
+              <a *ngIf="data.photo" [href]="getDocUrl(data.photo)" target="_blank" class="btn btn-sm btn-outline-primary mr-auto">
+                <i class="fas fa-external-link-alt mr-1"></i> Open in New Tab
+              </a>
+              <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Signature Modal -->
+      <div class="modal fade" id="signature" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-light">
+              <h5 class="modal-title font-weight-bold">
+                <i class="fas fa-signature text-secondary mr-2"></i> Specimen Signature
+              </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-center p-4">
+              <ng-container *ngIf="data.sign; else noSign">
+                <img [src]="getDocUrl(data.sign)" class="img-fluid rounded border shadow-sm preview-img" alt="Signature">
+              </ng-container>
+              <ng-template #noSign>
+                <div class="py-4 text-muted">
+                  <i class="fas fa-file-excel fa-3x text-warning mb-2 d-block"></i>
+                  <span class="font-weight-600">No signature image uploaded.</span>
+                </div>
+              </ng-template>
+            </div>
+            <div class="modal-footer bg-light py-2">
+              <a *ngIf="data.sign" [href]="getDocUrl(data.sign)" target="_blank" class="btn btn-sm btn-outline-primary mr-auto">
+                <i class="fas fa-external-link-alt mr-1"></i> Open in New Tab
+              </a>
+              <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Aadhaar Card Modal -->
+      <div class="modal fade" id="adhar" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-light">
+              <h5 class="modal-title font-weight-bold">
+                <i class="fas fa-id-card text-success mr-2"></i> Aadhaar Card
+              </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-center p-4">
+              <ng-container *ngIf="data.adhar; else noAdhar">
+                <div *ngIf="isPdf(data.adhar)" class="pdf-preview-box p-4 rounded text-center">
+                  <i class="fas fa-file-pdf text-danger fa-4x mb-3"></i>
+                  <h5 class="font-weight-bold">PDF Document Uploaded</h5>
+                  <p class="text-muted small mb-3">This Aadhaar document is in PDF format. Click below to view or download it.</p>
+                  <a [href]="getDocUrl(data.adhar)" target="_blank" class="btn btn-primary">
+                    <i class="fas fa-external-link-alt mr-2"></i> Open PDF in New Tab
+                  </a>
+                </div>
+                <div *ngIf="!isPdf(data.adhar)" class="image-preview-box">
+                  <img [src]="getDocUrl(data.adhar)" class="img-fluid rounded border shadow-sm preview-img" alt="Aadhaar Card">
+                </div>
+              </ng-container>
+              <ng-template #noAdhar>
+                <div class="py-4 text-muted">
+                  <i class="fas fa-id-card-alt fa-3x text-warning mb-2 d-block"></i>
+                  <span class="font-weight-600">No Aadhaar document uploaded.</span>
+                </div>
+              </ng-template>
+            </div>
+            <div class="modal-footer bg-light py-2">
+              <a *ngIf="data.adhar" [href]="getDocUrl(data.adhar)" target="_blank" class="btn btn-sm btn-outline-primary mr-auto">
+                <i class="fas fa-external-link-alt mr-1"></i> Open in New Tab
+              </a>
+              <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Identity Card Modal -->
+      <div class="modal fade" id="identity" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-light">
+              <h5 class="modal-title font-weight-bold">
+                <i class="fas fa-address-card text-warning mr-2"></i> Employee Identity Card
+              </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-center p-4">
+              <ng-container *ngIf="data.identity; else noIdentity">
+                <div *ngIf="isPdf(data.identity)" class="pdf-preview-box p-4 rounded text-center">
+                  <i class="fas fa-file-pdf text-danger fa-4x mb-3"></i>
+                  <h5 class="font-weight-bold">PDF Document Uploaded</h5>
+                  <p class="text-muted small mb-3">This identity card is in PDF format. Click below to view or download it.</p>
+                  <a [href]="getDocUrl(data.identity)" target="_blank" class="btn btn-primary">
+                    <i class="fas fa-external-link-alt mr-2"></i> Open PDF in New Tab
+                  </a>
+                </div>
+                <div *ngIf="!isPdf(data.identity)" class="image-preview-box">
+                  <img [src]="getDocUrl(data.identity)" class="img-fluid rounded border shadow-sm preview-img" alt="Identity Card">
+                </div>
+              </ng-container>
+              <ng-template #noIdentity>
+                <div class="py-4 text-muted">
+                  <i class="fas fa-address-card fa-3x text-warning mb-2 d-block"></i>
+                  <span class="font-weight-600">No identity card uploaded.</span>
+                </div>
+              </ng-template>
+            </div>
+            <div class="modal-footer bg-light py-2">
+              <a *ngIf="data.identity" [href]="getDocUrl(data.identity)" target="_blank" class="btn btn-sm btn-outline-primary mr-auto">
+                <i class="fas fa-external-link-alt mr-1"></i> Open in New Tab
+              </a>
+              <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Appointment Order Modal -->
+      <div class="modal fade" id="appointment" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-light">
+              <h5 class="modal-title font-weight-bold">
+                <i class="fas fa-file-contract text-danger mr-2"></i> Appointment Order
+              </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-center p-4">
+              <ng-container *ngIf="data.appointment; else noAppt">
+                <div *ngIf="isPdf(data.appointment)" class="pdf-preview-box p-4 rounded text-center">
+                  <i class="fas fa-file-pdf text-danger fa-4x mb-3"></i>
+                  <h5 class="font-weight-bold">Appointment Order (PDF)</h5>
+                  <p class="text-muted small mb-3">This appointment order is in PDF format. Click below to view or download it.</p>
+                  <a [href]="getDocUrl(data.appointment)" target="_blank" class="btn btn-primary">
+                    <i class="fas fa-external-link-alt mr-2"></i> Open PDF in New Tab
+                  </a>
+                </div>
+                <div *ngIf="!isPdf(data.appointment)" class="image-preview-box">
+                  <img [src]="getDocUrl(data.appointment)" class="img-fluid rounded border shadow-sm preview-img" alt="Appointment Order">
+                </div>
+              </ng-container>
+              <ng-template #noAppt>
+                <div class="py-4 text-muted">
+                  <i class="fas fa-file-excel fa-3x text-warning mb-2 d-block"></i>
+                  <span class="font-weight-600">No appointment order uploaded.</span>
+                </div>
+              </ng-template>
+            </div>
+            <div class="modal-footer bg-light py-2">
+              <a *ngIf="data.appointment" [href]="getDocUrl(data.appointment)" target="_blank" class="btn btn-sm btn-outline-primary mr-auto">
+                <i class="fas fa-external-link-alt mr-1"></i> Open in New Tab
+              </a>
+              <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- /.content -->
+</div>

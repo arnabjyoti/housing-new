@@ -1,0 +1,16 @@
+{
+  "production": {
+    "username": "root",
+    "password": "",
+    "database": "housing",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "operatorsAliases": false,
+    "FILE_UPLOAD_PATH": "D:\\ADRP\\udhousing\\backend\\image",
+    "cert": {
+      "key": "./cert/example.key",
+      "crt": "./cert/skaplinkservices.com.crt",
+      "bundle": "./cert/skaplinkservices.com.ca-bundle"
+    }
+  }
+}

@@ -1,0 +1,356 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Non Accomodation</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Non Accomodation Certificate</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    <div class="card">
+
+                        <div class="card-body">
+
+                            <div class="row justify-content-end p-3" *ngIf="reApplyBtn == true">
+                                <button mat-raised-button color="primary" data-toggle="modal"
+                                    data-target="#newCertificateApply">+ New
+                                    Request</button>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="info-box bg-gradient-warning">
+                                        <span class="info-box-icon"><i class="fas fa-copy"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-number">Non Accomodation</span>
+                                            <span class="info-box-text">Reference No.: {{rfrncNo}}</span>
+                                            <span class="info-box-text">Apply date: {{applyDate}}</span>
+                                            <span class="info-box-text">Status: {{status}}</span>
+                                            <span class="info-box-text" *ngIf="status === 'Rejected'">Remark:
+                                                {{remark}}</span>
+                                            <span class="info-box-text" *ngIf="status === 'Approved'">Approved Date:
+                                                {{approvedDate}}</span>
+                                            <span class="info-box-text" *ngIf="status === 'Approved'">Renewal Date:
+                                                {{renewalDate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" *ngIf="status == 'Applied'">
+                                <div class="col-12 text-center pt-4">
+                                    Your application is already submitted and under process
+                                </div>
+                            </div>
+
+                            <div *ngIf="status == 'Approved'">
+                            <div class="row">
+                                <div class="col-12">
+                                    {{msg}}
+                                </div>
+                                <div class="col-12 text-center pt-4">
+                                    <h3 class="text-success">Approved</h3>
+                                    Application has been accepted and processed. You can collect the physical copy of
+                                    your certificate from the office.
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-end p-3">
+                                <button printSectionId="print-section" ngxPrint [useExistingCss]="true"
+                                    styleSheetFile="../node_modules/bootstrap/dist/css/bootstrap.min.css"
+                                    mat-raised-button color="accent">
+                                    <i class="fas fa-print"></i> print</button>
+                            </div>
+                            <div id="print-section" class="p-4">
+
+                                <div class="row border border-dark rounded brdr-0 p-4">
+                                    <div class="col-12 text-center b">
+                                        <h3><b>APPLICATION FORM FOR NON ACCOMODATION CERTIFICATE</b></h3>
+                                        <h3><b>FOR APPLYING HOUSE RENT ALLOWANCE</b></h3>
+                                        <b>(Only for Regular Employees)
+                                        </b>
+                                    </div>
+                                    <br>
+                                    <br><br><br>
+                                    <br><br>
+                                    <div class="col-12 pt-3">
+                                        <div class="form-row">
+                                            <div class="form-group col-7">
+                                                <b>1. Name in full (in Block Letters)</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{f_name | uppercase }} {{l_name |
+                                                uppercase }}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b>2. Designation</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b>
+                                                {{designation}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b>3. Department</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{data}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b>4. Basic Pay of the Post</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{basic_pay}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b>5. Contact No.</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{phone_no}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b>6. Status of Service:</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{service_status}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>a&#41; Date of Appointment</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{doa}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>b&#41; Is Service Transferable?</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{transferable}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>c&#41; Date of joining service in the Town /
+                                                    Capital Complex</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{dojs}}
+                                            </div>
+
+                                            <!-- <div class="form-group col-7">
+                                                <b>7. Date of superannuation</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{dos}}
+                                            </div> -->
+
+                                            <div class="form-group col-12">
+                                                <b>8. Details of spouse</b>
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>a&#41; Name</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{spouse_f_name}} {{spouse_l_name}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>b&#41; Spouse Occupation</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{spouse_occ}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>c&#41; If Govt. Employee, whether
+                                                    accommodation
+                                                    is allotted?</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{spouse_qrtr_avail}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab1"></span>i&#41; Quarter No. and Type</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{spouse_qrtr_no_type}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab1"></span>ii&#41; Sector and Location </b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{spouse_qrtr_sctr_loc}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab1"></span>iii&#41; Is the quarter encroached</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{spouse_qrtr_enc}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab1"></span>iv&#41; If yes, by whom?</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{spouse_qrtr_enc_name}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab1"></span>v&#41; Nature of Encroachment </b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{spouse_qrtr_enc_nature}}
+                                            </div>
+                                        </div>
+
+                                        <br>
+                                        <br>
+                                        <br>
+
+                                        <div class="col-12 text-center">
+                                            <h3><u><b>DECLARATION AND UNDERTAKING</b></u> </h3>
+                                        </div>
+                                        <br><br>
+                                        <div class="col-12">
+                                            <span class="tab"></span>I do hereby declare that I have not suppressed
+                                            any material fact nor have misrepresented any fact. I also undertake to
+                                            abide by all rules and regulationas of the Govt. framed for availing HRA.
+                                        </div>
+                                        <br>
+                                        <br><br>
+                                        <div class="row">
+                                            <div class="form-group col-4">
+                                                <b>Date: {{applyDate}}</b>
+                                                <br>
+                                                <b>Place: {{place}}</b>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <p class="text-right">
+                                                <img src="{{endpoint}}/docs/user/{{userID+'_'}}/{{signature}}"
+                                                class="img-fluid border p-2" alt="Project image">
+                                                <br>
+                                                <u><b>Signature of applicant</b></u></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- ./col -->
+        </div>
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+
+        </div>
+        <!-- /.row (main row) -->
+        <!-- NOC request Modal -->
+        <div class="modal fade" id="newCertificateApply" tabindex="-1" role="dialog"
+            aria-labelledby="newMembershipLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newMembershipLabel">Non Accomodation Certificate</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modalClose">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="card-body">
+                            <!-- <div class="col-sm-12 text-center">
+                        <h3>FRESH MEMBERSHIP APPLICATION</h3>
+                    </div> -->
+                            <div class="col-sm-12">
+                                <div class="form-row">
+                                    <div class="form-group col-12">
+                                        <b>Certificate enclosed at Annexure-B must be filled by
+                                            the Head of Department / Controlling Officer <span class="text-danger"><a
+                                                    href="../../assets/files/ANNEXURE-B.pdf" target="_blank">
+                                                    (Download Format)</a></span>
+                                        </b>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="form-row">
+                                            <div class="col-12">
+                                                <label for="inputEmail4">Annexure-B:</label>
+                                                <div class="form-row">
+                                                    <div class="form-group col-6">
+                                                        <label class="custom-file-label" for="file">{{pan}}</label>
+                                                        <input type="file" accept="application/pdf"
+                                                            class="custom-file-input"
+                                                            aria-describedby="inputGroupFileAddon01" name="file"
+                                                            id="file" (change)="onFileSelect($event)">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail4">Place:</label>
+                                                <input type="text" class="form-control" id="inputEmail4"
+                                                    [(ngModel)]="inputData.place" placeholder="Place name">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 text-center">
+                                        <button class="btn btn-success" (click)="saveData()">Submit</button>
+                                        <!-- <button class="btn btn-success">Submit</button> -->
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- <div class="form-group row" *ngIf="!showSave">
+                    <div class="col-sm-12 text-center">
+                        <button mat-raised-button color="primary" (click)="uploadPan()">Sumbit</button>
+                    </div>
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="modalClose" class="btn btn-danger"
+                            data-dismiss="modal">Cancel</button>
+                    </div>
+                </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>

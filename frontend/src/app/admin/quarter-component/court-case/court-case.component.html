@@ -1,0 +1,463 @@
+<!-- Loading starts -->
+<div id="loading-wrapper" *ngIf="isLodaing">
+    <ngx-spinner bdColor="rgba(0,0,0,0.9)" type="ball-clip-rotate"></ngx-spinner>
+</div>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Court Cases</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+                        <li class="breadcrumb-item active"><a href="#">Court Cases</a></li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+
+            <div class="mat-elevation-z8">
+                <div class="table-toolbar-filter">
+                    <div class="filter-inputs-group">
+                        <div class="filter-item">
+                            <input class="form-control" (keyup)="FilterChange($event)" placeholder="Search here">
+                        </div>
+                        <div class="filter-item">
+                            <select class="form-control" (change)="FilterChangeLocation($event)"
+                                (change)="setLocationforFilter()" [(ngModel)]="filter.loc_id">
+                                <option label="Select Location"></option>
+                                <option *ngFor="let loc of locationData;" value="{{loc.id}}">
+                                    {{loc.loc_name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <select class="form-control" (change)="FilterChangeSector($event)"
+                                [(ngModel)]="filter.sec_id">
+                                <option label="Select Sector"></option>
+                                <option *ngFor="let sctr of sectorData;" value="{{sctr.id}}">
+                                    {{sctr.sctr_name}}
+                                </option>
+                            </select>
+                        </div>
+                        <button mat-raised-button class="btn-reset" (click)="resetFilter()" title="Reset Filters">
+                            <i class="fas fa-recycle"></i> reset
+                        </button>
+                    </div>
+                    <div class="filter-actions-group">
+                        <button mat-raised-button color="purple" (click)="downloadPDF()">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                        <button mat-raised-button color="primary" data-toggle="modal" data-target="#addCases">
+                            <i class="fas fa-plus"></i> Quarter Cases
+                        </button>
+                    </div>
+                </div>
+                        <!-- <form class="example-form">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Search Here</mat-label>
+                    <input matInput (keyup)="FilterChange($event)" placeholder="Search">
+                  </mat-form-field>
+              </form>    -->
+                        <table mat-table [dataSource]="dataSource">
+
+
+                            <!-- Serial number Column -->
+                            <ng-container matColumnDef="Sl">
+                                <th mat-header-cell *matHeaderCellDef> Sl. No. </th>
+                                <td mat-cell *matCellDef="let element let i = index;">
+                                    {{ paginator.pageIndex*paginator.pageSize + (i + 1) }}
+                                </td>
+                            </ng-container>
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="case_no">
+                                <th mat-header-cell *matHeaderCellDef> Case No. </th>
+                                <td mat-cell *matCellDef="let element"> {{element.case_no}}</td>
+                            </ng-container>
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="case_nature">
+                                <th mat-header-cell *matHeaderCellDef>Nature</th>
+                                <td mat-cell *matCellDef="let element"> {{element.case_nature}}</td>
+                            </ng-container>
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="case_details">
+                                <th mat-header-cell *matHeaderCellDef> Details </th>
+                                <td mat-cell *matCellDef="let element"> {{element.case_details}}</td>
+                            </ng-container>
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="case_start">
+                                <th mat-header-cell *matHeaderCellDef> Start Date </th>
+                                <td mat-cell *matCellDef="let element"> {{element.start_date}}</td>
+                            </ng-container>
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="location">
+                                <th mat-header-cell *matHeaderCellDef>Location</th>
+                                <td mat-cell *matCellDef="let element"> {{element.loc_name}}</td>
+                            </ng-container>
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="sector">
+                                <th mat-header-cell *matHeaderCellDef> Sector </th>
+                                <td mat-cell *matCellDef="let element"> {{element.sctr_name}}</td>
+                            </ng-container>
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="qtr_no">
+                                <th mat-header-cell *matHeaderCellDef> Quarter Number </th>
+                                <td mat-cell *matCellDef="let element"> {{element.qrtr_no}}</td>
+                            </ng-container>
+                            
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="case_status">
+                                <th mat-header-cell *matHeaderCellDef> Status </th>
+                                <td mat-cell *matCellDef="let element"> {{element.case_status}}</td>
+                            </ng-container>
+
+                            <!-- Action Column -->
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef> Action </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <button (click)="showCaseUpdateModal(row)" data-toggle="modal"
+                                        data-target="#courtCase" mat-raised-button color="primary"><i
+                                            class="fas fa-arrow-circle-right"></i></button>
+                                </td>
+                            </ng-container>
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+
+                        <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons
+                            aria-label="Select page of periodic elements">
+                        </mat-paginator>
+                    </div>
+
+
+                    <!-- Main row -->
+                    <div class="row">
+
+                    </div>
+                    <!-- /.row (main row) -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+    <!-- Add Modal -->
+    <div class="modal fade" id="addCases" tabindex="-1" data-bs-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel"
+        data-keyboard="false" data-backdrop="static" aria-labelledby="staticBackdropLabel">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Court Case Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span id="modalClose">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Location Name:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" (change)="setLocation()" [(ngModel)]="filter.loc_id">
+                                <option value="">Select Location</option>
+                                <option *ngFor="let loc of locationData;" value="{{loc.id}}">
+                                    {{loc.loc_name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Sector Name:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" [(ngModel)]="filter.sec_id">
+                                <option value="">Select Sector</option>
+                                <option *ngFor="let sctr of sectorData;" value="{{sctr.id}}">
+                                    {{sctr.sctr_name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group row">
+                    <label  class="col-sm-4 col-form-label">Quarter Type:</label>
+                    <div class="col-sm-8">
+                        <select class="form-control" [(ngModel)]="filter.type">
+                            <option value="">Select Type</option>
+                            <option value="BACHELOR BARRACK">BACHELOR BARRACK</option>
+                            <option value="TYPE i">TYPE i</option>
+                            <option value="TYPE ii">TYPE ii</option>
+                            <option value="TYPE iii">TYPE iii</option>
+                            <option value="TYPE iv">TYPE iv</option>
+                            <option value="TYPE v">TYPE v</option>
+                            <option value="TYPE vi">TYPE vi</option>
+                            <option value="BUNGALOW">BUNGALOW</option>
+                            <option value="TRANSIT CAMP">TRANSIT CAMP</option>
+                            <option value="DOUBLE STORY">DOUBLE STORY</option>
+                            <option value="QUARTER TYPES NOT IDENTIFY">QUARTER TYPES NOT IDENTIFY</option>
+                        </select>
+                    </div>
+                </div> -->
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Quarter No.:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputEmail4" placeholder="Quarter No."
+                                [(ngModel)]="add.qtr_no">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Court Case No.:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputEmail4" placeholder="Court Case No."
+                                [(ngModel)]="add.case_no">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Nature of The Case:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputEmail4" placeholder="Nature of the case"
+                                [(ngModel)]="add.case_nature">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Start Date:</label>
+                        <div class="col-sm-8">
+                            <input type="date" class="form-control" id="inputEmail4" placeholder="Court case start date"
+                                [(ngModel)]="add.case_start">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Current Status:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" [(ngModel)]="add.case_status">
+                                <option value="">Select Status</option>
+                                <option value="Ongoing">Ongoing</option>
+                                <option value="Closed">Closed</option>
+                                <option value="Pending">Pending</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Remark of Court Case:</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="inputEmail4" placeholder="Remark of court case"
+                                [(ngModel)]="add.case_details"></textarea>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-block btn-primary" (click)="saveform()">Sumbit</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" *ngIf="showUploadBtn == true">
+                        <label class="col-sm-4 col-form-label">Upload Attachment:</label>
+                        <div class="col-sm-8">
+                            <div class="form-row p-1">
+                                <div class="form-group col-10">
+                                    <label class="custom-file-label" for="file">{{court_case_doc}}</label>
+                                    <input type="file" accept="image/*,application/pdf"
+                                        class="custom-file-input" aria-describedby="inputGroupFileAddon01" name="file"
+                                        id="file" (change)="onFileSelected($event)">
+                                </div>
+                                <div class="form-group col-2">
+                                    <button class="btn btn-success" (click)="uploadAttach()"><i
+                                            class="fas fa-upload"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- print -->
+    <div class="modal fade" id="courtCase" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">COURT CASES DETAILS</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span id="updateModalclose">&times;</span>
+                    </button>
+                </div>
+                <br>
+                <div class="modal-body">
+                    
+                    <div class="form-group row">
+                        <div class="col-sm-8 offset-sm-4 text-center py-2" *ngIf="locUpdate == false">
+                            <div class="btn btn-primary" (click)="updateBtnOff()">
+                                Click here for update Location, Sector and Quarter No.
+                            </div>
+                        </div>
+                        <div class="col-sm-8 offset-sm-4 text-center py-2" *ngIf="locUpdate == true">
+                            <div class="btn btn-danger" (click)="updateBtnOn()">
+                                Close
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row" *ngIf="locUpdate == false">
+                        <label class="col-sm-4 col-form-label">Location Name:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" disabled>
+                                <option value="">{{selectedCase.loc_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row" *ngIf="locUpdate == false">
+                        <label class="col-sm-4 col-form-label">Sector Name:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" disabled>
+                                <option value="">{{selectedCase.sctr_name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row" *ngIf="locUpdate == true">
+                        <label class="col-sm-4 col-form-label">Location Name:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" (change)="setLocationUpdate()" [(ngModel)]="selectedCase.locationId">
+                                <option value="">Select Location</option>
+                                <option *ngFor="let loc of locationData;" value="{{loc.id}}">
+                                    {{loc.loc_name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row" *ngIf="locUpdate == true">
+                        <label class="col-sm-4 col-form-label">Sector Name:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" [(ngModel)]="selectedCase.sectorId">
+                                <option value="">Select Sector</option>
+                                <option *ngFor="let sctr of sectorDataUpdate;" value="{{sctr.id}}">
+                                    {{sctr.sctr_name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Quarter No.:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputEmail4" placeholder="Quarter No."
+                                [(ngModel)]="selectedCase.qrtr_no">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Court Case No.:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputEmail4" placeholder="Court Case No."
+                                [(ngModel)]="selectedCase.case_no">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Nature of The Case:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="inputEmail4" placeholder="Nature of the case"
+                                [(ngModel)]="selectedCase.case_nature">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Start Date:</label>
+                        <div class="col-sm-8">
+                            <input type="date" class="form-control" id="inputEmail4" placeholder="Court case start date"
+                                [(ngModel)]="selectedCase.start_date">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">End Date:</label>
+                        <div class="col-sm-8">
+                            <input type="date" class="form-control" id="inputEmail4" placeholder="Court case End date"
+                                [(ngModel)]="selectedCase.end_date">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Current Status:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" [(ngModel)]="selectedCase.case_status">
+                                <option value="">Select Status</option>
+                                <option value="Ongoing">Ongoing</option>
+                                <option value="Closed">Closed</option>
+                                <option value="Pending">Pending</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Remark of Court Case:</label>
+                        <div class="col-sm-8">
+                            <textarea class="form-control" id="inputEmail4" placeholder="Remark of court case"
+                                [(ngModel)]="selectedCase.case_details"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row" *ngIf="selectedCase.courtCaseImages?.length">
+                        <label class="col-sm-4 col-form-label">Uploaded Files:</label>
+                        <div class="col-sm-8">
+                            <ng-container *ngFor="let img of selectedCase.courtCaseImages">
+                                <a target="_blank" [href]="endpoint + '/docs/court_cases/' + selectedCase.id + '_/' + img.image_name">
+                                    <i class="fas fa-images"></i> {{ img.image_name }}
+                                </a>
+                                <br />
+                            </ng-container>
+                        </div>
+                    </div>
+                    
+
+
+
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-block btn-primary" (click)="updateform()">Update</button>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Upload Attachment:</label>
+                        <div class="col-sm-8">
+                            <div class="form-row p-1">
+                                <div class="form-group col-10">
+                                    <label class="custom-file-label" for="file">{{court_case_doc}}</label>
+                                    <input type="file" accept="image/*,application/pdf"
+                                        class="custom-file-input" aria-describedby="inputGroupFileAddon01" name="file"
+                                        id="file" (change)="onFileSelected($event)">
+                                </div>
+                                <div class="form-group col-2">
+                                    <button class="btn btn-success" (click)="uploadUpdatedAttach()"><i
+                                            class="fas fa-upload"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-block btn-danger" (click)="deleteform()">Delete </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>

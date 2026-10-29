@@ -1,0 +1,822 @@
+<!-- Loading starts -->
+<div id="loading-wrapper" *ngIf="isLodaing">
+  <ngx-spinner bdColor="rgba(0,0,0,0.9)" type="ball-clip-rotate"></ngx-spinner>
+</div>
+
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Quarter details</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+            <li class="breadcrumb-item active"><a href="#">Quarter details</a></li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="mat-elevation-z8">
+        <div class="table-toolbar-filter">
+          <div class="filter-inputs-group">
+            <div class="filter-item">
+              <input class="form-control" (keyup)="FilterChange($event)" placeholder="Search here">
+            </div>
+            <div class="filter-item">
+              <select class="form-control" (change)="FilterChangeLocation($event)" [(ngModel)]="filter.loc_id">
+                <option value="" selected>Select Location</option>
+                <option *ngFor="let loc of locationData;" value="{{loc.id}}">
+                  {{loc.loc_name}}
+                </option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <select class="form-control" [disabled]="!filter.loc_id" (change)="FilterChangeSector($event)"
+                [(ngModel)]="filter.sec_id">
+                <option value="" selected>{{ filter.loc_id ? 'Select Sector' : 'Select Location first' }}</option>
+                <option *ngFor="let sctr of sectorData;" value="{{sctr.id}}">
+                  {{sctr.sctr_name}}
+                </option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <select class="form-control" (change)="FilterChangeQrtrType($event)" [(ngModel)]="filter.type">
+                <option label="Select Type"></option>
+                <option value="BACHELOR BARRACK">BACHELOR BARRACK</option>
+                <option value="TYPE I">TYPE I</option>
+                <option value="TYPE II">TYPE II</option>
+                <option value="TYPE III">TYPE III</option>
+                <option value="TYPE IV">TYPE IV</option>
+                <option value="TYPE V">TYPE V</option>
+                <option value="TYPE VI">TYPE VI</option>
+                <option value="BUNGALOW">BUNGALOW</option>
+                <option value="TRANSIT CAMP">TRANSIT CAMP</option>
+                <option value="DOUBLE STORY">DOUBLE STORY</option>
+                <option value="QUARTER TYPES NOT IDENTIFY">QUARTER TYPES NOT IDENTIFY</option>
+                <option value="TOWER-1 TYPE-IV">TOWER-1 TYPE-IV</option>
+                <option value="TOWER-2 TYPE-IV">TOWER-2 TYPE-IV</option>
+                <option value="TOWER-3 TYPE-V">TOWER-3 TYPE-V</option>
+                <option value="TOWER-4 TYPE-V">TOWER-4 TYPE-V</option>
+                <option value="T-I (DS)">T-I (DS)</option>
+                <option value="T-II (DS)">T-II (DS)</option>
+                <option value="T-III (DS)">T-III (DS)</option>
+                <option value="T-IV (DS)">T-IV (DS)</option>
+                <option value="T-V (DS)">T-V (DS)</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <select class="form-control" (change)="FilterChangeDepartment($event)" [(ngModel)]="filter.dept_id">
+                <option label="Select Department"></option>
+                <option *ngFor="let data of departmentName" [value]="data.id">{{data.dept_name}}</option>
+              </select>
+            </div>
+            <button mat-raised-button class="btn-reset" (click)="resetFilter()" title="Reset Filters">
+              <i class="fas fa-recycle"></i> reset
+            </button>
+          </div>
+          <div class="filter-actions-group">
+            <button mat-raised-button color="purple" (click)="downloadPDF()">
+              <i class="fas fa-download"></i> Download
+            </button>
+            <button mat-raised-button color="primary" data-toggle="modal" data-target="#exampleModal">
+              <i class="fas fa-plus"></i> Quarter details
+            </button>
+          </div>
+        </div>
+        <table matSort mat-table [dataSource]="dataSource">
+
+
+          <!-- Serial number Column -->
+          <ng-container matColumnDef="Sl">
+            <th mat-header-cell *matHeaderCellDef class="text-center"> Sl. No. </th>
+            <td mat-cell *matCellDef="let element let i = index;" class="text-center">
+              {{ paginator.pageIndex*paginator.pageSize + (i + 1) }}
+            </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="allottee_name">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef>Allottee Name</th>
+            <td mat-cell *matCellDef="let element"> {{element.allottee_name}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="dept_name">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> Department Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.dept_name}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="designation">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> Designation </th>
+            <td mat-cell *matCellDef="let element"> {{element.designation}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="location">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> Location Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.location_name}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="sector">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> Sector Number </th>
+            <td mat-cell *matCellDef="let element"> {{element.sctor_name}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="type">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> Qtr Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.qrtr_type}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="qrtr_no">
+            <th mat-sort-header mat-header-cell *matHeaderCellDef> Qtr Number </th>
+            <td mat-cell *matCellDef="let element"> {{element.qrtr_no}} </td>
+          </ng-container>
+
+          <!-- Action Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="text-center"> Action </th>
+            <td mat-cell *matCellDef="let row" class="text-center">
+              <button (click)="showRequestUpdateModal(row)" data-toggle="modal" data-target="#LocUpdate"
+                mat-raised-button color="primary"><i class="fas fa-eye"></i> View</button>
+              <!-- <button mat-raised-button color="warn">Delete</button> -->
+            </td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons
+          aria-label="Select page of periodic elements">
+        </mat-paginator>
+      </div>
+
+
+      <!-- Main row -->
+      <div class="row">
+
+      </div>
+      <!-- /.row (main row) -->
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+  <!-- Add Modal -->
+  <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    data-keyboard="false" data-backdrop="static" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Quarter details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" (click)="resetFreshForm()" id="saveModalClose">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-sm-12">
+            <div class="form-row">
+
+              <div class="form-group col-md-6" *ngIf="showButton">
+                <label for="inputEmail4">Allottee Name:</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Allottee Name"
+                  [(ngModel)]="qtr.allottee_name">
+              </div>
+
+              <div class="form-group col-md-6" *ngIf="showButton">
+                <label for="inputEmail4">Designation:</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Designation"
+                  [(ngModel)]="qtr.designation">
+              </div>
+
+              <div class="form-group col-md-6" *ngIf="showButton">
+                <label for="inputEmail4">Department:</label>
+                <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="qtr.department_id">
+                  <option label="Select Department"></option>
+                  <option *ngFor="let data of departmentName" [value]="data.id">{{data.dept_name}}</option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-6" *ngIf="showButton">
+                <label for="inputEmail4">Location Name:</label>
+                <select class="form-control" (change)="setQuarterLocation()" [(ngModel)]="qtr.loc_id">
+                  <option value="">Select Location</option>
+                  <option *ngFor="let loc of locationData;" value="{{loc.id}}">
+                    {{loc.loc_name}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-6" *ngIf="showButton">
+                <label for="inputEmail4">Sector Name:</label>
+                <select class="form-control" [(ngModel)]="qtr.sec_id">
+                  <option value="">Select Sector</option>
+                  <option *ngFor="let sctr of sectorData;" value="{{sctr.id}}">
+                    {{sctr.sctr_name}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-6" *ngIf="showButton">
+                <label for="inputEmail4">Quarter Type:</label>
+                <select class="form-control" [(ngModel)]="qtr.type">
+                  <option label="Select Quarter Type"></option>
+                  <option value="BACHELOR BARRACK">BACHELOR BARRACK</option>
+                  <option value="TYPE I">TYPE I</option>
+                  <option value="TYPE II">TYPE II</option>
+                  <option value="TYPE III">TYPE III</option>
+                  <option value="TYPE IV">TYPE IV</option>
+                  <option value="TYPE V">TYPE V</option>
+                  <option value="TYPE VI">TYPE VI</option>
+                  <option value="BUNGALOW">BUNGALOW</option>
+                  <option value="TRANSIT CAMP">TRANSIT CAMP</option>
+                  <option value="DOUBLE STORY">DOUBLE STORY</option>
+                  <option value="TOWER-1 TYPE-IV">TOWER-1 TYPE-IV</option>
+                  <option value="TOWER-2 TYPE-IV">TOWER-2 TYPE-IV</option>
+                  <option value="TOWER-3 TYPE-V">TOWER-3 TYPE-V</option>
+                  <option value="TOWER-4 TYPE-V">TOWER-4 TYPE-V</option>
+                  <option value="T-I (DS)">T-I (DS)</option>
+                  <option value="T-II (DS)">T-II (DS)</option>
+                  <option value="T-III (DS)">T-III (DS)</option>
+                  <option value="T-IV (DS)">T-IV (DS)</option>
+                  <option value="T-V (DS)">T-V (DS)</option>
+                  <option value="QUARTER TYPES NOT IDENTIFY">QUARTER TYPES NOT IDENTIFY</option>
+                </select>
+              </div>
+
+
+              <div class="form-group col-md-6" *ngIf="showButton">
+                <label for="inputEmail4">Quarter Number:</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder=" Quarter Number"
+                  [(ngModel)]="qtr.qrtr_no">
+              </div>
+
+              <div class="form-group col-md-6" *ngIf="showButton">
+                <label for="inputEmail4">Quarter Longitude:</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder=" Quarter Longitude"
+                  [(ngModel)]="qtr.qrtr_longitude">
+              </div>
+
+              <div class="form-group col-md-6" *ngIf="showButton">
+                <label for="inputEmail4">Quarter Latitude:</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder=" Quarter Latitude"
+                  [(ngModel)]="qtr.qrtr_letitude">
+              </div>
+
+              <div class="form-group col-md-6" *ngIf="showButton">
+                <label for="inputEmail4">Google Map Link:</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Google Map Link"
+                  [(ngModel)]="qtr.gMapLink">
+              </div>
+
+              <div class="form-group col-md-6" *ngIf="showButton">
+                <label for="inputEmail4">Allotment Order:</label>
+                <div class="form-row">
+                  <div class="form-group col-sm-12">
+                    <label class="custom-file-label" for="file">{{allotment}}</label>
+                    <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg, application/pdf"
+                      class="custom-file-input" aria-describedby="inputGroupFileAddon01" name="file" id="file"
+                      (change)="onFileSelectedAllotment($event)">
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- PHOTO 1 -->
+              <div class="form-group row" *ngIf="!showButton">
+                <div class="col-md-4">
+                  <label for="photo1">Photo 1 (jpeg/jpg/pdf):</label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group col-sm-12">
+                    <label class="custom-file-label" for="photo1">{{ photoLabels.photo1 }}</label>
+                    <input type="file" accept="image/*,application/pdf" class="custom-file-input" id="photo1"
+                      (change)="onPhotoSelected($event, 'photo1')">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <button type="submit" (click)="photo1()" class="btn btn-success"><i
+                      class="fas fa-upload"></i></button>
+                </div>
+              </div>
+
+              <!-- PHOTO 2 -->
+              <div class="form-group row" *ngIf="!showButton">
+                <div class="col-md-4">
+                  <label for="photo1">Photo 2 (jpeg/jpg/pdf):</label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group col-sm-12">
+                    <label class="custom-file-label" for="photo2">{{ photoLabels.photo2 }}</label>
+                    <input type="file" accept="image/*,application/pdf" class="custom-file-input" id="photo2"
+                      (change)="onPhotoSelected($event, 'photo2')">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <button type="submit" (click)="photo2()" class="btn btn-success"><i
+                      class="fas fa-upload"></i></button>
+                </div>
+              </div>
+
+              <!-- PHOTO 3 -->
+              <div class="form-group row" *ngIf="!showButton">
+                <div class="col-md-4">
+                  <label for="photo1">Photo 3 (jpeg/jpg/pdf):</label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group col-sm-12">
+                    <label class="custom-file-label" for="photo3">{{ photoLabels.photo3 }}</label>
+                    <input type="file" accept="image/*,application/pdf" class="custom-file-input" id="photo3"
+                      (change)="onPhotoSelected($event, 'photo3')">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <button type="submit" (click)="photo3()" class="btn btn-success"><i
+                      class="fas fa-upload"></i></button>
+                </div>
+              </div>
+
+              <!-- PHOTO 4 -->
+              <div class="form-group row" *ngIf="!showButton">
+                <div class="col-md-4">
+                  <label for="photo1">Photo 4 (jpeg/jpg/pdf):</label>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group col-sm-12">
+                    <label class="custom-file-label" for="photo4">{{ photoLabels.photo4 }}</label>
+                    <input type="file" accept="image/*,application/pdf" class="custom-file-input" id="photo4"
+                      (change)="onPhotoSelected($event, 'photo4')">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <button type="submit" (click)="photo4()" class="btn btn-success"><i
+                      class="fas fa-upload"></i></button>
+                </div>
+              </div>
+
+
+
+            </div>
+          </div>
+
+
+
+          <div class="form-group row">
+            <div class="col-sm-12" *ngIf="showButton">
+              <button type="submit" (click)="save()" class="btn btn-block btn-primary">Sumbit</button>
+            </div>
+            <div class="col-sm-12 text-center text-danger" *ngIf="hideForm">
+              Quarter already added
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- update Modal -->
+  <div class="modal fade" id="LocUpdate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    data-keyboard="false" data-backdrop="static" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Quarter Details</h5>
+          <button type="button" class="close" (click)="closeUpdateModal()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" id="updateModalClose">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12" *ngIf="selectedQuarter.table_from != 'data2'">
+              <button *ngIf="!isEditing" (click)="toggleEdit()" class="btn btn-primary">Edit</button>
+              <button *ngIf="isEditing" (click)="toggleEdit()" class="btn btn-danger">Cancel</button>
+            </div>
+          </div>
+          <div *ngIf="!isEditing">
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Allottee Name</b></div>
+              <div class="col-sm-8">
+                : {{selectedQuarter.allottee_name}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Department Name</b></div>
+              <div class="col-sm-8">
+                : {{selectedQuarter.dept_name}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Designation</b></div>
+              <div class="col-sm-8">
+                : {{selectedQuarter.designation}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Location Name</b></div>
+              <div class="col-sm-8">
+                : {{selectedQuarter.location_name}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Sector Name</b></div>
+              <div class="col-sm-8">
+                : {{selectedQuarter.sctor_name}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Quarter Number</b></div>
+              <div class="col-sm-8">
+                : {{selectedQuarter.qrtr_no}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Quarter Type</b></div>
+              <div class="col-sm-8">
+                : {{selectedQuarter.qrtr_type}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Google Map Link</b></div>
+              <div class="col-sm-8">
+                : <a target="_blank" href="{{selectedQuarter.gMapLink}}">{{selectedQuarter.gMapLink}}</a>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Quarter Longitude</b></div>
+              <div class="col-sm-8">
+                : {{selectedQuarter.qrtr_longitude}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Quarter Latitude</b></div>
+              <div class="col-sm-8">
+                : {{selectedQuarter.qrtr_letitude}}
+              </div>
+            </div>
+            <div class="form-group row" *ngIf="selectedQuarter.allotment_order">
+              <div class="col-sm-4"><b>Allotment Order (jpeg/jpg/pdf)</b></div>
+              <div class="col-sm-8" *ngIf="selectedQuarter.table_from == 'data1'">
+                :
+                <a target="_blank" [href]="endpoint + '/docs/quarter_user/' + selectedQuarter.allotment_order">
+                  <i class="far fa-image fa-2x"></i>
+                </a>
+              </div>
+              <div class="col-sm-8" *ngIf="selectedQuarter.table_from == 'data3'">
+                :
+                <a target="_blank"
+                  [href]="endpoint + '/docs/user/'+ selectedQuarter.userId +'_/' + selectedQuarter.allotment_order">
+                  <i class="far fa-image fa-2x"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="form-group row" *ngIf="selectedQuarter.photo_1">
+              <div class="col-sm-4"><b>Photo 1 (jpeg/jpg/pdf)</b></div>
+              <div class="col-sm-8" *ngIf="selectedQuarter.table_from == 'data1'">
+                :
+                <a target="_blank" [href]="endpoint + '/docs/quarter_user/' + selectedQuarter.photo_1">
+                  <i class="far fa-image fa-2x"></i>
+                </a>
+              </div>
+              <div class="col-sm-8" *ngIf="selectedQuarter.table_from == 'data3'">
+                :
+                <a target="_blank"
+                  [href]="endpoint + '/docs/user/'+ selectedQuarter.userId +'_/' + selectedQuarter.photo_1">
+                  <i class="far fa-image fa-2x"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="form-group row" *ngIf="selectedQuarter.photo_2">
+              <div class="col-sm-4"><b>Photo 2 (jpeg/jpg/pdf)</b></div>
+              <div class="col-sm-8" *ngIf="selectedQuarter.table_from == 'data1'">
+                :
+                <a target="_blank" [href]="endpoint + '/docs/quarter_user/' + selectedQuarter.photo_2">
+                  <i class="far fa-image fa-2x"></i>
+                </a>
+              </div>
+              <div class="col-sm-8" *ngIf="selectedQuarter.table_from == 'data3'">
+                :
+                <a target="_blank"
+                  [href]="endpoint + '/docs/user/'+ selectedQuarter.userId +'_/' + selectedQuarter.photo_2">
+                  <i class="far fa-image fa-2x"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="form-group row" *ngIf="selectedQuarter.photo_3">
+              <div class="col-sm-4"><b>Photo 3 (jpeg/jpg/pdf)</b></div>
+              <div class="col-sm-8" *ngIf="selectedQuarter.table_from == 'data1'">
+                :
+                <a target="_blank" [href]="endpoint + '/docs/quarter_user/' + selectedQuarter.photo_3">
+                  <i class="far fa-image fa-2x"></i>
+                </a>
+              </div>
+              <div class="col-sm-8" *ngIf="selectedQuarter.table_from == 'data3'">
+                :
+                <a target="_blank"
+                  [href]="endpoint + '/docs/user/'+ selectedQuarter.userId +'_/' + selectedQuarter.photo_3">
+                  <i class="far fa-image fa-2x"></i>
+                </a>
+              </div>
+            </div>
+
+            <div class="form-group row" *ngIf="selectedQuarter.photo_4">
+              <div class="col-sm-4"><b>Photo 4 (jpeg/jpg/pdf)</b></div>
+              <div class="col-sm-8" *ngIf="selectedQuarter.table_from == 'data1'">
+                :
+                <a target="_blank" [href]="endpoint + '/docs/quarter_user/' + selectedQuarter.photo_4">
+                  <i class="far fa-image fa-2x"></i>
+                </a>
+              </div>
+              <div class="col-sm-8" *ngIf="selectedQuarter.table_from == 'data3'">
+                :
+                <a target="_blank"
+                  [href]="endpoint + '/docs/user/'+ selectedQuarter.userId +'_/' + selectedQuarter.photo_4">
+                  <i class="far fa-image fa-2x"></i>
+                </a>
+              </div>
+            </div>
+
+
+          </div>
+          <div *ngIf="isEditing">
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Allottee Name</b></div>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" [(ngModel)]="selectedQuarter.allottee_name"
+                  name="allottee_name">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Department Name</b></div>
+              <div class="col-sm-8">
+                <!-- <input type="text" class="form-control" [(ngModel)]="selectedQuarter.dept_name" name="dept_name"> -->
+                <select class="form-control" name="dept_name" [(ngModel)]="selectedQuarter.department_id">
+                  <option *ngFor="let data of departmentName" [value]="data.id">{{data.dept_name}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Designation</b></div>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" [(ngModel)]="selectedQuarter.designation" name="designation">
+              </div>
+            </div>
+
+            <!-- <div class="form-group row">
+              <div class="col-sm-4"><b>Location Name</b></div>
+              <div class="col-sm-8">
+                <select class="form-control" (change)="setQuarterLocationUpdate()" [(ngModel)]="selectedQuarter.loc_id"
+                  name="location_name">
+                  <option *ngFor="let loc of locationData" [value]="loc.id">{{ loc.loc_name }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Sector Name</b></div>
+              <div class="col-sm-8">
+                <select class="form-control" [(ngModel)]="selectedQuarter.sec_id" name="sector_name">
+                  <option *ngFor="let sctr of sectorList" [value]="sctr.id">{{ sctr.sctr_name }}</option>
+                </select>
+              </div>
+            </div> -->
+
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Location Name</b></div>
+              <div class="col-sm-8">
+                <select class="form-control" (change)="setQuarterLocationUpdate()" [(ngModel)]="selectedQuarter.loc_id"
+                  name="location_name">
+                  <option *ngFor="let loc of locationData" [ngValue]="loc.id">{{ loc.loc_name }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Sector Name</b></div>
+              <div class="col-sm-8">
+                <select class="form-control" [(ngModel)]="selectedQuarter.sec_id" name="sector_name">
+                  <option *ngFor="let sctr of filteredSectors" [ngValue]="sctr.id">
+                    {{ sctr.sctr_name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+
+
+
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Quarter Number</b></div>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" [(ngModel)]="selectedQuarter.qrtr_no" name="qrtr_no">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Quarter Type</b></div>
+              <div class="col-sm-8">
+                <select class="form-control" name="qrtr_type" [(ngModel)]="selectedQuarter.qrtr_type">
+                  <option value="BACHELOR BARRACK">BACHELOR BARRACK</option>
+                  <option value="TYPE I">TYPE I</option>
+                  <option value="TYPE II">TYPE II</option>
+                  <option value="TYPE III">TYPE III</option>
+                  <option value="TYPE IV">TYPE IV</option>
+                  <option value="TYPE V">TYPE V</option>
+                  <option value="TYPE VI">TYPE VI</option>
+                  <option value="BUNGALOW">BUNGALOW</option>
+                  <option value="TRANSIT CAMP">TRANSIT CAMP</option>
+                  <option value="DOUBLE STORY">DOUBLE STORY</option>
+                  <option value="TOWER-1 TYPE-IV">TOWER-1 TYPE-IV</option>
+                  <option value="TOWER-2 TYPE-IV">TOWER-2 TYPE-IV</option>
+                  <option value="TOWER-3 TYPE-V">TOWER-3 TYPE-V</option>
+                  <option value="TOWER-4 TYPE-V">TOWER-4 TYPE-V</option>
+                  <option value="T-I (DS)">T-I (DS)</option>
+                  <option value="T-II (DS)">T-II (DS)</option>
+                  <option value="T-III (DS)">T-III (DS)</option>
+                  <option value="T-IV (DS)">T-IV (DS)</option>
+                  <option value="T-V (DS)">T-V (DS)</option>
+                  <option value="QUARTER TYPES NOT IDENTIFY">QUARTER TYPES NOT IDENTIFY</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Google Map Link</b></div>
+              <div class="col-sm-8">
+                <input type="url" class="form-control" [(ngModel)]="selectedQuarter.gMapLink" name="gMapLink">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Quarter Longitude</b></div>
+              <div class="col-sm-8">
+                <input type="url" class="form-control" [(ngModel)]="selectedQuarter.qrtr_longitude" name="Longitude">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-4"><b>Quarter Latitude</b></div>
+              <div class="col-sm-8">
+                <input type="url" class="form-control" [(ngModel)]="selectedQuarter.qrtr_letitude" name="Latitude">
+              </div>
+            </div>
+
+            <!-- <div class="form-group row">
+              <div class="col-sm-4"><b>Allotment Order</b></div>
+              <div class="col-sm-8">
+                <a target="_blank" href="{{endpoint}}/docs/quarter_user/{{selectedQuarter.allotment_order}}">
+                  <i class="far fa-image fa-2x"></i>
+                </a>
+              </div>
+            </div> -->
+
+            <!-- Allotment order -->
+            <div class="form-group row">
+              <div class="col-md-4">
+                <label for="photo1">Allotment Order (jpeg/jpg/pdf):</label>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group col-sm-12">
+                  <label class="custom-file-label" for="photo1">{{ photoLabels.Allot }}</label>
+                  <input type="file" accept="image/*,application/pdf" class="custom-file-input" id="photo1"
+                    (change)="onPhotoSelected($event, 'Allot')">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <button type="submit" (click)="allotmentOrder()" class="btn btn-success"><i
+                    class="fas fa-upload"></i></button>
+              </div>
+              <div class="col-md-1" *ngIf="selectedQuarter.allotment_order">
+                <p><i class="fas fa-check text-success"></i>Uploaded</p>
+              </div>
+            </div>
+
+            <!-- PHOTO 1 -->
+            <div class="form-group row">
+              <div class="col-md-4">
+                <label for="photo1">Photo 1 (jpeg/jpg/pdf):</label>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group col-sm-12">
+                  <label class="custom-file-label" for="photo1">{{ photoLabels.photo1 }}</label>
+                  <input type="file" accept="image/*,application/pdf" class="custom-file-input" id="photo1"
+                    (change)="onPhotoSelected($event, 'photo1')">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <button type="submit" (click)="photo1()" class="btn btn-success"><i class="fas fa-upload"></i></button>
+              </div>
+              <div class="col-md-1" *ngIf="selectedQuarter.photo_1">
+                <p><i class="fas fa-check text-success"></i>Uploaded</p>
+              </div>
+            </div>
+
+            <!-- PHOTO 2 -->
+            <div class="form-group row">
+              <div class="col-md-4">
+                <label for="photo1">Photo 2 (jpeg/jpg/pdf):</label>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group col-sm-12">
+                  <label class="custom-file-label" for="photo2">{{ photoLabels.photo2 }}</label>
+                  <input type="file" accept="image/*,application/pdf" class="custom-file-input" id="photo2"
+                    (change)="onPhotoSelected($event, 'photo2')">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <button type="submit" (click)="photo2()" class="btn btn-success"><i class="fas fa-upload"></i></button>
+              </div>
+              <div class="col-md-1" *ngIf="selectedQuarter.photo_2">
+                <p><i class="fas fa-check text-success"></i>Uploaded</p>
+              </div>
+            </div>
+
+            <!-- PHOTO 3 -->
+            <div class="form-group row">
+              <div class="col-md-4">
+                <label for="photo1">Photo 3 (jpeg/jpg/pdf):</label>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group col-sm-12">
+                  <label class="custom-file-label" for="photo3">{{ photoLabels.photo3 }}</label>
+                  <input type="file" accept="image/*,application/pdf" class="custom-file-input" id="photo3"
+                    (change)="onPhotoSelected($event, 'photo3')">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <button type="submit" (click)="photo3()" class="btn btn-success"><i class="fas fa-upload"></i></button>
+              </div>
+              <div class="col-md-1" *ngIf="selectedQuarter.photo_3">
+                <p><i class="fas fa-check text-success"></i>Uploaded</p>
+              </div>
+            </div>
+
+            <!-- PHOTO 4 -->
+            <div class="form-group row">
+              <div class="col-md-4">
+                <label for="photo1">Photo 4 (jpeg/jpg/pdf):</label>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group col-sm-12">
+                  <label class="custom-file-label" for="photo4">{{ photoLabels.photo4 }}</label>
+                  <input type="file" accept="image/*,application/pdf" class="custom-file-input" id="photo4"
+                    (change)="onPhotoSelected($event, 'photo4')">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <button type="submit" (click)="photo4()" class="btn btn-success"><i class="fas fa-upload"></i></button>
+              </div>
+              <div class="col-md-1" *ngIf="selectedQuarter.photo_4">
+                <p><i class="fas fa-check text-success"></i>Uploaded</p>
+              </div>
+            </div>
+
+
+            <div class="form-group row">
+              <div class="col-sm-12" *ngIf="selectedQuarter.table_from == 'data1'"> <!--this is not in use -->
+                <button type="button" (click)="updateQuarter()" class="btn btn-success btn-block">
+                  <i class="fas fa-save"></i> Update quarter
+                </button>
+              </div>
+              <div class="col-sm-12" *ngIf="selectedQuarter.table_from == 'data2'">
+                <button type="button" (click)="updateQuarterAllotment()" class="btn btn-success btn-block">
+                  <i class="fas fa-save"></i> Update
+                </button>
+              </div>
+              <div class="col-sm-12" *ngIf="selectedQuarter.status_type == 'Fresh'">
+                <button type="button" (click)="updateFreshQuarter()" class="btn btn-success btn-block">
+                  <i class="fas fa-save"></i> Update details
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-12">
+                <button type="button" (click)="deleteQuarter()" class="btn btn-danger btn-block">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

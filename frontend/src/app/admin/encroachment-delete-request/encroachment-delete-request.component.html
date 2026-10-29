@@ -1,0 +1,18 @@
+<div class="content-wrapper">
+  <div class="content-header"><div class="container-fluid"><div class="row mb-2">
+    <div class="col-sm-6"><h1 class="m-0">Encroachment Deletion Requests</h1></div>
+    <div class="col-sm-6"><ol class="breadcrumb float-sm-right"><li class="breadcrumb-item"><a routerLink="/home">Home</a></li><li class="breadcrumb-item active">Deletion Requests</li></ol></div>
+  </div></div></div>
+  <section class="content"><div class="container-fluid"><div class="card"><div class="card-body table-responsive p-0">
+    <table class="table table-hover text-nowrap">
+      <thead><tr><th>#</th><th>Allottee</th><th>Encroacher</th><th>Location</th><th>Sector</th><th>Quarter No.</th><th>Quarter Type</th><th>Requested by</th><th>Requested on</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let request of requests; let i = index">
+          <td>{{ i + 1 }}</td><td>{{ request.allotteeName }}</td><td>{{ request.encroacherName }}</td><td>{{ request.locationName }}</td><td>{{ request.sectorName }}</td><td>{{ request.quarterNo }}</td><td>{{ request.quarterType }}</td><td>{{ request.requestedByName }}</td><td>{{ request.createdAt | date:'medium' }}</td>
+          <td><button class="btn btn-success btn-sm mr-2" (click)="review(request, 'Approved')">Approve</button><button class="btn btn-danger btn-sm" (click)="review(request, 'Rejected')">Reject</button></td>
+        </tr>
+        <tr *ngIf="requests.length === 0"><td colspan="10" class="text-center">No pending deletion requests.</td></tr>
+      </tbody>
+    </table>
+  </div></div></div></section>
+</div>

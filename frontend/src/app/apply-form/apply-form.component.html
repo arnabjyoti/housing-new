@@ -1,0 +1,268 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Apply for Quarter</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Apply for Quarter</li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+
+          <div class="card">
+
+            <!-- <div class="card-body">
+              <div class="col-sm-12 text-center h4">
+                Currently we are not accepting new applications
+              </div>
+            </div> -->
+
+            <div class="card-body">
+              <div class="col-sm-12 text-center">
+                <!-- <h3><b>Online Application Form for General Pool Govt. Accomodationn</b></h3> -->
+                <h3><b>Application for quarter allotment</b></h3>
+                (Only for Regular Employees)
+                <hr>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">First Name:</label>
+                    <input type="text" class="form-control" id="inputEmail4" disabled value="{{userDetails.f_name}}"
+                      placeholder="First Name">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Last Name:</label>
+                    <input type="text" class="form-control" id="inputEmail4" disabled value="{{userDetails.l_name}}"
+                      placeholder="Last Name">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Designation:</label>
+                    <input type="text" class="form-control" id="inputEmail4" disabled
+                      value="{{userDetails.designation}}" placeholder="Designation">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Department:</label>
+                    <select id="inputState" disabled class="form-control">
+                      <option selected>{{data}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4"> Basic Pay of the Post:</label>
+                    <input type="text" class="form-control" id="inputEmail4" disabled value="{{userDetails.basic_pay}}"
+                      placeholder=" Basic Pay">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Status of Service :</label>
+                    <select class="form-control" disabled id="exampleFormControlSelect1">
+                      <option>{{userDetails.service_status}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4"> Date of Appointment:</label>
+                    <input type="date" class="form-control" id="inputEmail4" disabled value="{{userDetails.doa}}">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Date of joining service in the present posting place:</label>
+                    <input type="date" class="form-control" id="inputEmail4" disabled value="{{userDetails.dojs}}">
+                  </div>
+                </div>
+                <!-- <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4"> Date of superannuation:</label>
+                    <input type="date" class="form-control" id="inputEmail4" disabled value="{{userDetails.dos}}">
+                  </div>
+                </div> -->
+                <label for="inputEmail4">Name of Spouse </label>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">First Name:</label>
+                    <input type="text" class="form-control" id="inputEmail4" disabled
+                      value="{{userDetails.spouse_f_name}}" placeholder="First Name">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Last Name:</label>
+                    <input type="text" class="form-control" id="inputEmail4" disabled
+                      value="{{userDetails.spouse_l_name}}" placeholder="Last Name">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4"> Spouse Occupation:</label>
+                    <input type="text" class="form-control" id="inputEmail4" disabled
+                      value="{{userDetails.spouse_occ}}">
+                  </div>
+                </div>
+                <label for="inputEmail4"> If Spouse is Govt. Employee, whether accommodation is allotted?</label>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <select class="form-control" disabled id="exampleFormControlSelect1">
+                      <option>{{userDetails.spouse_acco}}</option>
+                    </select>
+                  </div>
+                </div>
+                <label for="inputEmail4"> Do you own residential house in Capital Complex? </label>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <select class="form-control" disabled id="exampleFormControlSelect1">
+                      <option>{{userDetails.resid_house}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Google map location link:</label>
+                    <input type="text" class="form-control" id="inputEmail4" placeholder="Google map location link"
+                      [(ngModel)]="map_loc">
+                  </div>
+                </div>
+
+                <div class="form-row" *ngIf="showBtn">
+                  <div class="col-md-12">
+                    <label for="inputEmail4"> Upload Annexure-A (Certificate of Controlling Authority - <span
+                        class="text-danger"> PDF only</span>) <span class="text-danger"><a
+                          href="../../assets/files/Annexure A.pdf" target="_blank">
+                          Download</a></span> </label>
+                    <div class="form-row">
+                      <div class="form-group col-6">
+                        <label class="custom-file-label" for="file">{{annexure}}</label>
+                        <input type="file" accept="application/pdf" class="custom-file-input"
+                          aria-describedby="inputGroupFileAddon01" name="file" id="file"
+                          (change)="onFileSelectAnnexure($event)">
+                      </div>
+                      <div class="form-group col-4" *ngIf="!showAnxSc">
+                        <p class="text-success">Upload Successful!</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row" *ngIf="showBtn">
+                  <div class="col-md-12">
+                    <label for="inputEmail4"> Appointment order in the present post: <span class="text-danger">
+                        <span *ngIf="dbUserDetails; else noImage">
+                          <a href="{{endpoint}}/docs/user/{{userDetails.id+'_'}}/{{dbUserDetails}}" target="_blank">
+                            <i class="fas fa-images btn btn-success"></i>
+                          </a>
+                        </span>
+
+                        <ng-template #noImage>
+                          <span> <a class="text-danger" routerLink="/profile">No Image/pdf! upload Appointment Order</a></span>
+                        </ng-template> 
+                        </span>
+                        </label>
+
+                  </div>
+                </div>
+                <br>
+                <div class="form-row" *ngIf="showBtn">
+                  <div class="col-md-6">
+                    <label for="inputEmail4"> Date:</label>
+                    <input type="text" disabled class="form-control" value="{{myDate}}">
+                  </div>
+                </div>
+                <div class="form-row" *ngIf="showBtn">
+                  <div class="form-group col-md-6">
+                    <label>Current place:</label>
+                    <input type="text" class="form-control" [(ngModel)]="apply_place" placeholder="Your place">
+                  </div>
+                </div>
+                <br>
+                <div class="form-row" *ngIf="showBtn">
+                  <div class="col-md-12">
+                    <label for="inputEmail4">Declaration and Undertaking</label>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="exampleCheck1" [(ngModel)]="check">
+                      <label class="form-check-label" for="exampleCheck1">
+                        I do hereby declare that I have not suppressed any material fact nor have misrepresented any
+                        fact. I also undertake to abide by all rules and regulations of Govt. accommodation and also
+                        undertake to obtain NOC and handover the keys of the allotted quarters along with vacation
+                        report to the allotting authority on my superannuation / transfet out of the Capital Complex.
+                      </label>
+                    </div>
+                  </div>
+                  <br>
+                </div>
+                <br>
+                <div class="form-row " *ngIf="showBtn">
+                  <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-success" (click)="apply()">Apply Quarter</button>
+                  </div>
+                </div>
+
+                <div class="form-row " *ngIf="showrfrnc">
+                  <div class="col-md-12 text-center" *ngIf="rspns.status == 'Apply'">
+                    <h2 class="text-success">Applied</h2>
+                    Your reference Number: <b>{{rfrncn_no}}</b>
+                  </div>
+                  <!-- <div class="col-md-12 text-center" *ngIf="rspns.status == 'Rejected'">
+                    <h2 class="text-danger">Rejected</h2>
+                    Your reference Number: <b>{{rfrncn_no}}</b>
+                  </div>
+                  <div class="col-md-12 text-center" *ngIf="rspns.status == 'Verified'">
+                    <h2 class="text-warning">Verified</h2>
+                    Your reference Number: <b>{{rfrncn_no}}</b>
+                  </div> -->
+
+                  <div class="form-group col-md-12 text-center" *ngIf="rspns.status == 'Approved'">
+                    Your reference Number: <b>{{rfrncn_no}}</b>
+                    <p class="m-0">Status: <span class="text-success"> <b>{{rspns.status}}</b></span></p>
+                    <p class="m-0">Start Date: <span class="text-warning"> <b>{{rspns.start_date}}</b></span></p>
+                    <p class="m-0">Renewal Date: <span class="text-danger"> <b>{{rspns.renewal_date}}</b></span></p>
+                    <p class="m-0">Remark: <b>{{rspns.remark}}</b></p>
+                  </div>
+                  <div class="form-group col-md-12 text-center" *ngIf="rspns.status == 'Verified'">
+                    <p class="m-0">Status: <span class="text-success"> <b>{{rspns.status}}</b></span></p>
+                    Your reference Number: <b>{{rfrncn_no}}</b>
+                    <p class="m-0">Verify Date: <span class="text-warning"> <b>{{rspns.verify_date}}</b></span></p>
+                    <p class="m-0">Remark: <b>{{rspns.remark}}</b></p>
+                  </div>
+                  <div class="form-group col-md-12 text-center" *ngIf="rspns.status == 'Rejected'">
+                    <p class="m-0">Status: <span class="text-danger"> <b>{{rspns.status}}</b></span></p>
+                    Your reference Number: <b>{{rfrncn_no}}</b>
+                    <p class="m-0">Remark: <b>{{rspns.remark}}</b></p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+      <!-- /.row -->
+      <!-- Main row -->
+      <div class="row">
+
+      </div>
+      <!-- /.row (main row) -->
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>

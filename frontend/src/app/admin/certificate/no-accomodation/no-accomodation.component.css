@@ -1,0 +1,33 @@
+h3 {
+    margin: 0;
+}
+h2{
+    font-size: 14px;
+}
+.txt{
+    font-size: 12px;
+}
+.tab {
+    display: inline-block;
+    margin-left: 40px;
+}
+.tab1{
+    display: inline-block;
+    margin-left: 80px;
+}
+.brdr-0{
+    margin: 0;
+}
+
+.print-head h2{
+    margin: 0;
+    padding: 0;
+}
+hr {
+    width: 100%; /* Adjust the width of the line */
+    border: none;
+    border-top: 2px dashed #000; /* Style the line as dashed with a color */
+  }
+.emblem{
+    height: 100px;
+}

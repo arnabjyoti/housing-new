@@ -1,0 +1,143 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">List of quarter alloted</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+                        <li class="breadcrumb-item active"><a href="#">List of quarter alloted</a></li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+
+
+            <div class="mat-elevation-z8">
+                <div class="table-toolbar-filter">
+                    <div class="filter-inputs-group">
+                        <div class="filter-item">
+                            <select class="form-control" (change)="setLocation()" [(ngModel)]="filter.loc_id">
+                                <option value="">Select Location</option>
+                                <option *ngFor="let loc of locationData;" value="{{loc.id}}">
+                                    {{loc.loc_name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <select class="form-control" [disabled]="!filter.loc_id" [(ngModel)]="filter.sec_id">
+                                <option value="">{{ filter.loc_id ? 'Select Sector' : 'Select Location first' }}
+                                </option>
+                                <option *ngFor="let sctr of sectorData;" value="{{sctr.id}}">
+                                    {{sctr.sctr_name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="filter-item">
+                            <select class="form-control" [(ngModel)]="filter.type">
+                                <option value="">Select Type</option>
+                                <option value="BACHELOR BARRACK">BACHELOR BARRACK</option>
+                                <option value="TYPE I">TYPE I</option>
+                                <option value="TYPE II">TYPE II</option>
+                                <option value="TYPE III">TYPE III</option>
+                                <option value="TYPE IV">TYPE IV</option>
+                                <option value="TYPE V">TYPE V</option>
+                                <option value="TYPE VI">TYPE VI</option>
+                                <option value="BUNGALOW">BUNGALOW</option>
+                                <option value="TRANSIT CAMP">TRANSIT CAMP</option>
+                                <option value="DOUBLE STORY">DOUBLE STORY</option>
+                                <option value="TOWER-1 TYPE-IV">TOWER-1 TYPE-IV</option>
+                                <option value="TOWER-2 TYPE-IV">TOWER-2 TYPE-IV</option>
+                                <option value="TOWER-3 TYPE-V">TOWER-3 TYPE-V</option>
+                                <option value="TOWER-4 TYPE-V">TOWER-4 TYPE-V</option>
+                                <option value="T-I (DS)">T-I (DS)</option>
+                                <option value="T-II (DS)">T-II (DS)</option>
+                                <option value="T-III (DS)">T-III (DS)</option>
+                                <option value="T-IV (DS)">T-IV (DS)</option>
+                                <option value="T-V (DS)">T-V (DS)</option>
+                                <option value="QUARTER TYPES NOT IDENTIFY">QUARTER TYPES NOT IDENTIFY</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-actions-group">
+                        <button mat-raised-button color="primary" data-toggle="modal" data-target="#exampleModal">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                    </div>
+                </div>
+                <!-- <form class="example-form">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Search Here</mat-label>
+                    <input matInput (keyup)="FilterChange($event)" placeholder="Search">
+                  </mat-form-field>
+              </form>    -->
+                <table mat-table>
+
+
+                    <!-- Serial number Column -->
+                    <ng-container matColumnDef="Sl">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Sl. No. </th>
+                        <td mat-cell *matCellDef="let element let i = index;" class="text-center">
+                            <!-- {{ paginator.pageIndex*paginator.pageSize + (i + 1) }}  -->
+                        </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="location">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Location Name </th>
+                        <td mat-cell *matCellDef="let element"> </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="sector">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Sector Number </th>
+                        <td mat-cell *matCellDef="let element"> </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="type">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Quarter Type </th>
+                        <td mat-cell *matCellDef="let element"> </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="qrtr_no">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Quarter Number </th>
+                        <td mat-cell *matCellDef="let element"> </td>
+                    </ng-container>
+
+                    <!-- Action Column -->
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Action </th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <!-- <button (click)="showRequestUpdateModal(row)" data-toggle="modal" data-target="#LocUpdate" mat-raised-button color="accent"><i class="fas fa-trash"></i> Delete</button> -->
+                            <!-- <button mat-raised-button color="warn">Delete</button> -->
+                        </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <!-- <mat-paginator [pageSizeOptions]="[10, 20, 50]"
+                             showFirstLastButtons
+                             aria-label="Select page of periodic elements">
+              </mat-paginator> -->
+            </div>
+
+
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+    <!-- Add Modal -->
+</div>

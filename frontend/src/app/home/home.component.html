@@ -1,0 +1,563 @@
+<div class="content-wrapper dashboard-page">
+  <!-- Top Welcome Banner -->
+  <div class="dashboard-hero">
+    <div class="container-fluid">
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="hero-pill">
+            <span class="pulse-dot"></span>
+            <span>UD Housing Management Portal</span>
+          </div>
+          <h1 class="hero-title">
+            {{ getGreeting() }}, 
+            <span class="user-highlight">{{ user?.name || (userRole === 'admin' ? 'Administrator' : 'Employee') }}</span>
+          </h1>
+          <p class="hero-subtitle">
+            Here is your live real-time overview of housing allotments, renewal requests, and certifications.
+          </p>
+        </div>
+
+        <div class="hero-actions">
+          <div class="date-chip">
+            <i class="far fa-calendar-alt"></i>
+            <span>{{ currentDate | date:'fullDate' }}</span>
+          </div>
+          <button 
+            type="button" 
+            class="btn-refresh" 
+            (click)="refreshData()" 
+            [disabled]="isRefreshing"
+            title="Refresh metrics">
+            <i class="fas fa-sync-alt" [class.fa-spin]="isRefreshing"></i>
+            <span>{{ isRefreshing ? 'Refreshing...' : 'Refresh' }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Action Navigation Pills -->
+      <div class="dashboard-nav-tabs">
+        <button 
+          type="button" 
+          class="nav-tab-btn" 
+          [class.active]="activeTab === 'all'" 
+          (click)="setActiveTab('all')">
+          <i class="fas fa-th-large"></i> All Services
+        </button>
+        <button 
+          type="button" 
+          class="nav-tab-btn" 
+          [class.active]="activeTab === 'quarters'" 
+          (click)="setActiveTab('quarters')">
+          <i class="fas fa-home"></i> Quarters & Requests
+        </button>
+        <button 
+          type="button" 
+          class="nav-tab-btn" 
+          [class.active]="activeTab === 'certificates'" 
+          (click)="setActiveTab('certificates')">
+          <i class="fas fa-file-signature"></i> Certificates & NOC
+        </button>
+        <button 
+          type="button" 
+          class="nav-tab-btn" 
+          *ngIf="userRole === 'admin'"
+          [class.active]="activeTab === 'maintenance'" 
+          (click)="setActiveTab('maintenance')">
+          <i class="fas fa-tools"></i> Maintenance & Legal
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Main Content Section -->
+  <section class="content dashboard-body">
+    <div class="container-fluid">
+
+      <!-- ================= ADMIN DASHBOARD ================= -->
+      <div *ngIf="userRole === 'admin'" class="dashboard-grid-container">
+
+        <!-- SECTION: Quarters & Applications -->
+        <div class="section-block" *ngIf="activeTab === 'all' || activeTab === 'quarters'">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <div class="section-icon quarters-icon">
+                <i class="fas fa-building"></i>
+              </div>
+              <div>
+                <h2 class="section-heading">Quarter Management & Allotments</h2>
+                <p class="section-caption">Monitor incoming applications, approvals, and inventory</p>
+              </div>
+            </div>
+            <span class="badge-counter">{{ counts.apply + counts.renewal }} Pending Actions</span>
+          </div>
+
+          <div class="row g-4">
+            <!-- Fresh Applications -->
+            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+              <a routerLink="/quarter-request" class="stat-card stat-blue">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Fresh Applications</span>
+                    <h3 class="stat-value">{{ counts.apply }}</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-file-invoice"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Review new applications</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+
+            <!-- Renewal Application -->
+            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+              <a routerLink="/quarter/Renewal-of-quarters" class="stat-card stat-emerald">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Renewal Requests</span>
+                    <h3 class="stat-value">{{ counts.renewal }}</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-sync-alt"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Manage quarter extensions</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+
+            <!-- Quarters Inventory -->
+            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+              <a routerLink="/quarter/quarter-details" class="stat-card stat-amber">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Total Quarters</span>
+                    <h3 class="stat-value">{{ counts.quarter }}</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-city"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>View housing registry</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+
+            <!-- Departments -->
+            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+              <a routerLink="/department" class="stat-card stat-rose">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Departments</span>
+                    <h3 class="stat-value">{{ counts.dept }}</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-landmark"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Departmental directory</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION: Maintenance & Legal -->
+        <div class="section-block" *ngIf="activeTab === 'all' || activeTab === 'maintenance'">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <div class="section-icon maintenance-icon">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <div>
+                <h2 class="section-heading">Maintenance, Encroachment & Legal</h2>
+                <p class="section-caption">Resolution tracking, court proceedings, and works</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <!-- Repair & Maintenance -->
+            <div class="col-xl-4 col-md-6 col-12">
+              <a routerLink="/repair_maintenance_request" class="stat-card stat-teal">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Repair & Maintenance</span>
+                    <h3 class="stat-value">{{ counts.repair }}</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-tools"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Track work orders & repairs</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+
+            <!-- Encroachment -->
+            <div class="col-xl-4 col-md-6 col-12">
+              <a routerLink="/quarter/Details-of-encroachment" class="stat-card stat-purple">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Encroachment Cases</span>
+                    <h3 class="stat-value">{{ counts.encroach }}</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-map-marked-alt"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Inspection & boundary details</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+
+            <!-- Court Cases -->
+            <div class="col-xl-4 col-md-6 col-12">
+              <a routerLink="/quarter/Court-cases" class="stat-card stat-indigo">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Legal & Court Cases</span>
+                    <h3 class="stat-value">{{ counts.courtCase }}</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-gavel"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Litigation matters & status</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION: Certificates & NOC -->
+        <div class="section-block" *ngIf="activeTab === 'all' || activeTab === 'certificates'">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <div class="section-icon cert-icon">
+                <i class="fas fa-certificate"></i>
+              </div>
+              <div>
+                <h2 class="section-heading">Certificates & NOC Clearances</h2>
+                <p class="section-caption">Official clearances, non-accommodation, and compliance documents</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <!-- Non Accommodation -->
+            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+              <a routerLink="/non-accomodation-request" class="stat-card stat-crimson">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Non-Accommodation</span>
+                    <h3 class="stat-value">{{ counts.dnoAco }}</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-hotel"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Verify certificate requests</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+
+            <!-- Election No Dues -->
+            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+              <a routerLink="/no-dues-request" class="stat-card stat-slate">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Election No Dues</span>
+                    <h3 class="stat-value">Active</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-vote-yea"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Election clearance matters</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+
+            <!-- Pension Clearance -->
+            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+              <a routerLink="/pension-clearance" class="stat-card stat-slate">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Pension Clearance</span>
+                    <h3 class="stat-value">Active</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-user-clock"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Pension no-dues requests</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+
+            <!-- MACP Vigilance NOC -->
+            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+              <a routerLink="/vigilance-clearance" class="stat-card stat-slate">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Vigilance NOC (MACP)</span>
+                    <h3 class="stat-value">Active</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-user-shield"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Vigilance clearance portal</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+
+            <!-- Promotion NOC -->
+            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+              <a routerLink="/noc-promotion" class="stat-card stat-slate">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Promotion NOC</span>
+                    <h3 class="stat-value">Active</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-award"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Promotion clearance matters</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ================= USER / EMPLOYEE DASHBOARD ================= -->
+      <div *ngIf="userRole === 'user'" class="dashboard-grid-container">
+
+        <!-- User Quick Actions Banner -->
+        <div class="user-quick-actions-card">
+          <div class="quick-actions-info">
+            <h3 class="quick-title">Need Housing or Clearance?</h3>
+            <p class="quick-desc">Submit new quarter allotment forms, track renewals, or request institutional clearances in minutes.</p>
+          </div>
+          <div class="quick-buttons">
+            <a routerLink="/apply-quarter" class="btn-action-primary">
+              <i class="fas fa-plus-circle"></i> Apply for Quarter
+            </a>
+            <a routerLink="/renewal-quarter" class="btn-action-secondary">
+              <i class="fas fa-redo"></i> Renew Allotment
+            </a>
+          </div>
+        </div>
+
+        <!-- Section: My Applications -->
+        <div class="section-block" *ngIf="activeTab === 'all' || activeTab === 'quarters'">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <div class="section-icon quarters-icon">
+                <i class="fas fa-user-tag"></i>
+              </div>
+              <div>
+                <h2 class="section-heading">My Housing Status</h2>
+                <p class="section-caption">Active applications and renewal status</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-md-6 col-12">
+              <a routerLink="/apply-quarter" class="stat-card stat-blue">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Fresh Applications Submitted</span>
+                    <h3 class="stat-value">{{ counts.apply }}</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-file-signature"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Track submission status</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+
+            <div class="col-md-6 col-12">
+              <a routerLink="/renewal-quarter" class="stat-card stat-emerald">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Renewal Requests</span>
+                    <h3 class="stat-value">{{ counts.renewal }}</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-sync-alt"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>View renewal history</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: User Certificates & NOC -->
+        <div class="section-block" *ngIf="activeTab === 'all' || activeTab === 'certificates'">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <div class="section-icon cert-icon">
+                <i class="fas fa-stamp"></i>
+              </div>
+              <div>
+                <h2 class="section-heading">Certificates & NOC Services</h2>
+                <p class="section-caption">Apply and download verified departmental clearances</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-xl-4 col-md-6 col-12">
+              <a routerLink="/non-accomodation" class="stat-card stat-crimson">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Non-Accommodation</span>
+                    <h3 class="stat-value">{{ counts.dnoAco }}</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-hotel"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Apply for certificate</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+
+            <div class="col-xl-4 col-md-6 col-12">
+              <a routerLink="/no-dues-request" class="stat-card stat-slate">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Election No Dues</span>
+                    <h3 class="stat-value">Available</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-vote-yea"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Request election clearance</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+
+            <div class="col-xl-4 col-md-6 col-12">
+              <a routerLink="/pension-clearance" class="stat-card stat-slate">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Pension Clearance</span>
+                    <h3 class="stat-value">Available</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-user-clock"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Apply pension certificate</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+
+            <div class="col-xl-6 col-md-6 col-12">
+              <a routerLink="/vigilance-clearance" class="stat-card stat-slate">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Vigilance MACP Clearance</span>
+                    <h3 class="stat-value">Available</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-user-shield"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Request vigilance clearance</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+
+            <div class="col-xl-6 col-md-6 col-12">
+              <a routerLink="/noc-promotion" class="stat-card stat-slate">
+                <div class="stat-card-inner">
+                  <div class="stat-meta">
+                    <span class="stat-label">Promotion NOC</span>
+                    <h3 class="stat-value">Available</h3>
+                  </div>
+                  <div class="stat-icon-wrapper">
+                    <i class="fas fa-award"></i>
+                  </div>
+                </div>
+                <div class="stat-card-footer">
+                  <span>Request promotion clearance</span>
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="stat-glow"></div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+</div>

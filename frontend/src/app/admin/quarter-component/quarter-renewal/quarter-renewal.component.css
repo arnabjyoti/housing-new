@@ -1,0 +1,17 @@
+.jstft-text{
+    text-align: justify;
+}
+.list-style ul{
+    list-style: auto;
+    text-align: justify;
+}
+.list-style ul li{
+    padding: 5px 0px 5px 0px ;
+}
+.cstm-crsr{
+    cursor: pointer;
+}
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile devices */
+  }

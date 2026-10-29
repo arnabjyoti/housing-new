@@ -1,0 +1,3 @@
+.image-grid { display: flex; flex-wrap: wrap; gap: 6px; min-width: 200px; }
+.image-grid img { width: 76px; height: 54px; object-fit: cover; border: 1px solid #ddd; border-radius: 4px; }
+.table th { white-space: nowrap; background: #f4f6f9; }

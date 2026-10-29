@@ -1,0 +1,48 @@
+table {
+  width: 100%;
+}
+button {
+    margin: 2px;
+}
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+
+
+  .mat-column-Sl {
+    width: 65px !important;
+    min-width: 55px !important;
+    max-width: 75px !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    word-break: normal !important;
+    hyphens: none !important;
+  }
+  .mat-column-location_name {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    flex: 0 0 28% !important;
+    width: 60% !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  
+    word-break: break-word;
+  
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    text-align: center;
+  }
+  .mat-column-action {
+    width: 140px !important;
+    min-width: 120px !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+  }

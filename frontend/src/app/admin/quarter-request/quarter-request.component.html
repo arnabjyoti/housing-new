@@ -1,0 +1,201 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">List of Applications for Quarter Allocation</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+            <li class="breadcrumb-item active"><a href="#">Quarter Request</a></li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Small boxes (Stat box) -->
+
+      <div class="row g-3 mb-3">
+        <div class="col-sm-3 col-6">
+          <div class="info-box bg-indigo">
+            <span class="info-box-icon"><i class="far fa-file"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Total</span>
+              <span class="info-box-number">{{allocationTotal}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-6">
+          <div class="info-box bg-success">
+            <span class="info-box-icon"><i class="fas fa-check"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Approved</span>
+              <span class="info-box-number">{{allocationApproved}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-6">
+          <div class="info-box bg-warning">
+            <span class="info-box-icon"><i class="fas fa-hourglass-start"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Pending</span>
+              <span class="info-box-number">{{allocationPending}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-6">
+          <div class="info-box bg-danger">
+            <span class="info-box-icon"><i class="fas fa-times"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Rejected</span>
+              <span class="info-box-number">{{allocationRejected}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mat-elevation-z8">
+        <div class="table-toolbar-filter">
+          <div class="filter-inputs-group">
+            <div class="filter-item">
+              <input class="form-control" (keyup)="FilterChange($event)" placeholder="Search here">
+            </div>
+            <div class="filter-item">
+              <select class="form-control" (change)="FilterChangeQrtrType($event)"
+                [(ngModel)]="filter.type">
+                <option label="Select Type"></option>
+                <option value="18000-19900">BACHELOR BARRACK</option>
+                <option value="18000-19900">TYPE I</option>
+                <option value="21700-29200">TYPE II</option>
+                <option value="35400-47600">TYPE III</option>
+                <option value="53100-67700">TYPE IV</option>
+                <option value="78800-144200">TYPE V</option>
+                <option value="182200-250000 & above">TYPE VI & BUNGALOW</option>
+              </select>
+            </div>
+            <button mat-raised-button class="btn-reset" (click)="resetFilter()" title="Reset Filters">
+              <i class="fas fa-recycle"></i> reset
+            </button>
+          </div>
+          <div class="filter-actions-group">
+            <button class="btn btn-secondary" (click)="toggleAllottedView()">
+              {{ toggleButtonText }}
+            </button>
+            <button mat-raised-button color="purple" (click)="downloadPDF()">
+              <i class="fas fa-download"></i> Download
+            </button>
+          </div>
+        </div>
+            <table matSort mat-table [dataSource]="dataSource">
+
+
+              <!-- Serial number Column -->
+              <ng-container matColumnDef="Sl">
+                <th mat-header-cell *matHeaderCellDef> Sl. No. </th>
+                <td mat-cell *matCellDef="let element let i = index;" class="text-center">
+                  {{ paginator.pageIndex*paginator.pageSize + (i + 1) }}
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="user_name">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef> Applicant Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.user_name}}  </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="gender">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef> Gender </th>
+                <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="dept_name">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef> Department Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.dept_name}}</td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="designation">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef>Designation</th>
+                <td mat-cell *matCellDef="let element"> {{element.designation}}</td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="apply_date">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef > Apply Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.apply_date |date:'dd/MM/yyyy'}} </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="basic_pay">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef> Quarter Eligibility </th>
+                <td mat-cell *matCellDef="let element">
+                  <div *ngIf="element.basic_pay == '18000-19900'">BB / T-I</div>
+                  <div *ngIf="element.basic_pay == '21700-29200'">T-II</div>
+                  <div *ngIf="element.basic_pay == '35400-47600'">T-III</div>
+                  <div *ngIf="element.basic_pay == '53100-67700'">T-IV</div>
+                  <div *ngIf="element.basic_pay == '78800-144200'">T-V</div>
+                  <div *ngIf="element.basic_pay == '182200-250000 & above'">T-VI / BUNG</div>
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="station_seniority">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef> Station Seniority </th>
+                <td mat-cell *matCellDef="let element"> {{element.station_seniority |date:'dd/MM/yyyy'}} </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="status">
+                <th mat-sort-header mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="text-warning" *ngIf="element.status == 'Verified'">{{element.status}}
+                  </div>
+                  <div class="text-primary" *ngIf="element.status == 'Apply'">{{element.status}}
+                  </div>
+                  <div class="text-success cstm-crsr" *ngIf="element.status == 'Approved'">
+                    {{element.status}}
+                  </div>
+                  <div class="text-danger" *ngIf="element.status == 'Rejected'">{{element.status}}
+                  </div>
+                  <div class="text-info" *ngIf="element.status == 'Allotted'">{{element.status}}
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Action Column -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef class="text-center"> Action </th>
+                <td mat-cell *matCellDef="let row" class="text-center">
+                  <a routerLink="/quarter-request-action/{{row.id}}" mat-raised-button
+                    color="primary"><i class="fas fa-arrow-circle-right"></i></a>
+                  <!-- <button (click)="showLocUpdateModal(row)" data-toggle="modal" data-target="#sctrUpdate" mat-raised-button color="primary">Edit</button> -->
+                  <!-- <button mat-raised-button color="warn">Delete</button> -->
+                </td>
+              </ng-container>
+
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons
+              aria-label="Select page of periodic elements">
+            </mat-paginator>
+          </div>
+
+
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+  <!-- Add Modal -->
+
+</div>

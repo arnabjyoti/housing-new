@@ -1,0 +1,414 @@
+<!-- Loading starts -->
+<!-- <div id="loading-wrapper" *ngIf="isLodaing">
+    <ngx-spinner bdColor="rgba(0,0,0,0.9)" type="ball-clip-rotate"></ngx-spinner>
+</div> -->
+
+<!-- Loading ends -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="card px-2">
+                <div class="row mb-2">
+                    <div class="col-sm-6 pt-1">
+                        <h1 class="m-0">NOC Promotion Request</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6 pt-2">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">NOC Promotion Request</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+
+            <div class="card">
+                <div class="row p-2">
+                    <div class="col-sm-3">
+                      <div class="info-box bg-indigo shadow rounded">
+                        <span class="info-box-icon"><i class="far fa-file"></i></span>
+                        <div class="info-box-content">
+                          <span class="info-box-text">Total</span>
+                          <span class="info-box-number">{{nocPromotionTotal}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div class="info-box bg-success shadow rounded">
+                        <span class="info-box-icon"><i class="fas fa-check"></i></span>
+                        <div class="info-box-content">
+                          <span class="info-box-text">Approved</span>
+                          <span class="info-box-number">{{nocPromotionApproved}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3">
+                      <div class="info-box bg-warning shadow rounded">
+                        <span class="info-box-icon"><i class="fas fa-hourglass-start"></i></span>
+                        <div class="info-box-content">
+                          <span class="info-box-text">Pending</span>
+                          <span class="info-box-number">{{nocPromotionPending}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="col-sm-4">
+                      <div class="info-box bg-teal">
+                        <span class="info-box-icon"><i class="far fa-flag"></i></span>
+                        <div class="info-box-content">
+                          <span class="info-box-text">Verified</span>
+                          <span class="info-box-number">410</span>
+                        </div>
+                      </div>
+                    </div> -->
+                    <div class="col-sm-3">
+                      <div class="info-box bg-danger shadow rounded">
+                        <span class="info-box-icon"><i class="fas fa-times"></i></span>
+                        <div class="info-box-content">
+                          <span class="info-box-text">Rejected</span>
+                          <span class="info-box-number">{{nocPromotionRejected}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+            <div class="mat-elevation-z8">
+                <form class="example-form">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Search Here</mat-label>
+                        <input matInput (keyup)="FilterChange($event)" placeholder="Search">
+                    </mat-form-field>
+                </form>
+                <table mat-table [dataSource]="dataSource">
+
+
+                    <!-- Serial number Column -->
+                    <ng-container matColumnDef="Sl">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Sl. No. </th>
+                        <td mat-cell *matCellDef="let element let i = index;" class="text-center">
+                            {{ paginator.pageIndex*paginator.pageSize + (i + 1) }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.f_name}} {{element.l_name}} </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="referenceNo">
+                        <th mat-header-cell *matHeaderCellDef> Reference Number </th>
+                        <td mat-cell *matCellDef="let element"> {{element.referenceNo}} </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="apply_date">
+                        <th mat-header-cell *matHeaderCellDef> Apply Date </th>
+                        <td mat-cell *matCellDef="let element"> {{element.applyDate | date:"dd/MM/yyyy"}} </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef> Status</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="text-warning" *ngIf="element.status == 'Applied'">{{element.status}} </div>
+                            <div class="text-success" *ngIf="element.status == 'Approved'">{{element.status}} </div>
+                            <div class="text-danger" *ngIf="element.status == 'Reject'">{{element.status}} </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Action Column -->
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Action </th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <button (click)="showRequestUpdateModal(row)" data-toggle="modal"
+                                data-target="#requestUpdate" mat-icon-button color="primary"><i
+                                    class="fas fa-arrow-circle-right"></i></button>
+                            <!-- <span *ngIf="row.status == 'Approved'"><button mat-icon-button color="accent"><i class="fas fa-print"></i></button></span> -->
+                            <!-- <a target="_blank" routerLink="/account-request-details/{{row.id}}"><i class="fas fa-arrow-circle-right"></i></a> -->
+                        </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </div>
+
+            </div>
+
+            <!-- Main row -->
+            <div class="row">
+
+            </div>
+            <!-- /.row (main row) -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+    <!-- Account Opening Modal -->
+    <!-- update Modal -->
+    <div class="modal fade" id="requestUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Account Openning Request Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" id="modalClose">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row  px-4">
+                        <button printSectionId="print-section" ngxPrint [useExistingCss]="true"
+                            styleSheetFile="../node_modules/bootstrap/dist/css/bootstrap.min.css" mat-raised-button
+                            color="primary"><i class="fas fa-print"></i> print</button>
+                    </div>
+                    <div id="print-section" class="p-4">
+
+                        <div class="row border border-dark rounded brdr-0 p-4">
+                            <div class="col-12 text-center b">
+                                <h3><b>APPLICATION FORM FOR NO OBJECTION CERTIFICATE</b></h3>
+                                <h3><b>FOR APPLYING VIGILANCE CLEARENCE FOR PROMOTION</b></h3>
+                                <b>(Only for Regular Employees)
+                                </b>
+                            </div>
+                            <br>
+                            <br><br><br>
+                            <br><br>
+                            <div class="col-12 pt-3">
+                                <div class="form-row">
+                                    <div class="form-group col-7">
+                                        <b>1. Name in full (in Block Letters)</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b> {{userDetails.f_name | uppercase }} {{userDetails.l_name |
+                                        uppercase }}
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b>2. Designation</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b>
+                                        {{userDetails.designation}}
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b>3. Department</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b> {{data}}
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b>4. Basic Pay of the Post:</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b> {{userDetails.basic_pay}}
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b>5. Contact No.</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b> {{userDetails.phone_no}}
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b>6. Status of Service:</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b> {{userDetails.service_status}}
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab"></span>a&#41; Date of Appointment</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b> {{userDetails.doa}}
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab"></span>b&#41; Is Service Transferable?</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b> {{userDetails.transferable}}
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab"></span>c&#41; Date of joining service in the Town /
+                                            Capital Complex</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b> {{userDetails.dojs}}
+                                    </div>
+
+                                    <!-- <div class="form-group col-7">
+                                        <b>7. Date of superannuation</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b> {{userDetails.dos}}
+                                    </div> -->
+
+                                    <div class="form-group col-12">
+                                        <b>8. Details of quarter allotted:</b>
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab"></span>a&#41; Quarter No. and Type</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b>
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab"></span>b&#41; Sector and Location</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b>
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab"></span>c&#41; Enclose a latest copy of civic
+                                            charges
+                                            deducted </b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b>
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab"></span>d&#41; Is the quarter encroached </b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b>
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab"></span>e&#41; If yes, by whom? </b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b>
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab"></span>f&#41; Nature of Encroachment</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b>
+                                    </div>
+
+                                    <div class="form-group col-12">
+                                        <b>9. Details of spouse</b>
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab"></span>a&#41; Name</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b> {{userDetails.spouse_f_name}} {{userDetails.spouse_l_name}}
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab"></span>b&#41; Spouse Occupation</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b> {{userDetails.spouse_occ}}
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab"></span>c&#41; If Govt. Employee, whether
+                                            accommodation
+                                            is allotted?</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b>
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab1"></span>i&#41; Quarter No. and Type</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b>
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab1"></span>ii&#41; Sector and Location </b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b>
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab1"></span>iii&#41; Is the quarter encroached</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b>
+                                    </div>
+                                
+                                    <div class="form-group col-7">
+                                        <b><span class="tab1"></span>iv&#41; If yes, by whom?</b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b>
+                                    </div>
+
+                                    <div class="form-group col-7">
+                                        <b><span class="tab1"></span>v&#41; Nature of Encroachment </b>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <b>:</b>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <br>
+                                <br>
+
+                                <div class="col-12 text-center">
+                                    <h3><u><b>DECLARATION AND UNDERTAKING</b></u> </h3>
+                                </div>
+                                <br><br>
+                                <div class="col-12">
+                                    <span class="tab"></span>I do hereby declare that I have not suppressed
+                                    any material fact nor have misrepresented any fact.
+                                </div>
+                                <br>
+                                <br><br>
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <b>Date: </b>
+                                        <br>
+                                        <b>Place: </b>
+                                    </div>
+                                </div>
+                                <br>
+                                <br><br>
+                                    <div class="form-group col-12">
+                                        <p class="text-right"><u><b>Signature of applicant</b></u></p>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end model -->
+
+
+
+</div>

@@ -1,0 +1,131 @@
+<div class="container-fluid bg-style">
+    <div class="container-fluid">
+        <div class="row">
+
+
+
+
+
+
+            <div class="col-md-7 pt-5">
+                <div class="row pt-4">
+                    <div class="col-md-12 pt-5 text-center welcome-txt">
+                        <h1><b>Welcome to the Department of Urban Development & Housing Portal.</b></h1>
+                        <!-- <div class="card custom-card">
+                            <div class="card-header">
+                                Latest News
+                            </div>
+                            <div class="card-body card-body-scrollable">
+                                <p>This is where the latest news will be displayed.</p>
+                                <p>This is where the latest news will be displayed.</p>
+                                <p>This is where the latest news will be displayed.</p>
+                                <p>This is where the latest news will be displayed.</p>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <!-- Latest News -->
+
+                <br>
+                <!-- Announcement -->
+                <div class="row">
+                    <div class="col-md-10 offset-md-1">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                Announcement
+                            </div>
+                            <div class="card-body card-body-scrollable">
+                                <!-- Announcement content goes here -->
+                                <p>No recent announcement</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Column -->
+            <div class="col-md-5 pt-5">
+                <div class="row pt-5">
+
+                    <div class="container-fluid pt-5">
+                        <div class="row pt-4">
+                            <div class="col-8 offset-md-2 border rounded py-5 form-bg text-white">
+                                <!-- Your content goes here -->
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <img src="../../assets/image/favicon/favicon.ico">
+                                    </div>
+                                    <div class="col-md-12 text-center">
+                                        <h1>Login</h1>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-12">
+                                        <label class="radio-space">
+                                            <input type="radio" name="choice" [(ngModel)]="selectedValue" value="mobile" />
+                                            Mobile Number
+                                        </label>
+
+                                        <label class="radio-space">
+                                            <input type="radio" name="choice" [(ngModel)]="selectedValue" value="email" />
+                                            Email Address
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-12 mt-2">
+                                        <input [type]="selectedValue === 'mobile' ? 'tel' : 'email'"
+                                            class="form-control" [ngClass]="showVerify ? 'is-valid' : ''" [placeholder]="
+                                                selectedValue === 'mobile'
+                                                    ? 'Enter mobile number'
+                                                    : 'Enter email address'
+                                                " [(ngModel)]="inputData.email" />
+                                    </div>
+                                    <div class="form-group col-md-12" *ngIf="!showOTPInput">
+                                        <button class="btn btn-success btn-block" (click)="checkButton()"
+                                            [disabled]="isRegister" placeholder="OTP">Send OTP</button>
+                                    </div>
+                                </div>
+                                <div class="form-row" *ngIf="showOTPInput && !showVerify">
+                                    <div class="form-group col-md-12">
+                                        <input type="number" [(ngModel)]="OTP.otp1" class="form-control"
+                                            maxlength="1" />
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <button (click)="verifyOtpData()" *ngIf="showOTPInput"
+                                            class="btn btn-block btn-danger" [disabled]="isRegister">Verify OTP</button>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <button (click)="checkButton()" *ngIf="showOTPInput"
+                                            class="btn btn-block btn-warning" [disabled]="isRegister">Resend
+                                            OTP</button>
+                                    </div>
+                                </div>
+                                <div class="form-check pt-2 p-0 h6">
+                                    <label class="form-check-label" for="exampleCheck1">Don't have an account? <a
+                                            routerLink="/register">Sign Up</a></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>

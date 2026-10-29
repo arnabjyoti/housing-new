@@ -1,0 +1,167 @@
+<!-- Loading starts -->
+<!-- <div id="loading-wrapper" *ngIf="isLodaing">
+    <ngx-spinner bdColor="rgba(0,0,0,0.9)" type="ball-clip-rotate"></ngx-spinner>
+</div> -->
+
+<!-- Loading ends -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="card px-2">
+                <div class="row mb-2">
+                    <div class="col-sm-6 pt-1">
+                        <h1 class="m-0">No Dues Certificate for Election related matters</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6 pt-2">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">No Dues Certificate for Election related matters</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div>
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+
+            <div class="card">
+
+            <div class="row p-2">
+                <div class="col-sm-3">
+                  <div class="info-box bg-indigo shadow rounded">
+                    <span class="info-box-icon"><i class="far fa-file"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Total</span>
+                      <span class="info-box-number">{{noDueTotal}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="info-box bg-success shadow rounded">
+                    <span class="info-box-icon"><i class="fas fa-check"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Approved</span>
+                      <span class="info-box-number">{{noDueApproved}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="info-box bg-warning shadow rounded">
+                    <span class="info-box-icon"><i class="fas fa-hourglass-start"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Pending</span>
+                      <span class="info-box-number">{{noDuePending}}</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-sm-4">
+                  <div class="info-box bg-teal">
+                    <span class="info-box-icon"><i class="far fa-flag"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Verified</span>
+                      <span class="info-box-number">410</span>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="col-sm-3">
+                  <div class="info-box bg-danger shadow rounded">
+                    <span class="info-box-icon"><i class="fas fa-times"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Rejected</span>
+                      <span class="info-box-number">{{noDueRejected}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            <div class="mat-elevation-z8">
+                <form class="example-form">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Search Here</mat-label>
+                        <input matInput (keyup)="FilterChange($event)" placeholder="Search">
+                    </mat-form-field>
+                </form>
+                <table mat-table [dataSource]="dataSource">
+
+
+                    <!-- Serial number Column -->
+                    <ng-container matColumnDef="Sl">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Sl. No. </th>
+                        <td mat-cell *matCellDef="let element let i = index;" class="text-center">
+                            {{ paginator.pageIndex*paginator.pageSize + (i + 1) }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.f_name}} {{element.l_name}} </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="referenceNo">
+                        <th mat-header-cell *matHeaderCellDef> Reference Number </th>
+                        <td mat-cell *matCellDef="let element"> {{element.referenceNo}} </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="apply_date">
+                        <th mat-header-cell *matHeaderCellDef> Apply Date </th>
+                        <td mat-cell *matCellDef="let element"> {{element.applyDate | date:"dd/MM/yyyy"}} </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef> Status</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="text-warning" *ngIf="element.status == 'Applied'">{{element.status}} </div>
+                            <div class="text-success" *ngIf="element.status == 'Approved'">{{element.status}} </div>
+                            <div class="text-danger" *ngIf="element.status == 'Reject'">{{element.status}} </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Action Column -->
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Action </th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <button data-toggle="modal"
+                                data-target="#requestUpdate" mat-icon-button color="primary"><i
+                                    class="fas fa-arrow-circle-right"></i></button>
+                            <!-- <span *ngIf="row.status == 'Approved'"><button mat-icon-button color="accent"><i class="fas fa-print"></i></button></span> -->
+                            <!-- <a target="_blank" routerLink="/account-request-details/{{row.id}}"><i class="fas fa-arrow-circle-right"></i></a> -->
+                        </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </div>
+
+            </div>
+
+
+            <!-- Main row -->
+            <div class="row">
+
+            </div>
+            <!-- /.row (main row) -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+    <!-- Account Opening Modal -->
+    
+
+
+
+</div>

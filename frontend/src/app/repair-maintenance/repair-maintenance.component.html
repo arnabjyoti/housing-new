@@ -1,0 +1,443 @@
+<!-- Loading starts -->
+<!-- <div id="loading-wrapper" *ngIf="isLodaing">
+    <ngx-spinner bdColor="rgba(0,0,0,0.9)" type="ball-clip-rotate"></ngx-spinner>
+  </div> -->
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Application For Quarter Repair & Maintenance</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Application For Quarter Repair & Maintenance</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+
+                        <div class="card-body">
+
+                            <!-- First Section: Application Details -->
+                            <h4 class="form-section-title">APPLICATION FOR QUARTER REPAIR & MAINTENANCE</h4>
+
+                            <div class="row mb-3">
+                                <label for="applicantName" class="col-sm-4 col-form-label form-group-label">1. Name of
+                                    Applicant/Allottee :</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" id="applicantName" placeholder="Enter Name"
+                                        value="{{userDetails.f_name}} {{userDetails.l_name}}" disabled>
+                                </div>
+                            </div>
+                            <div class="row mb-3" *ngIf="inputForm == true">
+                                <label for="quarterNo" class="col-sm-4 col-form-label form-group-label">2. Quarter No.
+                                    :</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="quarterNo"
+                                        placeholder="Enter Quarter No." [(ngModel)]="locationInput.qtr_no">
+                                </div>
+                            </div>
+                            <div class="row mb-3" *ngIf="inputForm == true">
+                                <label for="location" class="col-sm-4 col-form-label form-group-label">5. Location
+                                    :</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" id="location" [(ngModel)]="locationInput.loc_id"
+                                        (change)="setLocation()">
+                                        <option label="Select Location"></option>
+                                        <option *ngFor="let loc of locationList;" value="{{loc.id}}">
+                                            {{loc.loc_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3" *ngIf="inputForm == true">
+                                <label for="sector" class="col-sm-4 col-form-label form-group-label">4. Sector :</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" id="sector" [(ngModel)]="locationInput.sec_id">
+                                        <option label="Select Sector"></option>
+                                        <option *ngFor="let sctr of sectorList;" value="{{sctr.id}}">
+                                            {{sctr.sctr_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3" *ngIf="inputForm == true">
+                                <label for="type" class="col-sm-4 col-form-label form-group-label">3. Type :</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" [(ngModel)]="locationInput.type">
+                                        <option label="Select Quarter Type"></option>
+                                        <option value="BACHELOR BARRACK">BACHELOR BARRACK</option>
+                                        <option value="TYPE I">TYPE I</option>
+                                        <option value="TYPE II">TYPE II</option>
+                                        <option value="TYPE III">TYPE III</option>
+                                        <option value="TYPE IV">TYPE IV</option>
+                                        <option value="TYPE V">TYPE V</option>
+                                        <option value="TYPE VI">TYPE VI</option>
+                                        <option value="BUNGALOW">BUNGALOW</option>
+                                        <option value="TRANSIT CAMP">TRANSIT CAMP</option>
+                                        <option value="DOUBLE STORY">DOUBLE STORY</option>
+                                        <option value="TOWER-1 TYPE-IV">TOWER-1 TYPE-IV</option>
+                                        <option value="TOWER-2 TYPE-IV">TOWER-2 TYPE-IV</option>
+                                        <option value="TOWER-3 TYPE-V">TOWER-3 TYPE-V</option>
+                                        <option value="TOWER-4 TYPE-V">TOWER-4 TYPE-V</option>
+                                        <option value="T-I (DS)">T-I (DS)</option>
+                                        <option value="T-II (DS)">T-II (DS)</option>
+                                        <option value="T-III (DS)">T-III (DS)</option>
+                                        <option value="T-IV (DS)">T-IV (DS)</option>
+                                        <option value="T-V (DS)">T-V (DS)</option>
+                                        <option value="QUARTER TYPES NOT IDENTIFY">QUARTER TYPES NOT IDENTIFY</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3" *ngIf="inputForm == true">
+                                <label for="allotmentOrder" class="col-sm-4 col-form-label form-group-label">6. Enclosed
+                                    Allotment Order :</label>
+                                <div class="col-sm-8">
+                                    <div class="form-row">
+                                        <div class="form-group col-sm-4">
+                                            <label class="custom-file-label" for="file">{{allotment}}</label>
+                                            <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg"
+                                                class="custom-file-input" aria-describedby="inputGroupFileAddon01"
+                                                name="file" id="file" (change)="onFileSelectedAllotment($event)">
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <button class="btn btn-primary" (click)="uploadAllotment()"><i
+                                                    class="fas fa-upload"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row mb-3" *ngIf="inputForm == false">
+                                <label for="quarterNo" class="col-sm-4 col-form-label form-group-label">2. Quarter No.
+                                    :</label>
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" disabled id="quarterNo"
+                                        placeholder="Enter Quarter No." value="{{quarterNo}}">
+                                </div>
+                            </div>
+                            <div class="row mb-3" *ngIf="inputForm == false">
+                                <label for="location" class="col-sm-4 col-form-label form-group-label">5. Location
+                                    :</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" id="location" disabled>
+                                        <option label="{{locationName}}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3" *ngIf="inputForm == false">
+                                <label for="sector" class="col-sm-4 col-form-label form-group-label">4. Sector :</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" id="sector" disabled>
+                                        <option label="{{sectorName}}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3" *ngIf="inputForm == false">
+                                <label for="type" class="col-sm-4 col-form-label form-group-label">3. Type :</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control" disabled>
+                                        <option label="{{quarterType}}"></option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="row mb-3" *ngIf="inputForm == false">
+                                <label for="allotmentOrder" class="col-sm-4 col-form-label form-group-label">6. Enclosed
+                                    Allotment Order :</label>
+                                <div class="col-sm-8">
+                                    <p class="text-success">
+                                        <a href="{{endpoint}}/docs/user/{{userID+'_'}}/{{allotment_order}}"><i
+                                                class="far fa-image fa-2x"></i></a>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Second Section: Repair & Maintenance -->
+                            <h5 class="form-section-title">CLICK THE RELEVANT ITEMS WHICH NEED REPAIR & MAINTENANCE</h5>
+                            <div class="row mb-2">
+                                <label class="col-sm-4 col-form-label">1. Door :</label>
+                                <div class="col-sm-1">
+                                    <!-- Bootstrap switch button for "Yes" (true) / "No" (false) -->
+                                    <div class="custom-control custom-switch">
+                                        <input class="custom-control-input" type="checkbox" id="customSwitch1"
+                                            [disabled]="inputForm || !door_btn" [(ngModel)]="formData.door" name="door">
+                                        <label class="custom-control-label" for="customSwitch1">{{ formData.door ? 'Yes'
+                                            : 'No' }}</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" *ngIf="formData.door == true">
+                                    <div class="form-row" *ngIf="door_btn == true">
+                                        <div class="form-group col-sm-4">
+                                            <label class="custom-file-label" for="file">{{door}}</label>
+                                            <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg"
+                                                class="custom-file-input" aria-describedby="inputGroupFileAddon01"
+                                                name="file" id="file" (change)="onFileSelectedDoor($event)">
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <button class="btn btn-primary" (click)="uploadDoor()"><i
+                                                    class="fas fa-upload"></i></button>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-row" *ngIf="door_btn == false">
+                                        <div class="form-group col-sm-2">
+                                            <p class="text-success">
+                                                <a href="{{endpoint}}/docs/user/{{userID+'_'}}/{{doorImage}}"><i
+                                                        class="far fa-image fa-2x"></i></a>
+                                            </p>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <strong>Status:</strong> {{door_status}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-sm-4 col-form-label form-group-label">2. Windows :</label>
+                                <div class="col-sm-1">
+                                    <!-- Bootstrap switch button for "Yes" (true) / "No" (false) -->
+                                    <div class="custom-control custom-switch">
+                                        <input class="custom-control-input" type="checkbox" id="customSwitch2"
+                                            [disabled]="inputForm || !window_btn" [(ngModel)]="formData.windows"
+                                            name="door">
+                                        <label class="custom-control-label" for="customSwitch2">{{ formData.windows ?
+                                            'Yes' : 'No' }}</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" *ngIf="formData.windows == true">
+                                    <div class="form-row" *ngIf="window_btn == true">
+                                        <div class="form-group col-sm-4">
+                                            <label class="custom-file-label" for="file">{{windows}}</label>
+                                            <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg"
+                                                class="custom-file-input" aria-describedby="inputGroupFileAddon01"
+                                                name="file" id="file" (change)="onFileSelectedWindows($event)">
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <button class="btn btn-primary" (click)="uploadWindow()"><i
+                                                    class="fas fa-upload"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="form-row" *ngIf="window_btn == false">
+                                        <div class="form-group col-sm-2">
+                                            <p class="text-success">
+                                                <a href="{{endpoint}}/docs/user/{{userID+'_'}}/{{windowImage}}"><i
+                                                        class="far fa-image fa-2x"></i></a>
+                                            </p>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <strong>Status:</strong> {{window_status}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-sm-4 col-form-label form-group-label">3. Walls :</label>
+                                <div class="col-sm-1">
+                                    <!-- Bootstrap switch button for "Yes" (true) / "No" (false) -->
+                                    <div class="custom-control custom-switch">
+                                        <input class="custom-control-input" type="checkbox" id="customSwitch3"
+                                            [disabled]="inputForm || !wall_btn" [(ngModel)]="formData.walls"
+                                            name="door">
+                                        <label class="custom-control-label" for="customSwitch3">{{ formData.walls ?
+                                            'Yes' : 'No' }}</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" *ngIf="formData.walls == true">
+                                    <div class="form-row" *ngIf="wall_btn == true">
+                                        <div class="form-group col-sm-4">
+                                            <label class="custom-file-label" for="file">{{walls}}</label>
+                                            <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg"
+                                                class="custom-file-input" aria-describedby="inputGroupFileAddon01"
+                                                name="file" id="file" (change)="onFileSelectedWalls($event)">
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <button class="btn btn-primary" (click)="uploadWall()"><i
+                                                    class="fas fa-upload"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="form-row" *ngIf="wall_btn == false">
+                                        <div class="form-group col-sm-2">
+                                            <p class="text-success">
+                                                <a href="{{endpoint}}/docs/user/{{userID+'_'}}/{{wallImage}}"><i
+                                                        class="far fa-image fa-2x"></i></a>
+                                            </p>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <strong>Status:</strong> {{wall_status}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-sm-4 col-form-label form-group-label">4. Ceiling :</label>
+                                <div class="col-sm-1">
+                                    <!-- Bootstrap switch button for "Yes" (true) / "No" (false) -->
+                                    <div class="custom-control custom-switch">
+                                        <input class="custom-control-input" type="checkbox" id="customSwitch4"
+                                            [disabled]="inputForm || !ceiling_btn" [(ngModel)]="formData.ceiling"
+                                            name="door">
+                                        <label class="custom-control-label" for="customSwitch4">{{ formData.ceiling ?
+                                            'Yes' : 'No' }}</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" *ngIf="formData.ceiling == true">
+                                    <div class="form-row" *ngIf="ceiling_btn == true">
+                                        <div class="form-group col-sm-4">
+                                            <label class="custom-file-label" for="file">{{ceiling}}</label>
+                                            <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg"
+                                                class="custom-file-input" aria-describedby="inputGroupFileAddon01"
+                                                name="file" id="file" (change)="onFileSelectedCeiling($event)">
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <button class="btn btn-primary" (click)="uploadCeiling()"><i
+                                                    class="fas fa-upload"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="form-row" *ngIf="ceiling_btn == false">
+                                        <div class="form-group col-sm-2">
+                                            <p class="text-success">
+                                                <a href="{{endpoint}}/docs/user/{{userID+'_'}}/{{ceilingImage}}"><i
+                                                        class="far fa-image fa-2x"></i></a>
+                                            </p>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <strong>Status:</strong> {{ceiling_status}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-sm-4 col-form-label form-group-label">5. Electrical Wiring :</label>
+                                <div class="col-sm-1">
+                                    <!-- Bootstrap switch button for "Yes" (true) / "No" (false) -->
+                                    <div class="custom-control custom-switch">
+                                        <input class="custom-control-input" type="checkbox" id="customSwitch5"
+                                            [disabled]="inputForm || !wiring_btn" [(ngModel)]="formData.wiring"
+                                            name="door">
+                                        <label class="custom-control-label" for="customSwitch5">{{ formData.wiring ?
+                                            'Yes' : 'No' }}</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" *ngIf="formData.wiring == true">
+                                    <div class="form-row" *ngIf="wiring_btn == true">
+                                        <div class="form-group col-sm-4">
+                                            <label class="custom-file-label" for="file">{{wiring}}</label>
+                                            <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg"
+                                                class="custom-file-input" aria-describedby="inputGroupFileAddon01"
+                                                name="file" id="file" (change)="onFileSelectedWiring($event)">
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <button class="btn btn-primary" (click)="uploadWiring()"><i
+                                                    class="fas fa-upload"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="form-row" *ngIf="wiring_btn == false">
+                                        <div class="form-group col-sm-2">
+                                            <p class="text-success">
+                                                <a href="{{endpoint}}/docs/user/{{userID+'_'}}/{{wiringImage}}"><i
+                                                        class="far fa-image fa-2x"></i></a>
+                                            </p>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <strong>Status:</strong> {{window_status}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-sm-4 col-form-label form-group-label">6. Septic Tank :</label>
+                                <div class="col-sm-1">
+                                    <!-- Bootstrap switch button for "Yes" (true) / "No" (false) -->
+                                    <div class="custom-control custom-switch">
+                                        <input class="custom-control-input" type="checkbox" id="customSwitch6"
+                                            [disabled]="inputForm || !tank_btn" [(ngModel)]="formData.septic"
+                                            name="door">
+                                        <label class="custom-control-label" for="customSwitch6">{{ formData.septic ?
+                                            'Yes' : 'No' }}</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" *ngIf="formData.septic == true">
+                                    <div class="form-row" *ngIf="tank_btn == true">
+                                        <div class="form-group col-sm-4">
+                                            <label class="custom-file-label" for="file">{{tank}}</label>
+                                            <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg"
+                                                class="custom-file-input" aria-describedby="inputGroupFileAddon01"
+                                                name="file" id="file" (change)="onFileSelectedTank($event)">
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <button class="btn btn-primary" (click)="uploadTank()"><i
+                                                    class="fas fa-upload"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="form-row" *ngIf="tank_btn == false">
+                                        <div class="form-group col-sm-2">
+                                            <p class="text-success">
+                                                <a href="{{endpoint}}/docs/user/{{userID+'_'}}/{{tankImage}}"><i
+                                                        class="far fa-image fa-2x"></i></a>
+                                            </p>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <strong>Status:</strong> {{tank_status}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-sm-4 col-form-label form-group-label">7. Roof :</label>
+                                <div class="col-sm-1">
+                                    <!-- Bootstrap switch button for "Yes" (true) / "No" (false) -->
+                                    <div class="custom-control custom-switch">
+                                        <input class="custom-control-input" type="checkbox" id="customSwitch7"
+                                            [disabled]="inputForm || !roof_btn" [(ngModel)]="formData.roof" name="roof">
+                                        <label class="custom-control-label" for="customSwitch7">{{ formData.roof ? 'Yes'
+                                            : 'No' }}</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" *ngIf="formData.roof == true">
+                                    <div class="form-row" *ngIf="roof_btn == true">
+                                        <div class="form-group col-sm-4">
+                                            <label class="custom-file-label" for="file">{{roof}}</label>
+                                            <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg"
+                                                class="custom-file-input" aria-describedby="inputGroupFileAddon01"
+                                                name="file" id="file" (change)="onFileSelectedRoof($event)">
+                                        </div>
+                                        <div class="form-group col-2">
+                                            <button class="btn btn-primary" (click)="uploadRoof()"><i
+                                                    class="fas fa-upload"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="form-row" *ngIf="roof_btn == false">
+                                        <div class="form-group col-sm-2">
+                                            <p class="text-success">
+                                                <a href="{{endpoint}}/docs/user/{{userID+'_'}}/{{roofImage}}"><i
+                                                        class="far fa-image fa-2x"></i></a>
+                                            </p>
+                                        </div>
+                                        <div class="form-group col-sm-4">
+                                            <strong>Status:</strong> {{roof_status}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

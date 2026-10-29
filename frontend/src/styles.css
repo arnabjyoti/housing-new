@@ -1,0 +1,1412 @@
+/* ==========================================================
+   GLOBAL ENTERPRISE DESIGN SYSTEM & MODERN UI STYLES
+   UD Housing Management Portal
+   ========================================================== */
+
+@import url('../node_modules/bootstrap/dist/css/bootstrap.min.css');
+@import url('../node_modules/ngx-toastr/toastr.css');
+@import url('../node_modules/@fortawesome/fontawesome-free/css/solid.min.css');
+@import url('../node_modules/@fortawesome/fontawesome-free/css/all.min.css');
+
+/* Root Design Tokens */
+:root {
+  --app-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --app-bg: #f8fafc;
+  --app-surface: #ffffff;
+  --app-border: #e2e8f0;
+  --app-border-light: #f1f5f9;
+  
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-subtle: #eff6ff;
+  --primary-border: #bfdbfe;
+
+  --success: #10b981;
+  --success-hover: #059669;
+  --success-subtle: #ecfdf5;
+  --success-border: #a7f3d0;
+
+  --warning: #f59e0b;
+  --warning-hover: #d97706;
+  --warning-subtle: #fffbeb;
+  --warning-border: #fde68a;
+
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --danger-subtle: #fef2f2;
+  --danger-border: #fecaca;
+
+  --info: #06b6d4;
+  --info-hover: #0891b2;
+  --info-subtle: #ecfeff;
+  --info-border: #a5f3fc;
+
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-secondary: #334155;
+
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+}
+
+/* Base resets & standardized typography */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--app-font);
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: var(--app-bg);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Universal typography consistency across Angular Material & standard elements */
+button, input, select, textarea, .mat-typography, [class*="mat-"] {
+  font-family: var(--app-font) !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--app-font);
+  color: var(--text-main);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 0;
+}
+
+h1 { font-size: 1.5rem; }     /* 24px */
+h2 { font-size: 1.25rem; }    /* 20px */
+h3 { font-size: 1.125rem; }   /* 18px */
+h4 { font-size: 1rem; }       /* 16px */
+h5 { font-size: 0.875rem; }   /* 14px */
+h6 { font-size: 0.8125rem; }  /* 13px */
+
+p {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  margin-bottom: 0.75rem;
+}
+
+small, .small {
+  font-size: 0.775rem;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary-hover);
+}
+
+/* ==========================================================
+   LAYOUT STRUCTURE (AdminLTE Replacement)
+   ========================================================== */
+
+.wrapper {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--app-bg);
+}
+
+/* Main Content Wrapper */
+.content-wrapper {
+  flex: 1;
+  margin-left: 260px;
+  padding-top: 64px;
+  min-height: calc(100vh - 120px);
+  background-color: var(--app-bg);
+  transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Collapsed sidebar mode */
+body.sidebar-collapsed .content-wrapper,
+.wrapper.sidebar-collapsed .content-wrapper,
+.sidebar-collapsed .content-wrapper {
+  margin-left: 72px;
+}
+
+/* Mobile responsive layout */
+@media (max-width: 992px) {
+  .content-wrapper {
+    margin-left: 0 !important;
+  }
+}
+
+/* Content Header - Standardized Spacing */
+.content-header {
+  padding: 1.25rem 1.25rem 0.65rem 1.25rem !important;
+}
+
+.content-header h1 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* Breadcrumbs */
+.breadcrumb {
+  background: transparent;
+  padding: 0;
+  margin: 0.25rem 0 0 0;
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: "›";
+  color: #94a3b8;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 4px;
+}
+
+.breadcrumb-item a {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.breadcrumb-item a:hover {
+  color: var(--primary);
+}
+
+.breadcrumb-item.active {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+/* Section Content area - Standardized Spacing */
+.content {
+  padding: 0.5rem 1.25rem 2rem 1.25rem !important;
+}
+
+.content > .container-fluid,
+.content-header > .container-fluid {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Action row toolbar (e.g., + Add button above tables) */
+.content .row.justify-content-end,
+.content .row.justify-content-between {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.75rem !important;
+  padding: 0 !important;
+}
+
+/* Global Standard Footer Positioning */
+app-footer {
+  display: block !important;
+  margin-top: auto !important;
+  width: 100% !important;
+}
+
+app-footer .modern-footer,
+.modern-footer,
+.main-footer {
+  margin-left: 260px !important;
+  transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+body.sidebar-collapsed app-footer .modern-footer,
+.wrapper.sidebar-collapsed app-footer .modern-footer,
+.sidebar-collapsed app-footer .modern-footer,
+.sidebar-collapsed .modern-footer {
+  margin-left: 72px !important;
+}
+
+@media (max-width: 992px) {
+  app-footer .modern-footer,
+  .modern-footer,
+  .main-footer {
+    margin-left: 0 !important;
+  }
+}
+
+/* ==========================================================
+   CARDS & CONTAINERS
+   ========================================================== */
+
+.card {
+  background-color: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card-header {
+  background-color: var(--app-surface);
+  border-bottom: 1px solid var(--app-border-light);
+  padding: 1.125rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+}
+
+.card-header.bg-primary,
+.card-header.bg-info,
+.card-header.bg-success,
+.card-header.bg-danger {
+  color: #ffffff;
+  border-bottom: none;
+}
+
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-header.bg-primary .card-title,
+.card-header.bg-info .card-title,
+.card-header.bg-success .card-title,
+.card-header.bg-danger .card-title {
+  color: #ffffff;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-footer {
+  background-color: #fafbfd;
+  border-top: 1px solid var(--app-border-light);
+  padding: 1rem 1.5rem;
+  border-bottom-left-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+}
+
+/* Accent Card variants */
+.card.card-primary {
+  border-top: 4px solid var(--primary);
+}
+
+.card.card-success {
+  border-top: 4px solid var(--success);
+}
+
+.card.card-warning {
+  border-top: 4px solid var(--warning);
+}
+
+.card.card-danger {
+  border-top: 4px solid var(--danger);
+}
+
+.card.card-info {
+  border-top: 4px solid var(--info);
+}
+
+/* Page Header Card Banner */
+.content-header .card {
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-sm) !important;
+  margin-bottom: 0.5rem !important;
+  padding: 0.85rem 1.25rem !important;
+  background: #ffffff !important;
+  border: 1px solid var(--app-border) !important;
+}
+
+.content-header .card h1 {
+  font-size: 1.25rem !important;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-main);
+}
+
+/* ==========================================================
+   STAT CARDS & INFO-BOXES (Enterprise Counters & Badges)
+   ========================================================== */
+
+.info-box {
+  display: flex !important;
+  align-items: center !important;
+  background: #ffffff !important;
+  border: 1px solid var(--app-border) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: 1.1rem 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease !important;
+  min-height: 84px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.info-box:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: var(--shadow-md) !important;
+  border-color: #cbd5e1 !important;
+}
+
+.info-box-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: var(--radius-md) !important;
+  font-size: 1.35rem !important;
+  margin-right: 1.1rem !important;
+  flex-shrink: 0 !important;
+  transition: transform 0.2s ease !important;
+}
+
+.info-box:hover .info-box-icon {
+  transform: scale(1.08) !important;
+}
+
+.info-box-content {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.info-box-text {
+  font-size: 0.775rem !important;
+  font-weight: 600 !important;
+  color: var(--text-muted) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  margin-bottom: 2px !important;
+  display: block !important;
+}
+
+.info-box-number {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: var(--text-main) !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.02em !important;
+  display: block !important;
+}
+
+/* Info Box Color Variants with Modern Subtle Accents */
+.info-box.bg-indigo,
+.info-box.bg-primary {
+  background: #ffffff !important;
+  border-left: 4px solid var(--primary) !important;
+}
+.info-box.bg-indigo .info-box-icon,
+.info-box.bg-primary .info-box-icon {
+  background-color: var(--primary-subtle) !important;
+  color: var(--primary) !important;
+}
+
+.info-box.bg-success {
+  background: #ffffff !important;
+  border-left: 4px solid var(--success) !important;
+}
+.info-box.bg-success .info-box-icon {
+  background-color: var(--success-subtle) !important;
+  color: var(--success) !important;
+}
+
+.info-box.bg-warning {
+  background: #ffffff !important;
+  border-left: 4px solid var(--warning) !important;
+}
+.info-box.bg-warning .info-box-icon {
+  background-color: var(--warning-subtle) !important;
+  color: var(--warning) !important;
+}
+
+.info-box.bg-danger {
+  background: #ffffff !important;
+  border-left: 4px solid var(--danger) !important;
+}
+.info-box.bg-danger .info-box-icon {
+  background-color: var(--danger-subtle) !important;
+  color: var(--danger) !important;
+}
+
+.info-box.bg-info {
+  background: #ffffff !important;
+  border-left: 4px solid var(--info) !important;
+}
+.info-box.bg-info .info-box-icon {
+  background-color: var(--info-subtle) !important;
+  color: var(--info) !important;
+}
+
+/* Bootstrap 4 Grid Gap Compatibility Polyfill */
+.row.g-4, .g-4 {
+  margin-right: -12px !important;
+  margin-left: -12px !important;
+}
+.row.g-4 > [class*="col"], .g-4 > [class*="col"] {
+  padding-right: 12px !important;
+  padding-left: 12px !important;
+  margin-bottom: 20px !important;
+}
+.row.g-3, .g-3 {
+  margin-right: -8px !important;
+  margin-left: -8px !important;
+}
+.row.g-3 > [class*="col"], .g-3 > [class*="col"] {
+  padding-right: 8px !important;
+  padding-left: 8px !important;
+  margin-bottom: 16px !important;
+}
+
+/* ==========================================================
+   FORM CONTROLS & COMPREHENSIVE VALIDATIONS
+   ========================================================== */
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+label {
+  display: inline-block;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.01em;
+}
+
+label .text-danger,
+label span.text-danger {
+  margin-left: 3px;
+  font-weight: 700;
+}
+
+.form-control,
+.form-select,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  display: block;
+  width: 100%;
+  height: 38px;
+  min-height: 38px;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.85rem;
+  font-family: var(--app-font);
+  color: var(--text-main);
+  background-color: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+textarea.form-control,
+textarea {
+  height: auto;
+  min-height: 80px;
+}
+
+.form-control:focus,
+.form-select:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.form-control::placeholder {
+  color: #94a3b8;
+  font-size: 0.84rem;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: #f1f5f9;
+  border-color: #e2e8f0;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+/* Validation Feedback: INVALID STATES */
+.form-control.is-invalid,
+.form-select.is-invalid,
+.is-invalid,
+input.ng-invalid.ng-touched:not(form),
+select.ng-invalid.ng-touched:not(form),
+textarea.ng-invalid.ng-touched:not(form) {
+  border-color: var(--danger) !important;
+  background-color: #fffbfa !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
+}
+
+/* Validation Feedback: VALID STATES */
+.form-control.is-valid,
+.is-valid,
+input.ng-valid.ng-touched:not(form),
+select.ng-valid.ng-touched:not(form) {
+  border-color: var(--success) !important;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1) !important;
+}
+
+/* Validation Messages */
+.invalid-feedback,
+.error-message,
+.text-danger.validation-msg {
+  display: block;
+  font-size: 0.775rem;
+  font-weight: 500;
+  color: var(--danger) !important;
+  margin-top: 0.35rem;
+  line-height: 1.4;
+  animation: fadeInDown 0.2s ease;
+}
+
+.valid-feedback {
+  display: block;
+  font-size: 0.775rem;
+  font-weight: 500;
+  color: var(--success);
+  margin-top: 0.35rem;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Input group */
+.input-group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.input-group .form-control {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.input-group-text,
+.input-group-prepend .input-group-text {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background-color: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-right: none;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+}
+
+/* ==========================================================
+   BUTTONS
+   ========================================================== */
+
+/* ==========================================================
+   UNIFIED BUTTON DESIGN SYSTEM
+   Standardizes Bootstrap .btn and Angular Material MDC buttons
+   ========================================================== */
+
+.btn,
+.mat-mdc-raised-button,
+.mat-mdc-button,
+button[mat-raised-button],
+button[mat-button] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  font-family: var(--app-font) !important;
+  font-size: 0.84rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0 16px !important;
+  border-radius: 8px !important;
+  border: 1px solid transparent !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Ensure MDC button internal label aligns with flex */
+.mat-mdc-raised-button .mdc-button__label,
+.mat-mdc-button .mdc-button__label,
+button[mat-raised-button] .mdc-button__label {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+}
+
+/* Button Icon Alignment */
+.btn i,
+.btn .mat-icon,
+.mat-mdc-raised-button i,
+.mat-mdc-raised-button .mat-icon,
+button[mat-raised-button] i,
+button[mat-raised-button] .mat-icon {
+  font-size: 13.5px !important;
+  width: auto !important;
+  height: auto !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+}
+
+/* Hover & Active Interactions */
+.btn:hover,
+.mat-mdc-raised-button:hover,
+button[mat-raised-button]:hover {
+  transform: translateY(-1px) !important;
+}
+
+.btn:active,
+.mat-mdc-raised-button:active,
+button[mat-raised-button]:active {
+  transform: translateY(0) !important;
+}
+
+.btn:disabled,
+.mat-mdc-raised-button:disabled,
+button[mat-raised-button]:disabled {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* 1. Primary Buttons */
+.btn-primary,
+.mat-mdc-raised-button.mat-primary,
+button[mat-raised-button][color="primary"] {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3) !important;
+  --mdc-protected-button-container-color: var(--primary) !important;
+  --mdc-protected-button-label-text-color: #ffffff !important;
+}
+
+.btn-primary:hover,
+.mat-mdc-raised-button.mat-primary:hover,
+button[mat-raised-button][color="primary"]:hover {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35) !important;
+}
+
+/* 2. Purple / Indigo Buttons */
+.btn-purple,
+.btn-indigo,
+.mat-mdc-raised-button[color="purple"],
+button[mat-raised-button][color="purple"] {
+  background-color: #7c3aed !important;
+  border-color: #7c3aed !important;
+  color: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(124, 58, 237, 0.3) !important;
+  --mdc-protected-button-container-color: #7c3aed !important;
+  --mdc-protected-button-label-text-color: #ffffff !important;
+}
+
+.btn-purple:hover,
+.btn-indigo:hover,
+.mat-mdc-raised-button[color="purple"]:hover,
+button[mat-raised-button][color="purple"]:hover {
+  background-color: #6d28d9 !important;
+  border-color: #6d28d9 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 10px rgba(124, 58, 237, 0.35) !important;
+}
+
+/* 3. Warn / Danger Buttons */
+.btn-danger,
+.mat-mdc-raised-button.mat-warn,
+button[mat-raised-button][color="warn"] {
+  background-color: var(--danger) !important;
+  border-color: var(--danger) !important;
+  color: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(239, 68, 68, 0.3) !important;
+  --mdc-protected-button-container-color: var(--danger) !important;
+  --mdc-protected-button-label-text-color: #ffffff !important;
+}
+
+.btn-danger:hover,
+.mat-mdc-raised-button.mat-warn:hover,
+button[mat-raised-button][color="warn"]:hover {
+  background-color: var(--danger-hover) !important;
+  border-color: var(--danger-hover) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.35) !important;
+}
+
+/* 4. Success / Accent Buttons */
+.btn-success,
+.mat-mdc-raised-button.mat-accent,
+button[mat-raised-button][color="accent"] {
+  background-color: var(--success) !important;
+  border-color: var(--success) !important;
+  color: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(16, 185, 129, 0.3) !important;
+  --mdc-protected-button-container-color: var(--success) !important;
+  --mdc-protected-button-label-text-color: #ffffff !important;
+}
+
+.btn-success:hover,
+.mat-mdc-raised-button.mat-accent:hover,
+button[mat-raised-button][color="accent"]:hover {
+  background-color: var(--success-hover) !important;
+  border-color: var(--success-hover) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.35) !important;
+}
+
+/* 5. Warning Buttons */
+.btn-warning {
+  background-color: var(--warning) !important;
+  border-color: var(--warning) !important;
+  color: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(245, 158, 11, 0.3) !important;
+}
+
+.btn-warning:hover {
+  background-color: var(--warning-hover) !important;
+  border-color: var(--warning-hover) !important;
+  color: #ffffff !important;
+}
+
+/* 6. Info Buttons */
+.btn-info {
+  background-color: var(--info) !important;
+  border-color: var(--info) !important;
+  color: #ffffff !important;
+  box-shadow: 0 1px 3px rgba(6, 182, 212, 0.3) !important;
+}
+
+.btn-info:hover {
+  background-color: var(--info-hover) !important;
+  border-color: var(--info-hover) !important;
+  color: #ffffff !important;
+}
+
+/* 7. Secondary / Neutral / Default Buttons */
+.btn-secondary,
+.btn-light,
+.mat-mdc-raised-button:not(.mat-primary):not(.mat-warn):not(.mat-accent):not([color="purple"]):not([color="primary"]):not([color="warn"]):not([color="accent"]),
+button[mat-raised-button]:not([color]) {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #334155 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  --mdc-protected-button-container-color: #ffffff !important;
+  --mdc-protected-button-label-text-color: #334155 !important;
+}
+
+.btn-secondary:hover,
+.btn-light:hover,
+.mat-mdc-raised-button:not(.mat-primary):not(.mat-warn):not(.mat-accent):not([color="purple"]):not([color="primary"]):not([color="warn"]):not([color="accent"]):hover,
+button[mat-raised-button]:not([color]):hover {
+  background-color: #f8fafc !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+/* 8. Outline Buttons */
+.btn-outline-primary {
+  background-color: transparent !important;
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: #ffffff !important;
+}
+
+.btn-outline-secondary {
+  background-color: transparent !important;
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+/* 9. Size Variants */
+.btn-sm,
+.mat-mdc-raised-button.btn-sm,
+button[mat-raised-button].btn-sm {
+  height: 30px !important;
+  min-height: 30px !important;
+  padding: 0 10px !important;
+  font-size: 0.775rem !important;
+  border-radius: 6px !important;
+  gap: 5px !important;
+}
+
+.btn-sm i,
+.btn-sm .mat-icon {
+  font-size: 11px !important;
+}
+
+.btn-lg,
+.mat-mdc-raised-button.btn-lg,
+button[mat-raised-button].btn-lg {
+  height: 44px !important;
+  min-height: 44px !important;
+  padding: 0 20px !important;
+  font-size: 0.95rem !important;
+  border-radius: 10px !important;
+}
+
+/* 10. Material Icon Buttons */
+.mat-mdc-icon-button,
+button[mat-icon-button] {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  padding: 0 !important;
+  border-radius: 8px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #475569 !important;
+  transition: all 0.2s ease !important;
+}
+
+.mat-mdc-icon-button:hover,
+button[mat-icon-button]:hover {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+.mat-mdc-icon-button.mat-primary,
+button[mat-icon-button][color="primary"] {
+  color: var(--primary) !important;
+}
+.mat-mdc-icon-button.mat-primary:hover,
+button[mat-icon-button][color="primary"]:hover {
+  background-color: var(--primary-subtle) !important;
+}
+
+.mat-mdc-icon-button.mat-warn,
+button[mat-icon-button][color="warn"] {
+  color: var(--danger) !important;
+}
+.mat-mdc-icon-button.mat-warn:hover,
+button[mat-icon-button][color="warn"]:hover {
+  background-color: var(--danger-subtle) !important;
+}
+
+/* ==========================================================
+   TABLES & MATERIAL DATA TABLES DESIGN SYSTEM
+   ========================================================= */
+
+/* Material Elevation Wrapper (Acts as enterprise card for data tables) */
+/* Material Elevation Wrapper (Acts as enterprise card for data tables) */
+.mat-elevation-z8,
+.mat-elevation-z4,
+.mat-elevation-z2 {
+  background: #ffffff !important;
+  border: 1px solid var(--app-border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-sm) !important;
+  overflow: hidden !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-bottom: 1.25rem !important;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease !important;
+}
+
+.mat-elevation-z8:hover {
+  box-shadow: var(--shadow-md) !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Responsive horizontal scrolling ONLY on small screens */
+@media (max-width: 992px) {
+  .mat-elevation-z8,
+  .mat-elevation-z4,
+  .mat-elevation-z2,
+  .table-responsive {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ==========================================================
+   ENTERPRISE TABLE TOOLBAR & FILTER DESIGN
+   Eliminates giant empty spaces, aligns inputs & buttons seamlessly
+   ========================================================== */
+
+.table-toolbar-filter {
+  padding: 0.75rem 1rem !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid var(--app-border-light) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  width: 100% !important;
+}
+
+.table-toolbar-filter .filter-inputs-group {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  flex: 1 1 auto !important;
+}
+
+.table-toolbar-filter .filter-inputs-group .filter-item {
+  flex: 1 1 135px !important;
+  min-width: 120px !important;
+  max-width: 180px !important;
+}
+
+.table-toolbar-filter .filter-inputs-group .filter-item input.form-control,
+.table-toolbar-filter .filter-inputs-group .filter-item select.form-control {
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0.4rem 0.75rem !important;
+  font-size: 0.835rem !important;
+  border-radius: 8px !important;
+  background-color: #f8fafc !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+.table-toolbar-filter .filter-inputs-group .filter-item input.form-control:focus,
+.table-toolbar-filter .filter-inputs-group .filter-item select.form-control:focus {
+  background-color: #ffffff !important;
+  border-color: var(--primary) !important;
+}
+
+.table-toolbar-filter .filter-actions-group {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex: 0 0 auto !important;
+  margin-left: auto !important;
+}
+
+/* Secondary Reset Button */
+.btn-reset,
+button.btn-reset,
+.mat-mdc-raised-button.btn-reset {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: none !important;
+  height: 38px !important;
+  padding: 0 14px !important;
+  font-size: 0.825rem !important;
+  border-radius: 8px !important;
+  --mdc-protected-button-container-color: #f1f5f9 !important;
+  --mdc-protected-button-label-text-color: #475569 !important;
+}
+
+.btn-reset:hover,
+button.btn-reset:hover,
+.mat-mdc-raised-button.btn-reset:hover {
+  background-color: #e2e8f0 !important;
+  color: #1e293b !important;
+  border-color: #94a3b8 !important;
+}
+
+/* Legacy table filter row modernization (targets .mat-elevation-z8 > .row) */
+.mat-elevation-z8 > .row,
+.mat-elevation-z8 > form,
+.mat-elevation-z8 > div:first-child:not(table):not(.table-toolbar-filter):not(.table-responsive) {
+  padding: 0.75rem 1rem !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid var(--app-border-light) !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+
+.mat-elevation-z8 > .row > [class*="col-"] {
+  padding: 0 !important;
+}
+
+.mat-elevation-z8 > .row > .col-md-2 {
+  flex: 1 1 135px !important;
+  min-width: 120px !important;
+  max-width: 180px !important;
+  width: auto !important;
+}
+
+.mat-elevation-z8 > .row > .col-md-1 {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  min-width: auto !important;
+}
+
+.mat-elevation-z8 > .row input.form-control,
+.mat-elevation-z8 > .row select.form-control {
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0.4rem 0.75rem !important;
+  font-size: 0.835rem !important;
+  border-radius: 8px !important;
+  background-color: #f8fafc !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+.mat-elevation-z8 > .row input.form-control:focus,
+.mat-elevation-z8 > .row select.form-control:focus {
+  background-color: #ffffff !important;
+  border-color: var(--primary) !important;
+}
+
+/* Material Form Fields inside table header filters */
+.mat-elevation-z8 .mat-mdc-form-field-subscript-wrapper,
+.example-form .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+.mat-elevation-z8 .mat-mdc-form-field-infix,
+.example-form .mat-mdc-form-field-infix {
+  min-height: 38px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+
+/* Eliminate redundant nested card borders, double shadows and giant white margins */
+.card:has(.mat-elevation-z8),
+.content > .container-fluid > .card:has(.mat-elevation-z8) {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  margin-bottom: 0 !important;
+}
+
+.card:has(.mat-elevation-z8) > .card-body,
+.content > .container-fluid > .card:has(.mat-elevation-z8) > .card-body {
+  padding: 0 !important;
+}
+
+/* Nested table-responsive clean display */
+.mat-elevation-z8 .table-responsive,
+.mat-elevation-z8 > .table-responsive {
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  margin-bottom: 0 !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+/* Responsive Table Wrapper when standalone */
+.table-responsive:not(.mat-elevation-z8 *) {
+  border: 1px solid var(--app-border);
+  border-radius: var(--radius-lg);
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.25rem;
+  width: 100%;
+}
+
+/* Base Table Styles (Applies to both standard HTML tables and Angular Material tables) */
+.table,
+table[mat-table],
+.mat-mdc-table,
+.mat-table {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-bottom: 0 !important;
+  color: var(--text-main) !important;
+  background: #ffffff !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  font-family: var(--app-font) !important;
+  table-layout: auto !important;
+}
+
+/* Table Headers (Clean, uppercase, high contrast, natural wrapping) */
+.table thead th,
+th.mat-mdc-header-cell,
+th.mat-header-cell {
+  background-color: #f8fafc !important;
+  color: #475569 !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  padding: 10px 12px !important;
+  border-bottom: 1.5px solid var(--app-border) !important;
+  border-top: none !important;
+  white-space: normal !important;
+  vertical-align: middle !important;
+  line-height: 1.35 !important;
+}
+
+/* Material Sort Header alignment */
+.mat-sort-header-container {
+  display: inline-flex !important;
+  align-items: center !important;
+  vertical-align: middle !important;
+}
+
+/* Table Body Cells */
+.table tbody td,
+td.mat-mdc-cell,
+td.mat-cell {
+  padding: 10px 12px !important;
+  vertical-align: middle !important;
+  border-bottom: 1px solid var(--app-border-light) !important;
+  border-top: none !important;
+  font-size: 0.835rem !important;
+  color: var(--text-secondary) !important;
+  line-height: 1.4 !important;
+  word-break: break-word;
+}
+
+/* Alternating rows & Hover highlighting */
+.table-striped tbody tr:nth-of-type(odd),
+.mat-mdc-table .mat-mdc-row:nth-child(even),
+tr.mat-row:nth-child(even) {
+  background-color: #fafbfc !important;
+}
+
+.table-hover tbody tr:hover,
+.mat-mdc-table .mat-mdc-row:hover,
+tr.mat-row:hover {
+  background-color: #f1f5f9 !important;
+  transition: background-color 0.15s ease !important;
+}
+
+/* GLOBAL Serial Number Column (Sl. No.) - PREVENTS VERTICAL BREAKING */
+.mat-column-Sl,
+th.mat-column-Sl,
+td.mat-column-Sl,
+.mat-column-sl_no,
+th.mat-column-sl_no,
+td.mat-column-sl_no,
+.mat-column-slNo,
+th.mat-column-slNo,
+td.mat-column-slNo,
+.mat-column-sno,
+th.mat-column-sno,
+td.mat-column-sno,
+.mat-column-id,
+th.mat-column-id,
+td.mat-column-id {
+  width: 65px !important;
+  min-width: 55px !important;
+  max-width: 75px !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+  word-break: normal !important;
+  word-wrap: normal !important;
+  hyphens: none !important;
+}
+
+/* GLOBAL Action Column - Compact, neat, non-breaking */
+.mat-column-action,
+th.mat-column-action,
+td.mat-column-action {
+  white-space: nowrap !important;
+  width: 1% !important;
+  min-width: 100px !important;
+  text-align: center !important;
+}
+
+/* Material Paginator Clean Design */
+mat-paginator,
+.mat-mdc-paginator {
+  background-color: #ffffff !important;
+  border-top: 1px solid var(--app-border-light) !important;
+  font-family: var(--app-font) !important;
+  font-size: 0.8125rem !important;
+  color: var(--text-muted) !important;
+  border-bottom-left-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+}
+
+.mat-mdc-paginator-container {
+  padding: 0.4rem 1.25rem !important;
+  min-height: 46px !important;
+}
+
+/* ==========================================================
+   BADGES & PILLS
+   ========================================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35em 0.75em;
+  border-radius: 9999px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.badge-success,
+.bg-success {
+  background-color: var(--success-subtle) !important;
+  color: #065f46 !important;
+  border: 1px solid var(--success-border);
+}
+
+.badge-danger,
+.bg-danger {
+  background-color: var(--danger-subtle) !important;
+  color: #991b1b !important;
+  border: 1px solid var(--danger-border);
+}
+
+.badge-warning,
+.bg-warning {
+  background-color: var(--warning-subtle) !important;
+  color: #92400e !important;
+  border: 1px solid var(--warning-border);
+}
+
+.badge-info,
+.bg-info {
+  background-color: var(--info-subtle) !important;
+  color: #0e7490 !important;
+  border: 1px solid var(--info-border);
+}
+
+.badge-primary,
+.bg-primary {
+  background-color: var(--primary-subtle) !important;
+  color: #1d4ed8 !important;
+  border: 1px solid var(--primary-border);
+}
+
+.badge-secondary,
+.bg-secondary {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+  border: 1px solid #cbd5e1;
+}
+
+/* ==========================================================
+   CUSTOM MODERN SCROLLBAR
+   ========================================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ==========================================================
+   ANGULAR MATERIAL THEME ADJUSTMENTS
+   ========================================================== */
+
+/* Standardized Modals */
+.modal-content {
+  border-radius: var(--radius-lg) !important;
+  border: 1px solid var(--app-border) !important;
+  box-shadow: var(--shadow-xl) !important;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 1rem 1.25rem !important;
+  border-bottom: 1px solid var(--app-border-light) !important;
+  background-color: #ffffff !important;
+}
+
+.modal-header .modal-title {
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  color: var(--text-main) !important;
+}
+
+.modal-body {
+  padding: 1.25rem 1.5rem !important;
+}
+
+.modal-footer {
+  padding: 0.85rem 1.25rem !important;
+  border-top: 1px solid var(--app-border-light) !important;
+  background-color: #f8fafc !important;
+  gap: 8px;
+}
+
+/* ==========================================================
+   LOADER POLICY: KEEP ONLY ROUND CENTRAL LOADER
+   Suppress redundant ngx-spinner and extra full-page overlays
+   ========================================================== */
+#loading-wrapper,
+ngx-spinner,
+.loading-wrapper {
+  display: none !important;
+}

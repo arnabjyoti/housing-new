@@ -1,0 +1,993 @@
+<!-- Loading starts -->
+<div id="loading-wrapper">
+    <!-- <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+      </div> -->
+    <div class="lds-roller">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<!-- Loading ends -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Profile</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Profile</a></li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid" style="background-color: #fff;">
+            <!-- Small boxes (Stat box) -->
+
+            <section class="">
+                <div class="container">
+                    <div class="row" *ngIf="userDetails.role == 'user'">
+                        <div class="col-12 text-right pt-2">
+                            <i class="nav-icon fas fa-pen" data-toggle="modal" data-target="#editProfile"
+                                style="cursor: pointer;"></i>
+                        </div>
+                        <div class="col-lg-12 mb-4 mb-sm-5 pt-2">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                    <div class="row">
+                                        <div class="col-12 text-left p-2">
+                                            <i class="nav-icon fas fa-pen" data-toggle="modal" data-target="#photo"
+                                                style="cursor: pointer;"></i>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <!-- <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="..."> -->
+                                        <img src="{{endpoint}}/docs/user/{{userData.id+'_'}}/{{userData.photo}}"
+                                            class="img-fluid border p-2" alt="Project image">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 px-xl-10">
+                                    <div class="bg-secondary d-lg-inline-block py-1-9 px-1-9 px-sm-6 mb-1-9 rounded">
+                                        <h3 class="h2 text-white mb-0">{{userData.f_name}} {{userData.m_name}}
+                                            {{userData.l_name}}</h3>
+                                        <!-- <span class="text-primary">{{userData.position}}</span> -->
+                                    </div>
+                                    <ul class="list-unstyled mb-1-9">
+                                        <li class="mb-2 mb-xl-3 display-28"><span
+                                                class="display-26 text-secondary me-2 font-weight-600">Department:</span>
+                                            {{userData.department_name}}</li>
+                                        <li class="mb-2 mb-xl-3 display-28"><span
+                                                class="display-26 text-secondary me-2 font-weight-600">Designation:</span>
+                                            {{userData.designation}}</li>
+                                        <li class="mb-2 mb-xl-3 display-28"><span
+                                                class="display-26 text-secondary me-2 font-weight-600">Email:</span>
+                                            {{userData.email}}</li>
+                                        <!-- <li class="mb-2 mb-xl-3 display-28"><span
+                          class="display-26 text-secondary me-2 font-weight-600">Website:</span> </li> -->
+                                        <li class="display-28"><span
+                                                class="display-26 text-secondary me-2 font-weight-600">Phone:</span>
+                                            {{userData.phone_no}}</li>
+                                        <li class="display-28 mt-2"><span
+                                                class="display-26 text-secondary me-2 font-weight-600">Aadhaar:</span>
+                                            <span *ngIf="userData.aadhaar_number">{{userData.aadhaar_number}}</span>
+                                            <span class="badge badge-danger ml-2" *ngIf="!userData.aadhaar_number">
+                                                <i class="fas fa-exclamation-triangle"></i> Not Inserted - Required
+                                            </span>
+                                        </li>
+                                    </ul>
+                                    <ul class="social-icon-style1 list-unstyled mb-0 ps-0">
+                                        <li><a href="#!"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="#!"><i class="fab fa-facebook-f"></i></a></li>
+                                        <li><a href="#!"><i class="fab fa-pinterest"></i></a></li>
+                                        <li><a href="#!"><i class="fab fa-instagram"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mb-4 mb-sm-5">
+                            <div>
+                                <span class="section-title text-primary mb-3 mb-sm-4">Office Details</span>
+                                <ul class="list-unstyled mb-1-9">
+                                    <div class="row">
+                                        <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">Basic Pay of the
+                                                Post:</span>
+                                            {{userData.basic_pay}}
+                                        </div>
+                                        <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">Status of Service:</span>
+                                            {{userData.service_status}}
+                                        </div>
+                                        <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">Is Service
+                                                Transferable?:</span> {{userData.transferable}}
+                                        </div>
+                                        <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">Date of
+                                                Appointment:</span> {{userData.doa | date:"dd/MM/yyyy"}}
+                                        </div>
+                                        <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">Date of Retirement:</span>
+                                            {{userData.dor | date:"dd/MM/yyyy"}}
+                                        </div>
+                                        <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">Date of joining
+                                                service:</span> {{userData.dojs | date:"dd/MM/yyyy"}}
+                                        </div>
+                                        <!-- <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">Date of
+                                                superannuation:</span> {{userData.dos | date:"dd/MM/yyyy"}}
+                                        </div> -->
+                                        <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">Residential house in
+                                                Capital Complex:</span> {{userData.resid_house}}
+                                        </div>
+                                    </div>
+                                </ul>
+                                <span class="section-title text-primary mb-3 mb-sm-4">Spouse Details</span>
+                                <ul class="list-unstyled mb-1-9">
+                                    <div class="row">
+                                        <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">Spouse First Name:</span>
+                                            {{userData.spouse_f_name}}
+                                        </div>
+                                        <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">Spouse Last Name:</span>
+                                            {{userData.spouse_l_name}}
+                                        </div>
+                                        <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">Spouse Occupation:</span>
+                                            {{userData.spouse_occ}}
+                                        </div>
+                                        <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">Spouse accommodation
+                                                allotted:</span> {{userData.spouse_acco}}
+                                        </div>
+                                    </div>
+                                </ul>
+                                <span class="section-title text-primary mb-3 mb-sm-4">Document Details</span>
+                                <ul class="list-unstyled mb-1-9">
+                                    <div class="row">
+                                        <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">Signature:</span>
+                                            <i class="fas fa-images btn" data-toggle="modal" data-target="#sign"></i>
+                                        </div>
+                                        <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">AADHAR Card:</span>
+                                            <i class="fas fa-images btn" data-toggle="modal" data-target="#adhar"></i>
+                                        </div>
+                                        <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">Identity Card:</span>
+                                            <i class="fas fa-images btn" data-toggle="modal"
+                                                data-target="#identity"></i>
+                                        </div>
+                                        <div class="col-md-4 py-2">
+                                            <span class="text-secondary me-2 font-weight-600">Appointment Order :</span>
+                                            <i class="fas fa-images btn" data-toggle="modal"
+                                                data-target="#appointment"></i>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ./col -->
+            <!-- Update Signature Modal -->
+            <div class="modal fade" id="sign" tabindex="-1" role="dialog" aria-labelledby="newMembershipLabel"
+                aria-hidden="true" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" *ngIf="userDetails.role == 'user'">
+                <div class="modal-dialog modal-md" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newMembershipLabel">SIGNATURE</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                id="signModalClose">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-body">
+                                <div class="col-sm-12">
+                                    <div class="form-row">
+                                        <div class="col-12 mb-4 mb-lg-0 text-center">
+                                            <img src="{{endpoint}}/docs/user/{{userData.id+'_'}}/{{userData.sign}}"
+                                                class="img-fluid border p-2" alt="Project image">
+                                        </div>
+                                        <div class="col-12 mb-4 mb-lg-0 pt-2">
+                                            <div class="form-row">
+                                                <div class="form-group col-10">
+                                                    <label class="custom-file-label" for="file">{{sign}}</label>
+                                                    <input type="file"
+                                                        accept="image/png, image/gif, image/jpg, image/jpeg"
+                                                        class="custom-file-input"
+                                                        aria-describedby="inputGroupFileAddon01" name="file" id="file"
+                                                        (change)="onFileSelectedsign($event)">
+                                                </div>
+                                                <div class="form-group col-2">
+                                                    <button mat-raised-button color="primary" (click)="uploadSign()"><i
+                                                            class="fas fa-upload"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end model -->
+
+            <!-- Update Signature Modal -->
+            <div class="modal fade" id="adhar" tabindex="-1" role="dialog" aria-labelledby="newMembershipLabel"
+                aria-hidden="true" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" *ngIf="userDetails.role == 'user'">
+                <div class="modal-dialog modal-md" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newMembershipLabel">AADHAR CARD</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                id="adharModalClose">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-body">
+                                <div class="col-sm-12">
+                                    <div class="form-row">
+                                        <div class="col-12 mb-4 mb-lg-0 text-center">
+                                            <img src="{{endpoint}}/docs/user/{{userData.id+'_'}}/{{userData.adhar}}"
+                                                class="img-fluid border p-2" alt="Project image">
+                                        </div>
+                                        <div class="col-12 mb-4 mb-lg-0 text-center pt-2">
+                                            <div class="form-row">
+                                                <div class="form-group col-10">
+                                                    <label class="custom-file-label" for="file">{{adhar}}</label>
+                                                    <input type="file"
+                                                        accept="image/png, image/gif, image/jpg, image/jpeg"
+                                                        class="custom-file-input"
+                                                        aria-describedby="inputGroupFileAddon01" name="file" id="file"
+                                                        (change)="onFileSelected($event)">
+                                                </div>
+                                                <div class="form-group col-2">
+                                                    <button mat-raised-button color="primary" (click)="uploadAdhar()"><i
+                                                            class="fas fa-upload"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end model -->
+
+            <!-- Update Signature Modal -->
+            <div class="modal fade" id="identity" tabindex="-1" role="dialog" aria-labelledby="newMembershipLabel"
+                aria-hidden="true" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" *ngIf="userDetails.role == 'user'">
+                <div class="modal-dialog modal-md" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newMembershipLabel">IDENTIFY CARD</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                id="idModalClose">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-body">
+                                <div class="col-sm-12">
+                                    <div class="form-row">
+                                        <div class="col-12 mb-4 mb-lg-0 text-center">
+                                            <img src="{{endpoint}}/docs/user/{{userData.id+'_'}}/{{userData.identity}}"
+                                                class="img-fluid border p-2" alt="Project image">
+                                        </div>
+                                        <div class="col-12 mb-4 mb-lg-0 text-center pt-2">
+                                            <div class="form-row">
+                                                <div class="form-group col-10">
+                                                    <label class="custom-file-label" for="file">{{idCard}}</label>
+                                                    <input type="file"
+                                                        accept="image/png, image/gif, image/jpg, image/jpeg"
+                                                        class="custom-file-input"
+                                                        aria-describedby="inputGroupFileAddon01" name="file" id="file"
+                                                        (change)="onFileSelectedId($event)">
+                                                </div>
+                                                <div class="form-group col-2">
+                                                    <button mat-raised-button color="primary" (click)="uploadId()"><i
+                                                            class="fas fa-upload"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end model -->
+
+
+            <!-- Update Appointment Modal -->
+            <div class="modal fade" id="appointment" tabindex="-1" role="dialog" aria-labelledby="newMembershipLabel"
+                aria-hidden="true" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" *ngIf="userDetails.role == 'user'">
+                <div class="modal-dialog modal-md" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newMembershipLabel">APPOINTMENT ORDER</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                id="idModalClose">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-body">
+                                <div class="col-sm-12">
+                                    <div class="form-row">
+                                        <div class="col-12 mb-4 mb-lg-0 text-center">
+                                            
+
+                      <span *ngIf="userData.appointment; else noImage">
+                          <a href="{{endpoint}}/docs/user/{{userData.id+'_'}}/{{userData.appointment}}"
+                          class="img-fluid border p-2" target="_blank">Click here</a>
+                      </span>
+
+                      <ng-template #noImage>
+                        <span class="text-danger" >No Image/pdf found!</span>
+                      </ng-template>
+                      <br><br>
+                                        </div>
+                                        <div class="col-12 mb-4 mb-lg-0 text-center pt-2">
+                                            <div class="form-row">
+                                                <div class="form-group col-10">
+                                                    <label class="custom-file-label" for="file">{{appointment}}</label>
+                                                    <input type="file"
+                                                        accept="image/png, image/gif, image/jpg, image/jpeg, application/pdf"
+                                                        class="custom-file-input"
+                                                        aria-describedby="inputGroupFileAddon01" name="file" id="file"
+                                                        (change)="onFileSelectedAppointment($event)">
+                                                </div>
+                                                <div class="form-group col-2">
+                                                    <button mat-raised-button color="primary" (click)="uploadAppointment()"><i
+                                                            class="fas fa-upload"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end model -->
+
+            <!-- Update photo Modal -->
+            <div class="modal fade" id="photo" tabindex="-1" role="dialog" aria-labelledby="newMembershipLabel"
+                aria-hidden="true" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" *ngIf="userDetails.role == 'user'">
+                <div class="modal-dialog modal-md" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newMembershipLabel">User image</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                id="photoModalClose">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-body">
+                                <div class="col-sm-12">
+                                    <div class="form-row">
+                                        <div class="col-12 mb-4 mb-lg-0 text-center">
+                                            <img src="{{endpoint}}/docs/user/{{userData.id+'_'}}/{{userData.photo}}"
+                                                class="img-fluid border p-2" alt="Project image">
+                                        </div>
+                                        <div class="col-12 mb-4 mb-lg-0 text-center pt-2">
+                                            <div class="form-row">
+                                                <div class="form-group col-10">
+                                                    <label class="custom-file-label" for="file">{{photo}}</label>
+                                                    <input type="file"
+                                                        accept="image/png, image/gif, image/jpg, image/jpeg"
+                                                        class="custom-file-input"
+                                                        aria-describedby="inputGroupFileAddon01" name="file" id="file"
+                                                        (change)="onFileSelectedPhoto($event)">
+                                                </div>
+                                                <div class="form-group col-2">
+                                                    <button mat-raised-button color="primary" (click)="uploadPhoto()"><i
+                                                            class="fas fa-upload"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end model -->
+
+            <!-- Update Signature Modal -->
+            <div class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-labelledby="newMembershipLabel"
+                aria-hidden="true" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" *ngIf="userDetails.role == 'user'">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="newMembershipLabel">UPDATE USER DATA</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                id="userModalClose">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-body">
+                                <div class="col-sm-12">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>First Name: <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" [(ngModel)]="userData.f_name"
+                                                placeholder="First Name">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Last Name: <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" [(ngModel)]="userData.l_name"
+                                                placeholder="Last Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label> Phone Number: <span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control" [(ngModel)]="userData.phone_no"
+                                                placeholder=" Phone Number ">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Aadhaar Number: <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control"
+                                                [ngClass]="{'is-invalid': aadhaarError, 'is-valid': userData.aadhaar_number?.length === 12 && !aadhaarError}"
+                                                [(ngModel)]="userData.aadhaar_number"
+                                                (blur)="checkAadhaarUnique()"
+                                                (input)="onAadhaarInput($event)"
+                                                maxlength="12"
+                                                placeholder="Enter 12-digit Aadhaar Number">
+                                            <small class="text-danger font-weight-bold" *ngIf="aadhaarError">
+                                                <i class="fas fa-exclamation-circle"></i> {{aadhaarError}}
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label> Designation: <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" [(ngModel)]="userData.designation"
+                                                placeholder=" Designation ">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label> Department: <span class="text-danger">*</span></label>
+                                            <select class="form-control" id="exampleFormControlSelect1"
+                                                [(ngModel)]="userData.departmentId" name="departmentId">
+                                                <option>{{userData.department_name}}</option>
+                                                <option *ngFor="let data of departmentName" [value]="data.id">
+                                                    {{data.dept_name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Basic Pay of the Post: <span class="text-danger">*</span></label>
+                                            <select id="inputState" [(ngModel)]="userData.basic_pay"
+                                                class="form-control">
+                                                <option value="18000-19900">18000-19900</option>
+                                                <option value="21700-29200">21700-29200</option>
+                                                <option value="35400-47600">35400-47600</option>
+                                                <option value="53100-67700">53100-67700</option>
+                                                <option value="78800-144200">78800-144200</option>
+                                                <option value="182200-250000 & above">182200-250000 & above</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Pay Level in Pay matrix as per basic pay of the post: <span class="text-danger">*</span></label>
+                                            <select *ngIf="userData.basic_pay == '18000-19900'"
+                                                [(ngModel)]="userData.pay_matrix" class="form-control">
+                                                <option value="L1">L1</option>
+                                                <option value="L2">L2</option>
+                                            </select>
+
+                                            <select *ngIf="userData.basic_pay == '21700-29200'"
+                                                [(ngModel)]="userData.pay_matrix" class="form-control">
+                                                <option value="L3">L3</option>
+                                                <option value="L4">L4</option>
+                                                <option value="L5">L5</option>
+                                            </select>
+
+                                            <select *ngIf="userData.basic_pay == '35400-47600'"
+                                                [(ngModel)]="userData.pay_matrix" class="form-control">
+                                                <option value="L6">L6</option>
+                                                <option value="L7">L7</option>
+                                                <option value="L8">L8</option>
+                                            </select>
+
+                                            <select *ngIf="userData.basic_pay == '53100-67700'"
+                                                [(ngModel)]="userData.pay_matrix" class="form-control">
+                                                <option value="L9">L9</option>
+                                                <option value="L10">L10</option>
+                                                <option value="L11">L11</option>
+                                            </select>
+
+                                            <select *ngIf="userData.basic_pay == '78800-144200'"
+                                                [(ngModel)]="userData.pay_matrix" class="form-control">
+                                                <option value="L12">L12</option>
+                                                <option value="L13">L13</option>
+                                                <option value="L14">L14</option>
+                                            </select>
+
+                                            <select *ngIf="userData.basic_pay == '182200-250000 & above'"
+                                                [(ngModel)]="userData.pay_matrix" class="form-control">
+                                                <option value="L15">L15</option>
+                                            </select>
+
+
+                                            <!-- <input type="text" class="form-control" [(ngModel)]="data.pay_matrix"
+                            placeholder="Pay Level in the Pay Matrix"> -->
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label> Status of Service : <span class="text-danger">*</span></label>
+                                            <select class="form-control" id="exampleFormControlSelect1"
+                                                [(ngModel)]="userData.service_status">
+                                                <option label="Please Select"></option>
+                                                <option value="Regular">Regular</option>
+                                                <option value="Adhoc">Adhoc</option>
+                                                <option value="Contract">Contract</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label> Is Service Transferable?: <span class="text-danger">*</span></label>
+                                            <select class="form-control" id="exampleFormControlSelect1"
+                                                [(ngModel)]="userData.transferable">
+                                                <option label="Please Select"></option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Date of Appointment: <span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" id="inputEmail4" placeholder=" "
+                                                [(ngModel)]="userData.doa">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Date of Retirement: <span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" id="inputEmail4" placeholder=" "
+                                                [(ngModel)]="userData.dor">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="inputEmail4">Date of joining service in the present posting
+                                                place : <span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" id="inputEmail4" placeholder=" "
+                                                [(ngModel)]="userData.dojs">
+                                        </div>
+                                    </div>
+                                    <!-- <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="inputEmail4">Date of superannuation :</label>
+                                                <input type="date" class="form-control" id="inputEmail4" placeholder=" "
+                                                    [(ngModel)]="userData.dos">
+                                            </div>
+                                        </div> -->
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Spouse First Name:</label>
+                                            <input type="text" class="form-control" [(ngModel)]="userData.spouse_f_name"
+                                                placeholder="Spouse First Name">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label>Spouse Last Name:</label>
+                                            <input type="text" class="form-control" [(ngModel)]="userData.spouse_l_name"
+                                                placeholder="Spouse Last Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label> Spouse Occupation:</label>
+                                            <input type="text" class="form-control" [(ngModel)]="userData.spouse_occ"
+                                                placeholder="Spouse Occupation ">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>If Spouse is Govt. Employee, whether accommodation is
+                                                allotted?</label>
+                                            <select class="form-control" id="exampleFormControlSelect1"
+                                                [(ngModel)]="userData.spouse_acco">
+                                                <option label="Please Select"></option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label>Do you own residential house in Capital Complex? <span class="text-danger">*</span></label>
+                                            <select class="form-control" id="exampleFormControlSelect1"
+                                                [(ngModel)]="userData.resid_house">
+                                                <option label="Please Select"></option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <button (click)="updateUser()" class="btn btn-block btn-danger">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end model -->
+            <!-- /.row -->
+            <!-- Main row -->
+            <div class="row">
+                <!-- Add Modal -->
+                <!-- <div class="modal fade" id="editProfile" tabindex="-1" role="dialog" aria-labelledby="editProfileLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="editProfileLabel">Update Profile details</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+  
+                  <div class="card-body">
+                      <div class="col-sm-12">
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">First Name:</label>
+                                  <input type="text" class="form-control" [(ngModel)]="fund.f_name" id="inputEmail4" placeholder="First Name">
+                              </div>
+                              <div class="form-group col-md-6">
+                                <label for="inputEmail4">Middle Name:</label>
+                                <input type="text" class="form-control" id="inputEmail4" placeholder="Middle Name">
+                            </div>
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">Last Name:</label>
+                                  <input type="text" class="form-control" id="inputEmail4" placeholder="Last Name">
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4"> Fathers Name:</label>
+                                  <input type="text" class="form-control" id="inputEmail4"
+                                      placeholder=" Fathers Name">
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">Address:</label>
+                                  <input type="text" class="form-control" id="inputEmail4" placeholder="Address">
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">Gender:</label>
+                                  <select id="inputState" class="form-control">
+                                      <option selected>Please Select</option>
+                                      <option>...</option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4"> Purpose of Membership:</label>
+                                  <input type="text" class="form-control" id="inputEmail4"
+                                      placeholder="Purpose of Membership">
+                              </div>
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">Occupation:</label>
+                                  <input type="text" class="form-control" id="inputEmail4" placeholder="Occupation">
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4"> Introducer Member Name:</label>
+                                  <input type="text" class="form-control" id="inputEmail4"
+                                      placeholder="Introducer Member Name">
+                              </div>
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">Membership ID:</label>
+                                  <input type="text" class="form-control" id="inputEmail4"
+                                      placeholder="Membership ID">
+                              </div>
+                          </div>
+                      </div>
+                      <hr>
+                      <div class="col-sm-12 text-center">
+                          <h3>Existing Member</h3>
+                      </div>
+                      <div class="col-sm-12">
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4"> Membership ID :</label>
+                                  <input type="text" class="form-control" id="inputEmail4"
+                                      placeholder="Membership ID ">
+                              </div>
+                          </div>
+                          <hr>
+                      </div>
+                      <div class="col-sm-12 text-center">
+                          <h3>SHARE APPLICATION</h3>
+                      </div>
+                      <div class="col-sm-12">
+                          <div class="form-row">
+                              <div class="form-group col-md-4">
+                                  <label for="inputEmail4">A Class:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                              <div class="form-group col-md-4">
+                                  <label for="inputEmail4">Price Rs:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                              <div class="form-group col-md-4">
+                                  <label for="inputEmail4">Admin Fee:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-4">
+                                  <label for="inputEmail4">B Class:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                              <div class="form-group col-md-4">
+                                  <label for="inputEmail4">Price Rs:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                              <div class="form-group col-md-4">
+                                  <label for="inputEmail4">Admin Fee:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-4">
+                                  <label for="inputEmail4">C Class:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                              <div class="form-group col-md-4">
+                                  <label for="inputEmail4">Price Rs:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                              <div class="form-group col-md-4">
+                                  <label for="inputEmail4">Admin Fee:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-4">
+                                  <label for="inputEmail4">D Class:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                              <div class="form-group col-md-4">
+                                  <label for="inputEmail4">Price Rs:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                              <div class="form-group col-md-4">
+                                  <label for="inputEmail4">Admin Fee:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">PAN:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">AADHAAR:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-sm-12 text-center">
+                          <h3>NOMINATION</h3>
+                      </div>
+                      <div class="col-sm-12">
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4"> Nominee Name:</label>
+                                  <input type="text" class="form-control" id="inputEmail4"
+                                      placeholder=" Nominee Name">
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">Gender:</label>
+                                  <select id="inputState" class="form-control">
+                                      <option selected>Please Select</option>
+                                      <option>...</option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">Mobile Number:</label>
+                                  <input type="number" class="form-control" id="inputEmail4"
+                                      placeholder="Mobile Number">
+                              </div>
+                          </div>
+                          <br>
+  
+                          <div class="form-row">
+                              <div class="col-md-12">
+                                  <label for="inputEmail4">Declaration</label>
+                                  <div class="form-check">
+                                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                      <label class="form-check-label text-justify" for="exampleCheck1">
+                                          I hereby agree to be a member of the Lakhimi Sanchay and Rindan S.S. Limited
+                                          subject to the rules and regulations of the
+                                          approved Share of the Society and future amendments to the same. I shall
+                                          maintain my duties and responsibilities as member of
+                                          the society and follow up rules & regulations lay down by the society time
+                                          to time.
+                                          <br>
+                                          (Approval is subject to consideration of BOD. If not, money will returned as same).
+                                      </label>
+                                  </div>
+                              </div>
+                          </div>
+                          <br>
+                      </div>
+                      <hr>
+                      <div class="col-sm-12 text-center">
+                          <h3>ACCOUNT APPLICATION</h3>
+                      </div>
+                      <div class="col-sm-12">
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">Account Type:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">Deposit Period:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">Frequency:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">First Instalment Amount:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">Opening Fee:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">PAN:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">Email Address:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">AADHAAR NO.:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">Mobile Number:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">Branch Name:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                              <div class="form-group col-md-6">
+                                  <label for="inputEmail4">CSP/ MSP Code:</label>
+                                  <input type="text" class="form-control" id="inputEmail4">
+                              </div>
+                          </div>
+                          <hr>
+                          <div class="col-sm-12 text-center">
+                              <h3>BANK ACCOUNT DETAILS</h3>
+                          </div>
+                          <div class="col-sm-12">
+                              <div class="form-row">
+                                  <div class="form-group col-md-6">
+                                      <label for="inputEmail4">Name in Account:</label>
+                                      <input type="text" class="form-control" id="inputEmail4">
+                                  </div>
+                                  <div class="form-group col-md-6">
+                                      <label for="inputEmail4">Account Type:</label>
+                                      <input type="text" class="form-control" id="inputEmail4">
+                                  </div>
+                              </div>
+                              <div class="form-row">
+                                  <div class="form-group col-md-6">
+                                      <label for="inputEmail4">Account Number:</label>
+                                      <input type="text" class="form-control" id="inputEmail4">
+                                  </div>
+                                  <div class="form-group col-md-6">
+                                      <label for="inputEmail4">IFSC:</label>
+                                      <input type="text" class="form-control" id="inputEmail4">
+                                  </div>
+                              </div>
+                              <div class="form-row">
+                                  <div class="form-group col-md-6">
+                                      <label for="inputEmail4">Bank Name:</label>
+                                      <input type="text" class="form-control" id="inputEmail4">
+                                  </div>
+                                  <div class="form-group col-md-6">
+                                      <label for="inputEmail4">Branch:</label>
+                                      <input type="text" class="form-control" id="inputEmail4">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+  
+                  </div>
+                  <div class="form-group row">
+                      <div class="col-sm-12 text-center">
+                          <button mat-raised-button color="primary">Sumbit</button>
+                      </div>
+                  </div>
+              </div>
+              </div>
+            </div>
+          </div> -->
+
+                <!-- end model -->
+            </div>
+            <!-- /.row (main row) -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>

@@ -1,0 +1,422 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">No Dues Certificate for Applying Pension clearance</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">No Dues Certificate</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col-md-12">
+                    
+
+                    <div class="card">
+
+                        <div class="card-body">
+
+                            <div class="row justify-content-end p-3">
+                                <button mat-raised-button color="primary" data-toggle="modal"
+                                    data-target="#newMembership">+ New
+                                    Request</button>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="info-box bg-gradient-warning">
+                                        <span class="info-box-icon"><i class="fas fa-copy"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-number">No Dues Certificate for Applying Pension clearance</span>
+                                            <span class="info-box-text">Reference No.:</span>
+                                            <span class="info-box-text">Apply date:</span>
+                                            <span class="info-box-text">Status:</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-end p-3">
+                                <button printSectionId="print-section" ngxPrint [useExistingCss]="true"
+                        styleSheetFile="../node_modules/bootstrap/dist/css/bootstrap.min.css" mat-raised-button color="accent">
+                        <i class="fas fa-print"></i> print</button>
+                            </div>
+                            <div id="print-section" class="p-4">
+
+                                <div class="row border border-dark rounded brdr-0 p-4">
+                                    <div class="col-12 text-center b">
+                                        <h3><b>APPLICATION FORM FOR NO DUES CERTIFICATE</b></h3>
+                                        <h3><b>FOR APPLYING PENSION</b></h3>
+                                        <!-- <b>(Only for Regular Employees)
+                                        </b> -->
+                                    </div>
+                                    <br>
+                                    <br><br><br>
+                                    <br><br>
+                                    <div class="col-12 pt-3">
+                                        <div class="form-row">
+                                            <div class="form-group col-7">
+                                                <b>1. Name in full (in Block Letters)</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{userDetails.f_name | uppercase }} {{userDetails.l_name |
+                                                uppercase }}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b>2. Designation</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b>
+                                                {{userDetails.designation}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b>3. Department</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{data}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b>4. Basic Pay</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{userDetails.basic_pay}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b>5. Contact No.</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{userDetails.phone_no}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b>6. Status of Service:</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{userDetails.service_status}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>a&#41; Date of Appointment</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{userDetails.doa}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>b&#41; Is Service Transferable?</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{userDetails.transferable}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>c&#41; Date of joining service in the Town /
+                                                    Capital Complex</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{userDetails.dojs}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b>7. Date of superannuation</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{userDetails.dos}}
+                                            </div>
+
+                                            <div class="form-group col-12">
+                                                <b>8. Details of quarter allotted:</b>
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>a&#41; Quarter No. and Type</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b>
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>b&#41; Sector and Location</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b>
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>c&#41; Enclose a latest copy of civic
+                                                    charges
+                                                    deducted </b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b>
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>d&#41; Is the quarter encroached </b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b>
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>e&#41; If yes, by whom? </b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b>
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>f&#41; Nature of Encroachment</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b>
+                                            </div>
+
+                                            <div class="form-group col-12">
+                                                <b>9. Details of spouse</b>
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>a&#41; Name</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{userDetails.spouse_f_name}} {{userDetails.spouse_l_name}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>b&#41; Spouse Occupation</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b> {{userDetails.spouse_occ}}
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab"></span>c&#41; If Govt. Employee, whether
+                                                    accommodation
+                                                    is allotted?</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b>
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab1"></span>i&#41; Quarter No. and Type</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b>
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab1"></span>ii&#41; Sector and Location </b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b>
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab1"></span>iii&#41; Is the quarter encroached</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b>
+                                            </div>
+                                        
+                                            <div class="form-group col-7">
+                                                <b><span class="tab1"></span>iv&#41; If yes, by whom?</b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b>
+                                            </div>
+
+                                            <div class="form-group col-7">
+                                                <b><span class="tab1"></span>v&#41; Nature of Encroachment </b>
+                                            </div>
+                                            <div class="form-group col-5">
+                                                <b>:</b>
+                                            </div>
+                                        </div>
+
+                                        <br>
+                                        <br>
+                                        <br>
+
+                                        <div class="col-12 text-center">
+                                            <h3><u><b>DECLARATION AND UNDERTAKING</b></u> </h3>
+                                        </div>
+                                        <br><br>
+                                        <div class="col-12">
+                                            <span class="tab"></span>I do hereby declare that I have not suppressed
+                                            any material fact nor have misrepresented any fact.
+                                        </div>
+                                        <br>
+                                        <br><br>
+                                        <div class="row">
+                                            <div class="form-group col-4">
+                                                <b>Date: </b>
+                                                <br>
+                                                <b>Place: </b>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <br><br>
+                                            <div class="form-group col-12">
+                                                <p class="text-right"><u><b>Signature of applicant</b></u></p>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- ./col -->
+        </div>
+        <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+
+        </div>
+        <!-- /.row (main row) -->
+        <!-- NOC request Modal -->
+        <div class="modal fade" id="newMembership" tabindex="-1" role="dialog" aria-labelledby="newMembershipLabel"
+            aria-hidden="true" data-backdrop="static" data-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newMembershipLabel">No Dues Certificate</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modalClose">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="card-body">
+                            <!-- <div class="col-sm-12 text-center">
+                        <h3>FRESH MEMBERSHIP APPLICATION</h3>
+                    </div> -->
+                            <div class="col-sm-12">
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail4">Is there any cases of encroachments pending (Yes/No):</label>
+                                        <select class="form-control" id="exampleFormControlSelect1"
+                                                    [(ngModel)]="userDetails.enc_status">
+                                                    <option label="Please Select"></option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                    </div>
+
+
+                                    <div class="form-group col-md-12 p-0 m-0">
+                                        <label for="inputEmail4" class="text-danger m-0"><h4>Spouse details</h4></label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail4">If Govt. Employee, whether accommodation is allotted?:</label>
+                                        <select class="form-control" id="exampleFormControlSelect1"
+                                                    [(ngModel)]="userDetails.spouse_qrtr_avail">
+                                                    <option label="Please Select"></option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                    </div>
+
+                                    <div class="form-group col-md-6" *ngIf="userDetails.spouse_qrtr_avail == 'Yes'">
+                                        <label for="inputEmail4">Quarter No. and Type:</label>
+                                        <input type="text" class="form-control" id="inputEmail4"
+                                                    [(ngModel)]="userDetails.spouse_qrtr_no_type"
+                                                    placeholder="Quarter No. and Type">
+                                    </div>
+                                
+                                    <div class="form-group col-md-6" *ngIf="userDetails.spouse_qrtr_avail == 'Yes'">
+                                        <label for="inputEmail4"> Sector and Location:</label>
+                                        <input type="text" class="form-control" id="inputEmail4"
+                                                    [(ngModel)]="userDetails.spouse_qrtr_sctr_loc"
+                                                    placeholder="Sector and Location">
+                                    </div>
+                                    <div class="form-group col-md-6" *ngIf="userDetails.spouse_qrtr_avail == 'Yes'">
+                                        <label for="inputEmail4"> Is the quarter encroached:</label>
+                                        <select class="form-control" id="exampleFormControlSelect1"
+                                                    [(ngModel)]="userDetails.spouse_qrtr_enc">
+                                                    <option label="--Please Select --"></option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                    </div>
+                                
+                                    <div class="form-group col-md-6" *ngIf="userDetails.spouse_qrtr_enc == 'Yes' && userDetails.spouse_qrtr_avail == 'Yes'">
+                                        <label for="inputEmail4">If yes, by whom?</label>
+                                        <input type="text" class="form-control" id="inputEmail4"
+                                                    [(ngModel)]="userDetails.spouse_qrtr_enc_name" placeholder="Name">
+                                    </div>
+                                    <div class="form-group col-md-6" *ngIf="userDetails.spouse_qrtr_enc == 'Yes' && userDetails.spouse_qrtr_avail == 'Yes'">
+                                        <label for="inputEmail4">Nature of Encroachment:</label>
+                                        <input type="text" class="form-control" id="inputEmail4"
+                                                    [(ngModel)]="userDetails.spouse_qrtr_enc_nature"
+                                                    placeholder="Nature of Encroachment">
+                                    </div>
+                                    <div class="form-group col-12">
+                                        <b>Certificate enclosed at Annexure-C must be filled by
+                                            the Head of Department / Controlling Officer <span
+                                                class="text-danger"><a href="../../assets/files/ANNEXURE-D.pdf"
+                                                    target="_blank"> (Download)</a></span>
+                                        </b>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label class="custom-file-label" for="file"></label>
+                                                <input type="file"
+                                                    accept="image/png, image/gif, image/jpg, image/jpeg"
+                                                    class="custom-file-input"
+                                                    aria-describedby="inputGroupFileAddon01" name="file" id="file">
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <button mat-raised-button color="primary"><i
+                                                        class="fas fa-upload"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <button class="btn btn-success">Submit</button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+                        <!-- <div class="form-group row" *ngIf="!showSave">
+                    <div class="col-sm-12 text-center">
+                        <button mat-raised-button color="primary" (click)="uploadPan()">Sumbit</button>
+                    </div>
+                    <div class="col-sm-12 text-center">
+                        <button type="button" id="modalClose" class="btn btn-danger"
+                            data-dismiss="modal">Cancel</button>
+                    </div>
+                </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>

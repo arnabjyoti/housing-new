@@ -1,0 +1,14 @@
+h3 {
+    margin: 0;
+}
+.tab {
+    display: inline-block;
+    margin-left: 40px;
+}
+.tab1{
+    display: inline-block;
+    margin-left: 80px;
+}
+.brdr-0{
+    margin: 0;
+}

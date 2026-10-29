@@ -1,0 +1,172 @@
+<p>sector works!</p>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Sector</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+              <li class="breadcrumb-item active"><a href="#">Sector</a></li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row justify-content-end p-3">
+          <button mat-raised-button color="primary" data-toggle="modal" data-target="#exampleModal">+ Sector</button>
+      </div> 
+          <div class="mat-elevation-z8">
+              <form class="example-form">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Search Here</mat-label>
+                    <input matInput (keyup)="FilterChange($event)" placeholder="Search">
+                  </mat-form-field>
+              </form>   
+              <table mat-table [dataSource]="dataSource">
+            
+                
+                <!-- Serial number Column -->
+                <ng-container matColumnDef="Sl">
+                  <th mat-header-cell *matHeaderCellDef class="text-center"> Sl. No. </th>
+                  <td mat-cell *matCellDef="let element let i = index;" class="text-center">
+                       {{ paginator.pageIndex*paginator.pageSize + (i + 1) }} 
+                  </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="loc_name">
+                    <th mat-header-cell *matHeaderCellDef class="text-center"> Location Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.locatn}} </td>
+                  </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="sector_name">
+                  <th mat-header-cell *matHeaderCellDef class="text-center"> Sector Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.sctr_name}} </td>
+                </ng-container>
+            
+               <!-- Action Column -->
+               <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef class="text-center"> Action </th>
+                  <td mat-cell *matCellDef="let row" class="text-center"> 
+                      <button (click)="showLocUpdateModal(row)" data-toggle="modal" data-target="#sctrUpdate" mat-raised-button color="primary">Edit</button>
+                      <button mat-raised-button color="warn">Delete</button>
+                   </td>
+                </ng-container>
+                
+            
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            
+              <mat-paginator [pageSizeOptions]="[10, 20, 50]"
+                             showFirstLastButtons
+                             aria-label="Select page of periodic elements">
+              </mat-paginator>
+            </div>
+            
+        
+        <!-- Main row -->
+        <div class="row">
+         
+        </div>
+        <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+    <!-- Add Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Location</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+            <div class="form-group row">
+              <label  class="col-sm-4 col-form-label">Sector Name:</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control"  [(ngModel)]="sectorData.sector_name" required="required" placeholder="Sector Name">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label  class="col-sm-4 col-form-label">Location Name:</label>
+              <div class="col-sm-8">
+                <select class="form-control" id="Location" [(ngModel)]="sectorData.loc_name">
+                  <option label="--Please Select --"></option>
+                  <option *ngFor="let locData of locationData;" value="{{locData.id}}">
+                      {{locData.loc_name}}
+                  </option>
+              </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-12">
+                <button type="submit" (click)="save()" class="btn btn-block btn-primary">Sumbit</button>
+              </div>
+              <div class="col-sm-12">
+                <button type="button" id="modalClose" class="btn btn-link danger btn-block" data-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- update Modal -->
+  <div class="modal fade" id="sctrUpdate(change kra ase)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Location</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <div class="form-group row">
+            <label  class="col-sm-4 col-form-label">Sector Name:</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control"  [(ngModel)]="selectedSector.sctr_name" required="required" placeholder="Sector Name">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label  class="col-sm-4 col-form-label">Location Name:</label>
+            <div class="col-sm-8">
+              <select class="form-control" id="Location" [(ngModel)]="selectedSector.loc_id">
+                <option value="{{selectedSector.loc_id}}">
+                  {{selectedSector.locatn}}
+                </option>
+                <option *ngFor="let locData of locationData;" value="{{locData.id}}">
+                    {{locData.loc_name}}
+                </option>
+            </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <button type="submit" disabled class="btn btn-block btn-primary">Update</button>
+            </div>
+            <div class="col-sm-12">
+              <button type="button" id="modalClosed" class="btn btn-danger btn-block" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>

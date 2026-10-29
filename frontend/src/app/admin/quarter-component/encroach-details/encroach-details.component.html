@@ -1,0 +1,503 @@
+<!-- Spinner -->
+<div id="loading-wrapper" *ngIf="isLoading">
+  <ngx-spinner bdColor="rgba(0,0,0,0.9)" type="ball-clip-rotate"></ngx-spinner>
+</div>
+
+<div class="content-wrapper">
+  <!-- Content Header -->
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Details of Encroachment</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+            <li class="breadcrumb-item active">Details of Encroachment</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="mat-elevation-z8">
+        
+        <!-- Filters & Actions Bar -->
+        <div class="table-toolbar-filter">
+          <div class="filter-inputs-group">
+            <div class="filter-item">
+              <input class="form-control" (keyup)="FilterChange($event)" placeholder="Search here">
+            </div>
+            <div class="filter-item">
+              <select class="form-control" (change)="onLocationFilterChange($event)" [(ngModel)]="filter.loc_id">
+                <option value="">Select Location</option>
+                <option *ngFor="let loc of locationData" [value]="loc.id">{{ loc.loc_name }}</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <select class="form-control" (change)="FilterChangeSector($event)" [(ngModel)]="filter.sec_id">
+                <option value="">Select Sector</option>
+                <option *ngFor="let sctr of sectorData" [value]="sctr.id">{{ sctr.sctr_name }}</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <select class="form-control" (change)="FilterChangeQrtrType($event)" [(ngModel)]="filter.type">
+                <option value="">Select Quarter Type</option>
+                <option *ngFor="let type of quarterTypes" [value]="type">{{ type }}</option>
+              </select>
+            </div>
+            <div class="filter-item">
+              <select class="form-control" (change)="FilterChangeEncType($event)" [(ngModel)]="filter.encroached_type">
+                <option value="ALL">All Encroached Types</option>
+                <option value="EMPTY">Not Specified (Empty)</option>
+                <option *ngFor="let type of encroachedTypeOptions" [value]="type">{{ type }}</option>
+              </select>
+            </div>
+            <button mat-raised-button class="btn-reset" (click)="resetFilter()" title="Reset Filters">
+              <i class="fas fa-recycle mr-1"></i> Reset
+            </button>
+          </div>
+          <div class="filter-actions-group">
+            <button mat-raised-button color="purple" (click)="downloadPDF()">
+              <i class="fas fa-download mr-1"></i> PDF
+            </button>
+            <button mat-raised-button color="primary" data-toggle="modal" data-target="#newModal">
+              <i class="fas fa-plus mr-1"></i> New
+            </button>
+          </div>
+        </div>
+
+            <!-- Material Data Table -->
+            <table mat-table [dataSource]="dataSource">
+              <ng-container matColumnDef="Sl">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Sl. No.</th>
+                <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+                  {{ paginator.pageIndex * paginator.pageSize + (i + 1) }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="allotee_name">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Allottee Name</th>
+                <td mat-cell *matCellDef="let element">{{ element.allotee_name }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="allotee_dept_name">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Department Name</th>
+                <td mat-cell *matCellDef="let element">{{ element.allotee_dept_name }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="name_of_encroacher">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Encroacher Name</th>
+                <td mat-cell *matCellDef="let element">{{ element.name_of_encroacher }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="location">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Location Name</th>
+                <td mat-cell *matCellDef="let element">{{ element.loc_name }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="sector">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Sector Number</th>
+                <td mat-cell *matCellDef="let element">{{ element.sctr_name }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Quarter Type</th>
+                <td mat-cell *matCellDef="let element">{{ element.qrtr_type }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="qrtr_no">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Quarter Number</th>
+                <td mat-cell *matCellDef="let element">{{ element.qrtr_no }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="encroached_type">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Encroached Type</th>
+                <td mat-cell *matCellDef="let element" class="text-center">
+                  <span class="badge" [ngClass]="{
+                    'badge-danger': element.encroached_type === 'Encroached',
+                    'badge-warning': element.encroached_type === 'Demolished',
+                    'badge-secondary': element.encroached_type === 'Missing' || !element.encroached_type
+                  }">
+                    {{ element.encroached_type || 'N/A' }}
+                  </span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef class="text-center">Action</th>
+                <td mat-cell *matCellDef="let row" class="text-center">
+                  <button (click)="showEncModal(row)" data-toggle="modal" data-target="#enchModal" mat-raised-button color="primary">
+                    <i class="fas fa-arrow-circle-right"></i>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons aria-label="Select page"></mat-paginator>
+          </div>
+    </div>
+  </section>
+
+  <!-- Add New Encroachment Modal -->
+  <div class="modal fade" id="newModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">New Encroachment</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetForm()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-bg">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Location name:</label>
+                <select class="form-control" (change)="setLocation()" [(ngModel)]="formData.loc_id">
+                  <option value="">Select Location</option>
+                  <option *ngFor="let loc of locationData" [value]="loc.id">{{ loc.loc_name }}</option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label>Sector name:</label>
+                <select class="form-control" [(ngModel)]="formData.sec_id">
+                  <option value="">Select Sector</option>
+                  <option *ngFor="let sctr of sectorData" [value]="sctr.id">{{ sctr.sctr_name }}</option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label>Quarter type:</label>
+                <select class="form-control" [(ngModel)]="formData.type">
+                  <option value="">Select Type</option>
+                  <option *ngFor="let type of quarterTypes" [value]="type">{{ type }}</option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label>Encroached Type:</label>
+                <select class="form-control" [(ngModel)]="formData.encroached_type">
+                  <option value="">Select Encroached Type</option>
+                  <option *ngFor="let opt of encroachedTypeOptions" [value]="opt">{{ opt }}</option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label>Quarter No.:</label>
+                <input type="text" class="form-control" [(ngModel)]="formData.qrtr_no" placeholder="Quarter No.">
+              </div>
+
+              <div class="form-group col-md-6">
+                <label>Name of the allottee:</label>
+                <input type="text" class="form-control" [(ngModel)]="formData.allotee_name" placeholder="Name of the allottee">
+              </div>
+
+              <div class="form-group col-md-6">
+                <label>Designation of allottee:</label>
+                <input type="text" class="form-control" [(ngModel)]="formData.allotee_designation" placeholder="Designation of allottee">
+              </div>
+
+              <div class="form-group col-md-6">
+                <label>Department name:</label>
+                <select class="form-control" [(ngModel)]="formData.department">
+                  <option value="">Select Department</option>
+                  <option *ngFor="let dept of departmentName" [value]="dept.id">{{ dept.dept_name }}</option>
+                </select>
+              </div>
+            </div>
+
+            <hr>
+            <h3 class="text-center mb-3"><u><b>Encroacher details</b></u></h3>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Name of encroacher:</label>
+                <input type="text" class="form-control" [(ngModel)]="formData.name_of_encroacher" placeholder="Name of encroacher">
+              </div>
+
+              <div class="form-group col-md-6">
+                <label>Encroacher Status:</label>
+                <select class="form-control" [(ngModel)]="formData.designation_of_encroacher">
+                  <option value="">Select encroacher designation</option>
+                  <option value="Employee">Employee</option>
+                  <option value="Public">Public</option>
+                </select>
+              </div>
+
+              <ng-container *ngIf="formData.designation_of_encroacher === 'Employee'">
+                <div class="form-group col-md-6">
+                  <label>Department in which Encroacher works:</label>
+                  <select class="form-control" [(ngModel)]="formData.department_of_encroacher">
+                    <option value="">Select Encroacher department</option>
+                    <option *ngFor="let dept of departmentName" [value]="dept.id">{{ dept.dept_name }}</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label>Designation:</label>
+                  <input type="text" class="form-control" [(ngModel)]="formData.encroacher_designation" placeholder="Designation">
+                </div>
+              </ng-container>
+
+              <div class="form-group col-md-12">
+                <label>Encroachment details:</label>
+                <textarea class="form-control" [(ngModel)]="formData.encroachment_details" rows="3"></textarea>
+              </div>
+            </div>
+
+            <div class="form-group col-md-12 px-0" *ngIf="showSaveBtn">
+              <button (click)="save()" class="btn btn-block btn-danger">Save</button>
+            </div>
+
+            <!-- Dynamic File Upload Section -->
+            <div *ngIf="formUpload" class="mt-4">
+              <h3 class="text-center mb-3">UPLOAD DOCUMENT</h3>
+              
+              <div class="form-row">
+                <div class="col-12 my-2" *ngFor="let slot of imageSlots; let idx = index">
+                  <label>Image {{ idx + 1 }}:</label>
+                  <div class="form-row align-items-center">
+                    <div class="form-group col-6 mb-0">
+                      <label class="custom-file-label">{{ slot.label }}</label>
+                      <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg" class="custom-file-input" (change)="onFileSelect(idx, $event)">
+                    </div>
+                    <div class="form-group col-2 mb-0" *ngIf="slot.showBtn">
+                      <button class="btn btn-success" (click)="uploadImageSlot(idx)"><i class="fas fa-upload"></i></button>
+                    </div>
+                    <div class="form-group col-4 mb-0" *ngIf="slot.isUploaded">
+                      <p class="text-success mb-0"><i class="fas fa-check-circle"></i> Upload Successful!</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 pt-4 text-right">
+                <button class="btn btn-danger" (click)="saveAndClose()" data-dismiss="modal">Save & close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Encroachment View/Edit Modal -->
+  <div class="modal fade" id="enchModal" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">ENCROACHMENT DETAILS</h5>
+          <button type="button" class="close" data-dismiss="modal" (click)="closeModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3 text-right">
+            <button (click)="toggleEdit()" [ngClass]="isEditing ? 'btn-danger' : 'btn-primary'" class="btn">
+              {{ isEditing ? 'Cancel Edit' : 'Edit' }}
+            </button>
+          </div>
+
+          <!-- Read-Only View -->
+          <div *ngIf="!isEditing">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Location name:</label>
+                <input type="text" class="form-control" readonly [value]="selectedEnc.loc_name">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Sector name:</label>
+                <input type="text" class="form-control" readonly [value]="selectedEnc.sctr_name">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Quarter type:</label>
+                <input type="text" class="form-control" readonly [value]="selectedEnc.qrtr_type">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Encroached Type:</label>
+                <input type="text" class="form-control" readonly [value]="selectedEnc.encroached_type">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Quarter No.:</label>
+                <input type="text" class="form-control" readonly [value]="selectedEnc.qrtr_no">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Name of the allottee:</label>
+                <input type="text" class="form-control" readonly [value]="selectedEnc.allotee_name">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Designation of allottee:</label>
+                <input type="text" class="form-control" readonly [value]="selectedEnc.allotee_designation">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Allottee Department name:</label>
+                <input type="text" class="form-control" readonly [value]="selectedEnc.allotee_dept_name">
+              </div>
+            </div>
+
+            <hr>
+            <h3 class="text-center my-3"><u><b>Encroacher details</b></u></h3>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Name of encroacher:</label>
+                <input type="text" class="form-control" readonly [value]="selectedEnc.name_of_encroacher">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Encroacher Type:</label>
+                <input type="text" class="form-control" readonly [value]="selectedEnc.designation_of_encroacher">
+              </div>
+              <ng-container *ngIf="selectedEnc.designation_of_encroacher === 'Employee'">
+                <div class="form-group col-md-6">
+                  <label>Department in which Encroacher works:</label>
+                  <input type="text" class="form-control" readonly [value]="selectedEnc.department_of_encroacher">
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Designation:</label>
+                  <input type="text" class="form-control" readonly [value]="selectedEnc.encroacher_designation">
+                </div>
+              </ng-container>
+              <div class="form-group col-md-12">
+                <label>Encroachment details:</label>
+                <textarea class="form-control" readonly [value]="selectedEnc.encroachment_details" rows="3"></textarea>
+              </div>
+            </div>
+
+            <!-- Display Uploaded Photos -->
+            <div class="form-row mt-3">
+              <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
+                <div class="col-md-6 p-3 border text-center" *ngIf="selectedEnc['photo_' + i]">
+                  <a [href]="endpoint + '/docs/encroachment/' + selectedEnc.id + '_/' + selectedEnc['photo_' + i]" class="img-fluid border p-2" target="_blank">
+                    Photo {{ i }}
+                  </a>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+
+          <!-- Edit View -->
+          <div *ngIf="isEditing">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Location name:</label>
+                <select class="form-control" (change)="setQuarterLocationUpdate()" [(ngModel)]="selectedEnc.loc_id">
+                  <option *ngFor="let loc of locationData" [value]="loc.id">{{ loc.loc_name }}</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Sector name:</label>
+                <select class="form-control" [(ngModel)]="selectedEnc.sec_id">
+                  <option *ngFor="let sctr of filteredSectors" [value]="sctr.id">{{ sctr.sctr_name }}</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Quarter type:</label>
+                <select class="form-control" [(ngModel)]="selectedEnc.qrtr_type">
+                  <option *ngFor="let type of quarterTypes" [value]="type">{{ type }}</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Encroached Type:</label>
+                <select class="form-control" [(ngModel)]="selectedEnc.encroached_type">
+                  <option value="">Select Encroached Type</option>
+                  <option *ngFor="let opt of encroachedTypeOptions" [value]="opt">{{ opt }}</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Quarter No.:</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedEnc.qrtr_no">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Name of the allottee:</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedEnc.allotee_name">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Designation of allottee:</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedEnc.allotee_designation">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Allottee Department name:</label>
+                <select class="form-control" [(ngModel)]="selectedEnc.allotee_dept_id">
+                  <option *ngFor="let dept of departmentName" [value]="dept.id">{{ dept.dept_name }}</option>
+                </select>
+              </div>
+            </div>
+
+            <hr>
+            <h3 class="text-center my-3"><u><b>Encroacher details</b></u></h3>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Name of encroacher:</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedEnc.name_of_encroacher">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Encroacher Status:</label>
+                <select class="form-control" [(ngModel)]="selectedEnc.designation_of_encroacher">
+                  <option value="Employee">Employee</option>
+                  <option value="Public">Public</option>
+                </select>
+              </div>
+              <ng-container *ngIf="selectedEnc.designation_of_encroacher === 'Employee'">
+                <div class="form-group col-md-6">
+                  <label>Department in which Encroacher works:</label>
+                  <select class="form-control" [(ngModel)]="selectedEnc.department_id_of_encroacher">
+                    <option *ngFor="let dept of departmentName" [value]="dept.id">{{ dept.dept_name }}</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Designation:</label>
+                  <input type="text" class="form-control" [(ngModel)]="selectedEnc.encroacher_designation">
+                </div>
+              </ng-container>
+              <div class="form-group col-md-12">
+                <label>Encroachment details:</label>
+                <textarea class="form-control" [(ngModel)]="selectedEnc.encroachment_details" rows="3"></textarea>
+              </div>
+            </div>
+
+            <button type="button" (click)="updateEnch()" class="btn btn-success btn-block mb-4">
+              <i class="fas fa-save mr-1"></i> Update Details
+            </button>
+
+            <!-- Photo Upload Inputs for Edit Mode -->
+            <div class="form-row">
+              <div class="form-group row col-12 align-items-center" *ngFor="let i of [1, 2, 3, 4]">
+                <div class="col-md-4">
+                  <label>Photo {{ i }} (jpeg/jpg/pdf):</label>
+                </div>
+                <div class="col-md-5">
+                  <label class="custom-file-label">{{ photoLabels['photo' + i] || 'Choose File' }}</label>
+                  <input type="file" accept="image/*,application/pdf" class="custom-file-input" (change)="onPhotoSelected($event, 'photo' + i)">
+                </div>
+                <div class="col-md-1">
+                  <button type="button" (click)="uploadPhotoSlot(i)" class="btn btn-success">
+                    <i class="fas fa-upload"></i>
+                  </button>
+                </div>
+                <div class="col-md-2" *ngIf="selectedEnc['photo_' + i]">
+                  <p class="text-success mb-0"><i class="fas fa-check"></i> Uploaded</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group mt-3">
+            <button type="button" (click)="deleteEncroach()" class="btn btn-danger btn-block">
+              <i class="fas fa-trash mr-1"></i> Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

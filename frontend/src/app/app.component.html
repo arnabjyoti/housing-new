@@ -1,0 +1,19 @@
+<!-- Global Loading Overlay -->
+<div class="app-global-loader" *ngIf="isLoading$ | async">
+  <div class="app-loader-card">
+    <div class="app-spinner-ring"></div>
+    <div class="app-loader-text">Loading...</div>
+  </div>
+</div>
+
+<!-- Modern App Layout -->
+<div class="app-layout" [class.app-layout-auth]="!isLoggedIn">
+  <!-- Topbar & Sidebar Navigation (Only when logged in) -->
+  <app-tovnav *ngIf="isLoggedIn"></app-tovnav>
+
+  <!-- Main View Container -->
+  <main class="app-main-content" [class.full-width]="!isLoggedIn">
+    <router-outlet></router-outlet>
+    <app-footer *ngIf="isLoggedIn"></app-footer>
+  </main>
+</div>

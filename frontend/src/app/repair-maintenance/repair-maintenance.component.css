@@ -1,0 +1,14 @@
+.form-section-title {
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    text-decoration: underline;
+  }
+  .form-group-label {
+    font-weight: bold;
+  }
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
