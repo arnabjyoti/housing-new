@@ -118,11 +118,10 @@ export class SectorComponent implements OnInit{
     let requestObject = {};
     this.SectorService.getLocation(requestObject, (callback:any)=>{
       console.log(callback);
-      // this.departmentName = new MatTableDataSource(callback);
-      this.locationData = callback;
+      this.locationData = Array.isArray(callback)
+        ? callback.filter((loc: any) => loc && loc.status !== '0' && loc.status !== 0)
+        : [];
       console.log("location details",this.locationData);
-      
-      
     });  
   }
   validateInputs = () =>{

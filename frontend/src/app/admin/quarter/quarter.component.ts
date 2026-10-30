@@ -384,12 +384,10 @@ mergeTables() {
   location = () => {
     let requestObject = {};
     this.QuarterService.getLocation(requestObject, (callback: any) => {
-      this.locationData = callback;
-
-      console.log("hhhhhhhh",callback);
-      
-      // this.tempLoc = callback
-
+      this.locationData = Array.isArray(callback)
+        ? callback.filter((loc: any) => loc && loc.status !== '0' && loc.status !== 0)
+        : [];
+      console.log("hhhhhhhh", this.locationData);
     });
   }
 
@@ -708,7 +706,7 @@ mergeTables() {
 
   downloadPDF() {
     const tableBody = [
-      ['S.No', 'Allottee Name', 'Department Name', 'Designation', 'Location Name', 'Sector Number', 'Quarter Type', 'Quarter Number'],
+      ['S.No', 'Allottee Name', 'Department Name', 'Designation', 'Location Name', 'Sector Name', 'Quarter Type', 'Quarter Number'],
       ...this.dataSource.data.map((item: any, index: number) => [
         index + 1,
         item.allottee_name || '',       // Assuming these fields exist

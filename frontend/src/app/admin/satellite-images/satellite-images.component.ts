@@ -21,7 +21,9 @@ export class SatelliteImagesComponent implements OnInit {
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('token') || 'null')?.usr;
     if (this.user?.role !== 'admin') { this.router.navigate(['/home']); return; }
-    this.service.locations().subscribe(data => this.locations = data || []);
+    this.service.locations().subscribe(data => {
+      this.locations = (data || []).filter((loc: any) => loc && loc.status !== '0' && loc.status !== 0);
+    });
     this.loadRecords();
   }
 

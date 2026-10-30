@@ -85,6 +85,8 @@ module.exports = (app) => {
 
 	app.post('/api/updateLocation', LocationController.updateLocation);
 
+	app.post('/api/deleteLocation', LocationController.deleteLocation);
+
 
 	//sector
 	app.get('/api/getSector', SectorController.getSector);

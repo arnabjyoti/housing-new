@@ -63,19 +63,23 @@ export class LocationComponent implements OnInit{
   location=()=>{
     let requestObject = {};
     this.LocationService.getLocation(requestObject, (callback:any)=>{
-      console.log("ccccccc",callback);
-      // this.departmentName = new MatTableDataSource(callback);
-      this.dataSource = new MatTableDataSource(callback);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      console.log("bbbbbbbbbb",this.dataSource);
-      
+      if (Array.isArray(callback)) {
+        // Exclude any location with status '0' or 0
+        const activeLocations: locationData[] = callback.filter((loc: any) => loc.status !== '0' && loc.status !== 0);
+        this.dataSource = new MatTableDataSource<locationData>(activeLocations);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      } else {
+        this.dataSource = new MatTableDataSource<locationData>([]);
+      }
     });  
   }
 
   FilterChange(data:Event){
     const value=(data.target as HTMLInputElement).value;
-    this.dataSource.filter=value;
+    if (this.dataSource) {
+      this.dataSource.filter=value;
+    }
   }
 
   save() {
@@ -85,7 +89,7 @@ export class LocationComponent implements OnInit{
       console.log("lllllllllll",this.returnMsg);
       this.location();
       let ele:any = document.getElementById('modalClose');
-      ele.click();
+      if (ele) ele.click();
       this.isSaving = false;
       this.added.emit({ response: true });
       this.resetForm();
@@ -93,13 +97,14 @@ export class LocationComponent implements OnInit{
   }
 
   showLocUpdateModal(row:any) {
-    console.log("Selected Project=", row);
-    this.selectedLocation = row;
-    // console.log("hhhhhhhhhhhh",this.selectedLocation.loc_name);
+    console.log("Selected Location=", row);
+    this.selectedLocation = { ...row };
     
-    let deleteModal:any = document.getElementById("LocUpdate");
-    deleteModal.classList.remove("hidden");
-    deleteModal.classList.add("show");
+    let updateModal:any = document.getElementById("LocUpdate");
+    if (updateModal) {
+      updateModal.classList.remove("hidden");
+      updateModal.classList.add("show");
+    }
   };
 
   update(){
@@ -113,12 +118,20 @@ export class LocationComponent implements OnInit{
       console.log("lllllllllll",this.returnMsg);
       this.location();
       let cls:any = document.getElementById('modalClosed');
-      console.log("cccccccccc",cls);
-      
-      cls.click();
+      if (cls) cls.click();
       this.isSaving = false;
       this.added.emit({ response: true });
     });
+  }
+
+  deleteLocation(row: any) {
+    if (!row || !row.id) return;
+    if (confirm(`Are you sure you want to delete "${row.loc_name}"?`)) {
+      this.LocationService.deleteLocation(row.id, (res: any) => {
+        this.location();
+        this.added.emit({ response: true });
+      });
+    }
   }
 
 

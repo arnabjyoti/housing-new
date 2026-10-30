@@ -113,7 +113,9 @@ export class EncroachDetailsComponent implements OnInit {
 
   public fetchLocations(): void {
     this.encroachService.getLocation({}, (res: any) => {
-      this.locationData = res || [];
+      this.locationData = Array.isArray(res)
+        ? res.filter((loc: any) => loc && loc.status !== '0' && loc.status !== 0)
+        : [];
     });
   }
 

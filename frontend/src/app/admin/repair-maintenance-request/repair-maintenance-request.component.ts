@@ -957,9 +957,10 @@ location=()=>{
   let requestObject = {};
   this.RepairMaintenanceRequestService.getLocation(requestObject, (callback:any)=>{
     console.log("bbbbbbbbbb",callback);
-    this.locationList = callback;
+    this.locationList = Array.isArray(callback)
+      ? callback.filter((loc: any) => loc && loc.status !== '0' && loc.status !== 0)
+      : [];
     console.log("location details",this.locationList);
-    // this.resetForm();
   });  
 }
 

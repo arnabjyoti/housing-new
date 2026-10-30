@@ -341,9 +341,9 @@ export class QuarterRenewalComponent implements OnInit {
   location = () => {
     let requestObject = {};
     this.QuarterRenewalService.getLocation(requestObject, (callback: any) => {
-      // console.log("bbbbbbbbbb", callback);
-      this.locationData = callback;
-      // console.log("location details", this.locationData);
+      this.locationData = Array.isArray(callback)
+        ? callback.filter((loc: any) => loc && loc.status !== '0' && loc.status !== 0)
+        : [];
       this.resetForm();
     });
   }
@@ -523,7 +523,7 @@ export class QuarterRenewalComponent implements OnInit {
         'Gender',
         'Designation',
         'Location Name',
-        'Sector Number',
+        'Sector Name',
         'Quarter Type',
         'Quarter Number',
         'Apply Date',

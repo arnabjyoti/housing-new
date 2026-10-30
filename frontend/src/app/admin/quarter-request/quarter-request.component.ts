@@ -149,7 +149,9 @@ export class QuarterRequestComponent implements OnInit {
   location(): void {
     const requestObject = {};
     this.quarterRequestService.getLocation(requestObject, (callback: any) => {
-      this.locationData = callback;
+      this.locationData = Array.isArray(callback)
+        ? callback.filter((loc: any) => loc && loc.status !== '0' && loc.status !== 0)
+        : [];
     });
   }
 

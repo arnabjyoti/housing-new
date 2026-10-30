@@ -5,9 +5,9 @@
 export const environment = {
   production: false,
   test: true,
-  // BASE_URL: 'https://backend.udarunachal.gov.in'
+  BASE_URL: 'https://backend.udarunachal.gov.in'
   // BASE_URL: 'https://103.180.120.203:8500'
-  BASE_URL: 'http://localhost:8800'
+  // BASE_URL: 'http://localhost:8800'
 };
 
 /*

@@ -52,9 +52,9 @@
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef class="text-center"> Action </th>
             <td mat-cell *matCellDef="let row" class="text-center">
-              <button (click)="showLocUpdateModal(row)" data-toggle="modal" data-target="#LocUpdate" mat-raised-button
+              <button disabled (click)="showLocUpdateModal(row)" data-toggle="modal" data-target="#LocUpdate" mat-raised-button
                 color="primary">Edit</button>
-              <button mat-raised-button color="warn">Delete</button>
+              <button disabled (click)="deleteLocation(row)" mat-raised-button color="warn">Delete</button>
             </td>
           </ng-container>
 
@@ -111,7 +111,7 @@
     </div>
   </div>
   <!-- update Modal -->
-  <div class="modal fade" id="LocUpdate(change kra ase)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <div class="modal fade" id="LocUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -132,7 +132,7 @@
           </div>
           <div class="form-group row">
             <div class="col-sm-12">
-              <button type="submit" disabled class="btn btn-block btn-primary">Update</button>
+              <button type="submit" (click)="update()" class="btn btn-block btn-primary">Update</button>
             </div>
             <div class="col-sm-12">
               <button type="button" id="modalClosed" class="btn btn-danger btn-block"

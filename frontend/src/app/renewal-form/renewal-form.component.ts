@@ -367,9 +367,10 @@ export class RenewalFormComponent implements OnInit{
     let requestObject = {};
     this.RenewalFormService.getLocation(requestObject, (callback:any)=>{
       console.log("bbbbbbbbbb",callback);
-      this.locationData = callback;
+      this.locationData = Array.isArray(callback)
+        ? callback.filter((loc: any) => loc && loc.status !== '0' && loc.status !== 0)
+        : [];
       console.log("location details",this.locationData);
-      
     });  
   }
   

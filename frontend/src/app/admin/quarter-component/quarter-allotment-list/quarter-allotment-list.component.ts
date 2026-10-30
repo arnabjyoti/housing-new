@@ -62,9 +62,10 @@ export class QuarterAllotmentListComponent implements OnInit{
     let requestObject = {};
     this.QuarterAllotmentListService.getLocation(requestObject, (callback:any)=>{
       console.log("bbbbbbbbbb",callback);
-      this.locationData = callback;
+      this.locationData = Array.isArray(callback)
+        ? callback.filter((loc: any) => loc && loc.status !== '0' && loc.status !== 0)
+        : [];
       console.log("location details",this.locationData);
-      
     });  
   }
 

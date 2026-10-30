@@ -68,19 +68,42 @@ export class LocationService {
       headers: this.appService.headers,
       method: "post",
       requestObject: req
-      
-      
-    };console.log("mmmmmmmmmmm",requestOptions);
+    };
     this.http.post(ENDPOINT, requestOptions)
       .subscribe(
         (response) => {
-          this.toastr.success("Department name updated.", "Success!", {
+          this.toastr.success("Location name updated.", "Success!", {
             disableTimeOut: false
           });
           return callback && callback(response);
         },
         error => {
-          this.toastr.error("Department name not updated.", "Failed!", {
+          this.toastr.error("Location name not updated.", "Failed!", {
+            disableTimeOut: false
+          });
+          return callback && callback(error);
+        },
+        () => {
+          console.log("Observable is now completed.");
+        });
+  }
+
+  deleteLocation(id: any, callback: any){
+    const ENDPOINT = `${environment.BASE_URL}/api/deleteLocation`;
+    const requestOptions = {
+      headers: this.appService.headers,
+      requestObject: { id: id }
+    };
+    this.http.post(ENDPOINT, requestOptions)
+      .subscribe(
+        (response) => {
+          this.toastr.success("Location deleted.", "Success!", {
+            disableTimeOut: false
+          });
+          return callback && callback(response);
+        },
+        error => {
+          this.toastr.error("Location not deleted.", "Failed!", {
             disableTimeOut: false
           });
           return callback && callback(error);

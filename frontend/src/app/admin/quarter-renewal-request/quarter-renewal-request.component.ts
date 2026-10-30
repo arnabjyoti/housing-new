@@ -153,7 +153,9 @@ export class QuarterRenewalRequestComponent implements OnInit{
     let requestObject = {};
     this.QuarterRenewalRequestService.getLocation(requestObject, (callback: any) => {
       console.log("location callback", callback);
-      this.locationData = Array.isArray(callback) ? callback : [];
+      this.locationData = Array.isArray(callback)
+        ? callback.filter((loc: any) => loc && loc.status !== '0' && loc.status !== 0)
+        : [];
     });  
   }
 

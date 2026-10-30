@@ -169,7 +169,7 @@
 
                         <!-- Name Column -->
                         <ng-container matColumnDef="sector">
-                            <th mat-sort-header mat-header-cell *matHeaderCellDef> Sector Number </th>
+                            <th mat-sort-header mat-header-cell *matHeaderCellDef> Sector Name </th>
                             <td mat-cell *matCellDef="let element"> {{element.sctr_name}}</td>
                         </ng-container>
 
@@ -219,7 +219,7 @@
                         <ng-container matColumnDef="action">
                             <th mat-header-cell *matHeaderCellDef> Action </th>
                             <td mat-cell *matCellDef="let row">
-                                <a target="_blank" routerLink="/Renewal of quarter details/{{row.id}}"
+                                <a target="_blank" routerLink="/renewal-of-quarter-details/{{row.id}}"
                                     class="btn btn-primary btn-sm" title="View Details"><i
                                         class="fas fa-arrow-right"></i></a>
                                 <!-- <button *ngIf="row.status == 'Approved'" (click)="showLocUpdateModal(row)" data-toggle="modal"

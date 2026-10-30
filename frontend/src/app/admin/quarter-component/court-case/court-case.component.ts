@@ -256,9 +256,10 @@ export class CourtCaseComponent implements OnInit {
     let requestObject = {};
     this.CourtCaseService.getLocation(requestObject, (callback: any) => {
       console.log("bbbbbbbbbb", callback);
-      this.locationData = callback;
+      this.locationData = Array.isArray(callback)
+        ? callback.filter((loc: any) => loc && loc.status !== '0' && loc.status !== 0)
+        : [];
       console.log("location details", this.locationData);
-
     });
   }
 
@@ -291,7 +292,7 @@ export class CourtCaseComponent implements OnInit {
 
   downloadPDF() {
       const tableBody = [
-        ['S.No', 'Case Number', 'Nature', 'Details', 'Start Date', 'Location Name', 'Sector Number', 'Quarter Number'],
+        ['S.No', 'Case Number', 'Nature', 'Details', 'Start Date', 'Location Name', 'Sector Name', 'Quarter Number'],
         ...this.dataSource.data.map((item: any, index: number) => [
           index + 1,
           item.case_no || '',       // Assuming these fields exist
